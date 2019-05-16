@@ -10,7 +10,7 @@ from tfchain.types.CryptoTypes import PublicKey
 
 def test():
     # create a tfchain client for devnet
-    c = tfchain.Client(network_type="devnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="devnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()

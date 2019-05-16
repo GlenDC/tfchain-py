@@ -4,18 +4,18 @@ import tfchain
 
 def test():
     # create a tfchain client for devnet
-    c = tfchain.Client(network_type="devnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="devnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()
     c.explorer_get = explorer_client.explorer_get
 
     # create a new devnet wallet
-    w = tfchain.Wallet(client=c)
+    w = tfchain.TFChainWallet.TFChainWallet(client=c)
 
     # a tfchain (JS) wallet uses the underlying tfchain client for all its
     # interaction with the tfchain network
-    assert w.network_type == tfchain.NetworkType.DEVNET
+    assert w.network_type == tfchain.TFChainClient.NetworkType.DEVNET
 
     # the seed is the mnemonic used to generate the entropy from
     assert len(w.mnemonic) > 0

@@ -6,7 +6,7 @@ from stubs.ExplorerClientStub import TFChainExplorerGetClientStub
 
 def test():
     # create a tfchain client for devnet
-    c = tfchain.Client(network_type="devnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="devnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()
@@ -27,7 +27,7 @@ def test():
     DEVNET_GENESIS_SEED="image orchard airport business cost work mountain obscure flee alpha alert salmon damage engage trumpet route marble subway immune short tide young cycle attract"
 
     # create a new devnet wallet
-    w = tfchain.Wallet(client=c, seed=DEVNET_GENESIS_SEED)
+    w = tfchain.TFChainWallet.TFChainWallet(client=c, seed=DEVNET_GENESIS_SEED)
     # we create a new wallet using an existing seed,
     # such that our seed is used and not a new randomly generated seed
 

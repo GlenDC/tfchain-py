@@ -8,7 +8,7 @@ import pytest
 
 def test():
     # create a tfchain client for testnet
-    c = tfchain.Client(network_type="testnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="testnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()
@@ -22,7 +22,7 @@ def test():
     c.explorer_post = explorer_client.explorer_post
 
     # a wallet is required to initiate an atomic swap contract
-    w = tfchain.Wallet(seed='survey exile lab cook license sock rose squirrel noodle point they lounge oval kit tape virus loop scare water gorilla baby educate program wish', client=c)
+    w = tfchain.TFChainWallet.TFChainWallet(seed='survey exile lab cook license sock rose squirrel noodle point they lounge oval kit tape virus loop scare water gorilla baby educate program wish', client=c)
     # money is required to be available in the wallet
     assert str(w.balance.available) == '51'
 

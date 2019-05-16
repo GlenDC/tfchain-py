@@ -33,8 +33,8 @@ class TFChainWallet:
         # create TFChainClient used as the portal to the outside world
         self._client = client
         if self._client is None:
-            self._client = tfchain.Client()
-        elif not isinstance(self._client, tfchain.Client):
+            self._client = tfchain.TFChainClient.TFChainClient()
+        elif not isinstance(self._client, tfchain.TFChainClient.TFChainClient):
             raise TypeError("client has to be None or of type TFChainClient, not be of type {}".format(type(self._client)))
 
         # stores all key pairs of this wallet in memory

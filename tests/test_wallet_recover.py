@@ -4,7 +4,7 @@ import tfchain
 
 def test():
     # create a tfchain client for devnet
-    c = tfchain.Client(network_type="devnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="devnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()
@@ -15,13 +15,13 @@ def test():
     DEVNET_GENESIS_SEED="carbon boss inject cover mountain fetch fiber fit tornado cloth wing dinosaur proof joy intact fabric thumb rebel borrow poet chair network expire else"
 
     # create a new devnet wallet
-    w = tfchain.Wallet(seed=DEVNET_GENESIS_SEED, client=c)
+    w = tfchain.TFChainWallet.TFChainWallet(seed=DEVNET_GENESIS_SEED, client=c)
     # we create a new wallet using an existing seed,
     # such that our seed is used and not a new randomly generated seed
 
     # a tfchain wallet uses the underlying tfchain client for all its
     # interaction with the tfchain network
-    assert w.network_type == tfchain.NetworkType.DEVNET
+    assert w.network_type == tfchain.TFChainClient.NetworkType.DEVNET
 
     # by default we still have 1 address only,
     # you can change this however by creating a new wallet with the `key_count` parameter

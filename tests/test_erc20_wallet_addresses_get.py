@@ -6,7 +6,7 @@ from stubs.ExplorerClientStub import TFChainExplorerGetClientStub
 
 def test():
     # create a tfchain client for testnet
-    c = tfchain.Client(network_type="testnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="testnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()
@@ -24,7 +24,7 @@ def test():
     DEVNET_GENESIS_SEED="remain solar kangaroo welcome clean object friend later bounce strong ship lift hamster afraid you super dolphin warm emotion curve smooth kiss stem diet"
 
     # create a new devnet wallet
-    w = tfchain.Wallet(client=c, seed=DEVNET_GENESIS_SEED)
+    w = tfchain.TFChainWallet.TFChainWallet(client=c, seed=DEVNET_GENESIS_SEED)
 
     # ERC20 addresses can be found for a given wallet address, by defining
     # its address index, or by specifying its address

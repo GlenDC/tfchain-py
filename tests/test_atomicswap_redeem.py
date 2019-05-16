@@ -6,7 +6,7 @@ from stubs.ExplorerClientStub import TFChainExplorerGetClientStub
 
 def test():
     # create a tfchain client for devnet
-    c = tfchain.Client(network_type="devnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="devnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()
@@ -20,7 +20,7 @@ def test():
     c.explorer_post = explorer_client.explorer_post
 
     # a wallet is required to redeem a contract
-    w = tfchain.Wallet(client=c, seed='remain solar kangaroo welcome clean object friend later bounce strong ship lift hamster afraid you super dolphin warm emotion curve smooth kiss stem diet')
+    w = tfchain.TFChainWallet.TFChainWallet(client=c, seed='remain solar kangaroo welcome clean object friend later bounce strong ship lift hamster afraid you super dolphin warm emotion curve smooth kiss stem diet')
     
     # balance should be 0 at this point
     assert w.balance.available == '0 TFT'
@@ -34,7 +34,7 @@ def test():
         w.atomicswap.redeem('dd1babcbab492c742983b887a7408742ad0054ec8586541dd6ee6202877cb486', secret='f68d8b238c193bc6765b8e355c53e4f574a2c9da458e55d4402edca621e53754')
 
     # if not authorized, redemption will also fail
-    fw = tfchain.Wallet(client=c)
+    fw = tfchain.TFChainWallet.TFChainWallet(client=c)
     with pytest.raises(tfchain.errors.AtomicSwapForbidden):
         fw.atomicswap.redeem('dd1babcbab492c742983b887a7408742ad0054ec8586541dd6ee6202877cb486', secret='f68d8b238c193bc6765b8e355c53e4f574a2c9da458e55d4402edca621e53756')
 

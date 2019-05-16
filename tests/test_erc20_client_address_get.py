@@ -6,7 +6,7 @@ from stubs.ExplorerClientStub import TFChainExplorerGetClientStub
 
 def test():
     # create a tfchain client for testnet
-    c = tfchain.Client(network_type="testnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="testnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()

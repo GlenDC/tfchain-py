@@ -6,7 +6,7 @@ from stubs.ExplorerClientStub import TFChainExplorerGetClientStub
 
 def test():
     # create a tfchain client for devnet
-    c = tfchain.Client(network_type="devnet")
+    c = tfchain.TFChainClient.TFChainClient(network_type="devnet")
 
     # (we replace internal client logic with custom logic as to ensure we can test without requiring an active network)
     explorer_client = TFChainExplorerGetClientStub()
@@ -22,7 +22,7 @@ def test():
     c.explorer_post = explorer_client.explorer_post
 
     # a wallet is required to redeem a contract
-    w = tfchain.Wallet(client=c, seed='remain solar kangaroo welcome clean object friend later bounce strong ship lift hamster afraid you super dolphin warm emotion curve smooth kiss stem diet')
+    w = tfchain.TFChainWallet.TFChainWallet(client=c, seed='remain solar kangaroo welcome clean object friend later bounce strong ship lift hamster afraid you super dolphin warm emotion curve smooth kiss stem diet')
     
     # balance should be 0 at this point
     assert w.balance.available == '28 TFT'
@@ -32,7 +32,7 @@ def test():
         w.atomicswap.refund('a5e0159688d300ed7a8f2685829192d8dd1266ce6e82a0d04a3bbbb080de30d5')
 
     # if not authorized, refund will also fail
-    fw = tfchain.Wallet(client=c)
+    fw = tfchain.TFChainWallet.TFChainWallet(client=c)
     with pytest.raises(tfchain.errors.AtomicSwapForbidden):
         fw.atomicswap.refund('a5e0159688d300ed7a8f2685829192d8dd1266ce6e82a0d04a3bbbb080de30d0')
 
