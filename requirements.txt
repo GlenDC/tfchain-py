@@ -136,7 +136,6 @@ smmap2==2.0.5
 speg==0.3
 ssh2-python==0.17.0
 tenacity==5.0.2
--e git+git@github.com:GlenDC/tfchain-py.git@d2cfc173705929d7ffd50c42827c8d5dc27dd3cc#egg=tfchain
 toml==0.10.0
 traitlets==4.3.2
 typing==3.6.6
