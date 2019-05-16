@@ -1,8 +1,7 @@
 import base64
-from enum import IntEnum
 
-from .. import errors
-from .BaseDataType import BaseDataTypeClass
+import tfchain.errors
+from tfchain.types.BaseDataType import BaseDataTypeClass
 
 
 class BinaryData(BaseDataTypeClass):

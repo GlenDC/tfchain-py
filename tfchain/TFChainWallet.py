@@ -9,16 +9,16 @@ import mnemonic
 import tfchain
 from tfchain.internal.jsutils import blake2, duration, epoch2HRDateTime
 from tfchain.encoders import encoder_rivine_get, encoder_sia_get
-from .types import transactions as tftransactions
-from .types import ConditionTypes, FulfillmentTypes
-from .types.PrimitiveTypes import Currency, Hash, BinaryData
-from .types.CryptoTypes import PublicKey, UnlockHash, UnlockHashType, PublicKeySpecifier
-from .types.IO import CoinOutput, CoinInput
-from .types.ConditionTypes import ConditionNil, ConditionUnlockHash, ConditionLockTime
-from .types.AtomicSwap import AtomicSwapContract
-from .types.ERC20 import ERC20Address
-from .types.transactions.Base import TransactionBaseClass
-from .types.transactions.Minting import TransactionV128, TransactionV129
+from tfchain.types import transactions as tftransactions
+from tfchain.types import ConditionTypes, FulfillmentTypes
+from tfchain.types.PrimitiveTypes import Currency, Hash, BinaryData
+from tfchain.types.CryptoTypes import PublicKey, UnlockHash, UnlockHashType, PublicKeySpecifier
+from tfchain.types.IO import CoinOutput, CoinInput
+from tfchain.types.ConditionTypes import ConditionNil, ConditionUnlockHash, ConditionLockTime
+from tfchain.types.AtomicSwap import AtomicSwapContract
+from tfchain.types.ERC20 import ERC20Address
+from tfchain.types.transactions.Base import TransactionBaseClass
+from tfchain.types.transactions.Minting import TransactionV128, TransactionV129
 
 _DEFAULT_KEY_SCAN_COUNT = 3
 
@@ -602,8 +602,8 @@ class TFChainWallet:
         if add_count:
             self._key_count += 1+offset
 
-from .types.ConditionTypes import ConditionMultiSignature
-from .types.FulfillmentTypes import FulfillmentMultiSignature, PublicKeySignaturePair
+from tfchain.types.ConditionTypes import ConditionMultiSignature
+from tfchain.types.FulfillmentTypes import FulfillmentMultiSignature, PublicKeySignaturePair
 
 class TFChainMinter():
     """
@@ -782,8 +782,8 @@ class TFChainMinter():
         return self._wallet.client.transaction_put(transaction=transaction)
 
 
-from .types.ConditionTypes import ConditionAtomicSwap, OutputLock, AtomicSwapSecret, AtomicSwapSecretHash
-from .types.FulfillmentTypes import FulfillmentAtomicSwap
+from tfchain.types.ConditionTypes import ConditionAtomicSwap, OutputLock, AtomicSwapSecret, AtomicSwapSecretHash
+from tfchain.types.FulfillmentTypes import FulfillmentAtomicSwap
 
 class TFChainAtomicSwap():
     """
@@ -2089,7 +2089,7 @@ class WalletBalance(object):
         # report context + balance
         return result + self._human_readable_balance()
 
-from .types.ConditionTypes import ConditionMultiSignature
+from tfchain.types.ConditionTypes import ConditionMultiSignature
 
 class MultiSigWalletBalance(WalletBalance):
     def __init__(self, owners, signature_count):

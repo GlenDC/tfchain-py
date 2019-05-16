@@ -2,7 +2,7 @@ import hashlib
 from datetime import datetime, timedelta
 from tfchain.encoders import encoder_rivine_get, encoder_sia_get, sia_encode, rivine_encode
 from tfchain.crypto import MerkleTree
-from tfchain.crypto.utils import blake2_string
+from tfchain.internal.jsutils import blake2_string
 from tfchain.types.PrimitiveTypes import BinaryData, Hash
 from tfchain.internal.jsutils import duration, jsdatetime, jstime, generateXByteID
 
@@ -254,14 +254,15 @@ class ConditionBaseClass(BaseDataTypeClass):
         self.rivine_binary_encode_data(data_enc)
         encoder.add_slice(data_enc.data)
 
+class UnlockHashType:
+    def __init__(self, value):
+        if isinstance(value, UnlockHashType):
+            value = value.value
+        self._value = value
 
-from enum import IntEnum
-
-class UnlockHashType(IntEnum):
-    NIL = 0
-    PUBLIC_KEY = 1
-    ATOMIC_SWAP = 2
-    MULTI_SIG = 3
+    @property
+    def value(self):
+        return self._value
 
     @classmethod
     def from_json(cls, obj):
@@ -271,9 +272,21 @@ class UnlockHashType(IntEnum):
             raise TypeError("UnlockHashType is expected to be JSON-encoded as an int, not {}".format(type(obj)))
         return cls(obj) # int -> enum
 
+    def __eq__(self, other):
+        if isinstance(other, UnlockHashType):
+            return self.value == other.value
+        return self.value == other
+
+    def __int__(self):
+        return self.value
+
     def json(self):
         return int(self)
 
+UnlockHashType.NIL = UnlockHashType(0)
+UnlockHashType.PUBLIC_KEY = UnlockHashType(1)
+UnlockHashType.ATOMIC_SWAP = UnlockHashType(2)
+UnlockHashType.MULTI_SIG = UnlockHashType(3)
 
 class UnlockHash(BaseDataTypeClass):
     """

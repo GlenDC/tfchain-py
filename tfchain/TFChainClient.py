@@ -4,27 +4,38 @@ Tfchain Client
 
 import sys
 
-from enum import IntEnum
-
 import tfchain
 from tfchain.internal.jsutils import json_loads, epoch2HRDateTime
 
-from .types import ConditionTypes, transactions
-from .types.ConditionTypes import UnlockHash, UnlockHashType, ConditionMultiSignature
-from .types.PrimitiveTypes import Hash, Currency
-from .types.IO import CoinOutput, BlockstakeOutput
-from .types.CryptoTypes import PublicKey
-from .types.ThreeBot import BotName, NetworkAddress
-from .types.ERC20 import ERC20Address
-from .types.transactions.Base import TransactionBaseClass
-from .types.transactions.Minting import TransactionV128
-from .TFChainWallet import WalletBalance, MultiSigWalletBalance
-from .TFChainExplorerClient import TFChainExplorerClient
+from tfchain.types import ConditionTypes, transactions
+from tfchain.types.ConditionTypes import UnlockHash, UnlockHashType, ConditionMultiSignature
+from tfchain.types.PrimitiveTypes import Hash, Currency
+from tfchain.types.IO import CoinOutput, BlockstakeOutput
+from tfchain.types.CryptoTypes import PublicKey
+from tfchain.types.ThreeBot import BotName, NetworkAddress
+from tfchain.types.ERC20 import ERC20Address
+from tfchain.types.transactions.Base import TransactionBaseClass
+from tfchain.types.transactions.Minting import TransactionV128
+from tfchain.TFChainWallet import WalletBalance, MultiSigWalletBalance
+from tfchain.TFChainExplorerClient import TFChainExplorerClient
 
-class NetworkType(IntEnum):
-    STANDARD = 0
-    TESTNET = 1
-    DEVNET = 2
+class NetworkType:
+    def __init__(self, value):
+        if isinstance(value, NetworkType):
+            value = value.value
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    def __eq__(self, other):
+        if isinstance(other, UnlockHashType):
+            return self.value == other.value
+        return self.value == other
+
+    def __int__(self):
+        return self.value
 
     @classmethod
     def from_str(cls, s):
@@ -60,6 +71,10 @@ class NetworkType(IntEnum):
         return [
             'http://localhost:23110'
         ]
+
+NetworkType.STANDARD = NetworkType(0)
+NetworkType.TESTNET = NetworkType(1)
+NetworkType.DEVNET = NetworkType(2)
 
 class TFChainClient:
     """

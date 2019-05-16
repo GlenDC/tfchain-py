@@ -6,8 +6,8 @@ import hashlib
 
 from datetime import datetime
 
-from .IO import CoinOutput
-from .ConditionTypes import ConditionAtomicSwap, AtomicSwapSecret, AtomicSwapSecretHash
+from tfchain.types.IO import CoinOutput
+from tfchain.types.ConditionTypes import ConditionAtomicSwap, AtomicSwapSecret, AtomicSwapSecretHash
 from tfchain.internal.jsutils import duration, jstime
 
 

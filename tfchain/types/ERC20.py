@@ -2,9 +2,9 @@
 ERC20 Types.
 """
 
-from .PrimitiveTypes import BinaryData, Hash
+from tfchain.types.PrimitiveTypes import BinaryData, Hash
 from tfchain.encoders import encoder_rivine_get, encoder_sia_get
-from tfchain.crypto.utils import blake2_string
+from tfchain.internal.jsutils import blake2_string
 
 
 class ERC20Address(BinaryData):

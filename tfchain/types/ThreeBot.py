@@ -1,6 +1,5 @@
 import re
 import ipaddress
-from enum import IntEnum
 from tfchain.encoders import encoder_rivine_get
 
 
@@ -82,10 +81,21 @@ from .BaseDataType import BaseDataTypeClass
 
 
 class NetworkAddress(BaseDataTypeClass):
-    class Type(IntEnum):
-        HOSTNAME = 0
-        IPV4 = 1
-        IPV6 = 2
+    class Type:
+        def __init__(self, value):
+            self._value = value
+
+        @property
+        def value(self):
+            return self._value
+
+        def __eq__(self, other):
+            if isinstance(other, NetworkAddress):
+                return self.value == other.value
+            return self.value == other
+
+        def __int__(self):
+            return self.value
 
     HOSTNAME_REGEXP = re.compile(
         r'^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$')
@@ -193,9 +203,12 @@ class NetworkAddress(BaseDataTypeClass):
         of which in the two least significant bits are used for the type and the other 6 used for the length 'n'.
         The next 'n' bytes are used for the actual address data in raw binary format.
         """
-        encoder.add_int8(self._type | (len(self._address) << 2))
+        encoder.add_int8(int(self._type) | (len(self._address) << 2))
         encoder.add_array(self._address)
 
+NetworkAddress.Type.HOSTNAME = NetworkAddress.Type(0)
+NetworkAddress.Type.IPV4 = NetworkAddress.Type(1)
+NetworkAddress.Type.IPV6 = NetworkAddress.Type(2)
 
 class BotName(BaseDataTypeClass):
     REGEXP = re.compile(

@@ -346,9 +346,9 @@ class TransactionV1(TransactionBaseClass):
         overriden to specify the version correctly
         """
         if self._legacy:
-            return bytearray([TransactionVersion.LEGACY]) + self._binary_encode_data()
+            return bytearray([int(TransactionVersion.LEGACY)]) + self._binary_encode_data()
         encoder = encoder_sia_get()
-        encoder.add_array(bytearray([TransactionVersion.STANDARD]))
+        encoder.add_array(bytearray([int(TransactionVersion.STANDARD)]))
         encoder.add_slice(self._binary_encode_data())
         return encoder.data
 

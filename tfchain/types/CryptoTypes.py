@@ -1,17 +1,22 @@
-from .BaseDataType import BaseDataTypeClass
-from .PrimitiveTypes import Hash
-from .ConditionTypes import UnlockHash, UnlockHashType
+from tfchain.types.BaseDataType import BaseDataTypeClass
+from tfchain.types.PrimitiveTypes import Hash
+from tfchain.types.ConditionTypes import UnlockHash, UnlockHashType
 from tfchain.encoders import encoder_rivine_get, encoder_sia_get
-from enum import IntEnum
 import tfchain
-from tfchain.crypto.utils import blake2_string
+from tfchain.internal.jsutils import blake2_string
 
 _SIG_Ed25519 = 'ed25519'
 
 
-class PublicKeySpecifier(IntEnum):
-    NIL = 0
-    ED25519 = 1
+class PublicKeySpecifier:
+    def __init__(self, value):
+        if isinstance(value, PublicKeySpecifier):
+            value = value.value
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
 
     @classmethod
     def from_json(cls, obj):
@@ -22,6 +27,14 @@ class PublicKeySpecifier(IntEnum):
         raise tfchain.errors.InvalidPublicKeySpecifier(
             "{} is an invalid Public Key specifier".format(obj))
 
+    def __eq__(self, other):
+        if isinstance(other, PublicKeySpecifier):
+            return self.value == other.value
+        return self.value == other
+
+    def __int__(self):
+        return self.value
+
     def __str__(self):
         if self == PublicKeySpecifier.ED25519:
             return _SIG_Ed25519
@@ -31,6 +44,8 @@ class PublicKeySpecifier(IntEnum):
 
     json = __str__
 
+PublicKeySpecifier.NIL = PublicKeySpecifier(0)
+PublicKeySpecifier.ED25519 = PublicKeySpecifier(1)
 
 class PublicKey(BaseDataTypeClass):
     """

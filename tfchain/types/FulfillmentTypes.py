@@ -1,7 +1,7 @@
-from .BaseDataType import BaseDataTypeClass
-from .CryptoTypes import PublicKey
-from .PrimitiveTypes import BinaryData, Hash
-from .ConditionTypes import UnlockHash, UnlockHashType, ConditionNil, \
+from tfchain.types.BaseDataType import BaseDataTypeClass
+from tfchain.types.CryptoTypes import PublicKey
+from tfchain.types.PrimitiveTypes import BinaryData, Hash
+from tfchain.types.ConditionTypes import UnlockHash, UnlockHashType, ConditionNil, \
     ConditionUnlockHash, ConditionAtomicSwap, ConditionMultiSignature, AtomicSwapSecret
 from tfchain.encoders import encoder_rivine_get, encoder_sia_get
 

@@ -329,7 +329,7 @@ class TransactionV209(TransactionBaseClass):
         e = encoder_sia_get()
 
         # encode the transaction version
-        e.add_array(bytearray([self.version]))
+        e.add_array(bytearray([int(self.version)]))
 
         # encode the specifier
         e.add_array(TransactionV209._SPECIFIER)

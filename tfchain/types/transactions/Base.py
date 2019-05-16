@@ -1,28 +1,44 @@
 import json
-from tfchain.crypto.utils import blake2_string
+from tfchain.internal.jsutils import blake2_string
 from tfchain.encoders import encoder_rivine_get, encoder_sia_get, BaseRivineObjectEncoder, BaseSiaObjectEncoder
 from functools import reduce
-from enum import IntEnum
 from abc import ABC, abstractmethod, abstractclassmethod
 
 
-class TransactionVersion(IntEnum):
+class TransactionVersion:
     """
     The valid Transaction versions as known by the TFChain network.
     """
-    LEGACY = 0
-    STANDARD = 1
+    def __init__(self, value):
+        if isinstance(value, TransactionVersion):
+            value = value.value
+        self._value = value
 
-    MINTER_DEFINITION = 128
-    MINTER_COIN_CREATION = 129
+    @property
+    def value(self):
+        return self._value
 
-    THREEBOT_REGISTRATION = 144
-    THREEBOT_RECORD_UPDATE = 145
-    THREEBOT_NAME_TRANSFER = 146
+    def __eq__(self, other):
+        if isinstance(other, TransactionVersion):
+            return self.value == other.value
+        return self.value == other
 
-    ERC20_CONVERT = 208
-    ERC20_COIN_CREATION = 209
-    ERC20_ADDRESS_REGISTRATION = 210
+    def __int__(self):
+        return self.value
+
+TransactionVersion.LEGACY = TransactionVersion(0)
+TransactionVersion.STANDARD = TransactionVersion(1)
+
+TransactionVersion.MINTER_DEFINITION = TransactionVersion(128)
+TransactionVersion.MINTER_COIN_CREATION = TransactionVersion(129)
+
+TransactionVersion.THREEBOT_REGISTRATION = TransactionVersion(144)
+TransactionVersion.THREEBOT_RECORD_UPDATE = TransactionVersion(145)
+TransactionVersion.THREEBOT_NAME_TRANSFER = TransactionVersion(146)
+
+TransactionVersion.ERC20_CONVERT = TransactionVersion(208)
+TransactionVersion.ERC20_COIN_CREATION = TransactionVersion(209)
+TransactionVersion.ERC20_ADDRESS_REGISTRATION = TransactionVersion(210)
 
 
 from tfchain.types.PrimitiveTypes import Hash
@@ -236,7 +252,7 @@ class TransactionBaseClass(ABC):
         Binary encoding of a Transaction,
         the transaction type defines if it is done using Sia or Rivine encoding.
         """
-        return bytearray([self.version]) + self._binary_encode_data()
+        return bytearray([int(self.version)]) + self._binary_encode_data()
 
     def _binary_encode_data(self):
         """

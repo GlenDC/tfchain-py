@@ -1,5 +1,4 @@
-from .exceptions import IntegerOutOfRange, SliceLengthOutOfRange
-
+from tfchain.encoders.exceptions import IntegerOutOfRange, SliceLengthOutOfRange
 
 _INT_1BYTE_UPPERLIMIT = pow(2, 8) - 1
 _INT_2BYTE_UPPERLIMIT = pow(2, 16) - 1
@@ -71,27 +70,29 @@ class RivineBinaryEncoder:
                 self._data += bytearray([1])
             else:
                 self._data += bytearray([0])
-        elif isinstance(value, int):
+        elif isinstance(value, int) or hasattr(value, '__int__'):
             self.add_int64(value)
         else:
             # try to rivbin-encode the value as a slice
+            te = None
             try:
                 self.add_slice(value)
                 return
-            except TypeError:
-                pass
+            except TypeError as e:
+                te = e
             raise ValueError(
-                "cannot rivbin-encode value with unsupported type {}".format(type(value)))
+                "cannot rivbin-encode value with unsupported type {}: {}".format(type(value), te))
 
     def _check_int_type(self, value, limit):
-        if not isinstance(value, int):
+        if not isinstance(value, int) and not hasattr(value, '__int__'):
             raise TypeError("value is not an integer")
-        if value < 0:
+        ivalue = int(value)
+        if ivalue < 0:
             raise IntegerOutOfRange(
-                "integer {} is out of lower range of 0".format(value))
-        if value > limit:
+                "integer {} is out of lower range of 0".format(ivalue))
+        if ivalue > limit:
             raise IntegerOutOfRange(
-                "integer {} is out of upper range of {}".format(value, limit))
+                "integer {} is out of upper range of {}".format(ivalue, limit))
 
     def add_int8(self, value):
         """
@@ -101,7 +102,7 @@ class RivineBinaryEncoder:
         @param value: int value that fits in a single byte
         """
         self._check_int_type(value, _INT_1BYTE_UPPERLIMIT)
-        self._data += value.to_bytes(1, byteorder='little')
+        self._data += int(value).to_bytes(1, byteorder='little')
 
     def add_int16(self, value):
         """
@@ -111,7 +112,7 @@ class RivineBinaryEncoder:
         @param value: int value that fits in two bytes
         """
         self._check_int_type(value, _INT_2BYTE_UPPERLIMIT)
-        self._data += value.to_bytes(2, byteorder='little')
+        self._data += int(value).to_bytes(2, byteorder='little')
 
     def add_int24(self, value):
         """
@@ -121,7 +122,7 @@ class RivineBinaryEncoder:
         @param value: int value that fits in three bytes
         """
         self._check_int_type(value, _INT_3BYTE_UPPERLIMIT)
-        self._data += value.to_bytes(3, byteorder='little')
+        self._data += int(value).to_bytes(3, byteorder='little')
 
     def add_int32(self, value):
         """
@@ -131,7 +132,7 @@ class RivineBinaryEncoder:
         @param value: int value that fits in four bytes
         """
         self._check_int_type(value, _INT_4BYTE_UPPERLIMIT)
-        self._data += value.to_bytes(4, byteorder='little')
+        self._data += int(value).to_bytes(4, byteorder='little')
 
     def add_int64(self, value):
         """
@@ -141,7 +142,7 @@ class RivineBinaryEncoder:
         @param value: int value that fits in eight bytes
         """
         self._check_int_type(value, _INT_8BYTE_UPPERLIMIT)
-        self._data += value.to_bytes(8, byteorder='little')
+        self._data += int(value).to_bytes(8, byteorder='little')
 
     def add_array(self, value):
         """
@@ -158,8 +159,8 @@ class RivineBinaryEncoder:
             try:
                 for element in value:
                     self.add(element)
-            except TypeError:
-                raise TypeError("value cannot be encoded as an array")
+            except TypeError as e:
+                raise TypeError("value cannot be encoded as an array: {}", e)
 
     def add_slice(self, value):
         """
@@ -203,7 +204,7 @@ class RivineBinaryEncoder:
 
         @param value: the value to be added as a single byte
         """
-        if isinstance(value, int):
+        if isinstance(value, int) or hasattr(value, '__int__'):
             self.add_int8(int(value))
         else:
             if isinstance(value, str):

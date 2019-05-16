@@ -1,5 +1,4 @@
-from .exceptions import IntegerOutOfRange, SliceLengthOutOfRange
-
+from tfchain.encoders.exceptions import IntegerOutOfRange, SliceLengthOutOfRange
 
 _INT_UPPERLIMIT = pow(2, 64) - 1
 
@@ -47,15 +46,16 @@ class SiaBinaryEncoder:
 
         @param value: int value that fits in maximum 8 bytes
         """
-        if not isinstance(value, int):
+        if not isinstance(value, int) or not hasattr(value, '__int__'):
             raise TypeError("value is not an integer")
-        if value < 0:
+        ivalue = int(value)
+        if ivalue < 0:
             raise IntegerOutOfRange(
-                "integer {} is out of lower range of 0".format(value))
-        if value > _INT_UPPERLIMIT:
+                "integer {} is out of lower range of 0".format(ivalue))
+        if ivalue > _INT_UPPERLIMIT:
             raise IntegerOutOfRange(
-                "integer {} is out of upper range of {}".format(value, _INT_UPPERLIMIT))
-        self._data += value.to_bytes(8, byteorder='little')
+                "integer {} is out of upper range of {}".format(ivalue, _INT_UPPERLIMIT))
+        self._data += ivalue.to_bytes(8, byteorder='little')
 
     def add_array(self, value):
         """
@@ -108,6 +108,12 @@ class SiaBinaryEncoder:
                 raise ValueError(
                     "byte overflow: invaid value of {}".format(value))
             self._data += value.to_bytes(1, byteorder='little')
+        elif hasattr(value, '__int__'):
+            ivalue = int(value)
+            if ivalue < 0 or ivalue > 255:
+                raise ValueError(
+                    "byte overflow: invaid value of {}".format(ivalue))
+            self._data += ivalue.to_bytes(1, byteorder='little')
         else:
             if isinstance(value, str):
                 value = value.encode('utf-8')
@@ -140,7 +146,7 @@ class SiaBinaryEncoder:
         # try to siabin-encode the value based on its python type
         if isinstance(value, bool):
             self._data += bytearray([1]) if value else bytearray([0])
-        elif isinstance(value, int):
+        elif isinstance(value, int or hasattr(value, '__int__')):
             self.add_int(value)
         else:
             # try to siabin-encode the value as a slice

@@ -1,10 +1,8 @@
-from .rivine import RivineBinaryObjectEncoderBase, RivineBinaryEncoder
-from .sia import SiaBinaryObjectEncoderBase, SiaBinaryEncoder
-
+from tfchain.encoders.rivine import RivineBinaryObjectEncoderBase, RivineBinaryEncoder
+from tfchain.encoders.sia import SiaBinaryObjectEncoderBase, SiaBinaryEncoder
 
 BaseRivineObjectEncoder = RivineBinaryObjectEncoderBase
 BaseSiaObjectEncoder = SiaBinaryObjectEncoderBase
-
 
 def encoder_rivine_get():
     return RivineBinaryEncoder()
