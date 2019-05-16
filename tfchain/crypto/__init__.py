@@ -1,4 +1,4 @@
-from .merkletree import Tree
+from tfchain.crypto.merkletree import Tree
 
 
 MerkleTree = Tree

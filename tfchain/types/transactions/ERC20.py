@@ -1,4 +1,4 @@
-from .Base import TransactionBaseClass, TransactionVersion, InputSignatureHashFactory
+from tfchain.types.transactions.Base import TransactionBaseClass, TransactionVersion, InputSignatureHashFactory
 
 from tfchain.types.FulfillmentTypes import ED25519Signature, SignatureCallbackBase, SignatureRequest
 from tfchain.types.ConditionTypes import UnlockHash, ConditionUnlockHash

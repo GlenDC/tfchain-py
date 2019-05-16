@@ -1,4 +1,4 @@
-from .Base import TransactionBaseClass, TransactionVersion
+from tfchain.types.transactions.Base import TransactionBaseClass, TransactionVersion
 
 from tfchain.types import FulfillmentTypes, ConditionTypes
 from tfchain.types.FulfillmentTypes import FulfillmentBaseClass, FulfillmentSingleSignature

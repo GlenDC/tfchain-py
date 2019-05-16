@@ -1,1 +1,1 @@
-from .Transactions import *
+from tfchain.types.transactions.Transactions import *

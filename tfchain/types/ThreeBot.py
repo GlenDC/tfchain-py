@@ -77,7 +77,7 @@ class ThreeBotTypesFactory:
                 self.bot_name_new(value=name)
 
 
-from .BaseDataType import BaseDataTypeClass
+from tfchain.types.BaseDataType import BaseDataTypeClass
 
 
 class NetworkAddress(BaseDataTypeClass):

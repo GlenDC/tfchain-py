@@ -177,7 +177,7 @@ class OutputLock:
 
 from abc import abstractmethod
 
-from .BaseDataType import BaseDataTypeClass
+from tfchain.types.BaseDataType import BaseDataTypeClass
 
 class ConditionBaseClass(BaseDataTypeClass):
     @classmethod

@@ -1,4 +1,4 @@
-from .Base import TransactionBaseClass, TransactionVersion
+from tfchain.types.transactions.Base import TransactionBaseClass, TransactionVersion
 from tfchain.types.IO import CoinInput, CoinOutput, BlockstakeInput, BlockstakeOutput
 from tfchain.types.PrimitiveTypes import Currency, BinaryData
 from tfchain.encoders import encoder_sia_get
