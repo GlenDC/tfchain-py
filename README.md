@@ -1,5 +1,7 @@
 # tfchain-py
 
+[![Build Status](https://travis-ci.com/GlenDC/tfchain-py.svg?branch=master)](https://travis-ci.com/GlenDC/tfchain-py)
+
 A TFChain client implementation in python.
 
 This client has been ported from a [JumpScaleX Client](http://github.com/threefoldtech/jumpscaleX),
