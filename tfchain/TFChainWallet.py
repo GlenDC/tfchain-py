@@ -9,7 +9,6 @@ import mnemonic
 import tfchain
 from tfchain.internal.jsutils import blake2, duration, epoch2HRDateTime
 from tfchain.encoders import encoder_rivine_get, encoder_sia_get
-from .TFChainClient import TFChainClient
 from .types import transactions as tftransactions
 from .types import ConditionTypes, FulfillmentTypes
 from .types.PrimitiveTypes import Currency, Hash, BinaryData
@@ -34,8 +33,8 @@ class TFChainWallet:
         # create TFChainClient used as the portal to the outside world
         self._client = client
         if self._client is None:
-            self._client = TFChainClient()
-        elif not isinstance(self._client, TFChainClient):
+            self._client = tfchain.Client()
+        elif not isinstance(self._client, tfchain.Client):
             raise TypeError("client has to be None or of type TFChainClient, not be of type {}".format(type(self._client)))
 
         # stores all key pairs of this wallet in memory
@@ -601,7 +600,7 @@ class TFChainWallet:
             raise KeyError("wallet already contains a key pair for unlock hash {}".format(addr))
         self._key_pairs[addr] = key_pair
         if add_count:
-            self.key_count += 1+offset
+            self._key_count += 1+offset
 
 from .types.ConditionTypes import ConditionMultiSignature
 from .types.FulfillmentTypes import FulfillmentMultiSignature, PublicKeySignaturePair
@@ -948,24 +947,24 @@ class TFChainAtomicSwap():
             min_duration = max(0, min_refund_time-chain_time)
             chain_time = self._chain_time
             if chain_time >= contract.refund_timestamp:
-                duration = 0
+                contract_duration = 0
             else:
-                duration = contract.refund_timestamp - chain_time
+                contract_duration = contract.refund_timestamp - chain_time
             if min_duration <= 0:
-                if duration != 0:
+                if contract_duration != 0:
                     raise tfchain.errors.AtomicSwapContractInvalid(
                         message="contract cannot be refunded yet while it was expected to be possible already",
                         contract=contract)
-            elif duration < min_duration:
-                if duration == 0:
+            elif contract_duration < min_duration:
+                if contract_duration == 0:
                     raise tfchain.errors.AtomicSwapContractInvalid(
                         message="contract was expected to be non-refundable for at least {} more, but it can be refunded already since {}".format(
                             duration.toString(min_duration), epoch2HRDateTime(contract.refund_timestamp)),
                         contract=contract)
-                elif duration < min_duration:
+                elif contract_duration < min_duration:
                     raise tfchain.errors.AtomicSwapContractInvalid(
                         message="contract was expected to be available for redemption for at least {}, but it is only available for {}".format(
-                            duration.toString(min_duration), duration.toString(duration)),
+                            duration.toString(min_duration), duration.toString(contract_duration)),
                         contract=contract)
 
         # if expected to be authorized to be the sender, verify this

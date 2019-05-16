@@ -15,10 +15,10 @@ from hashlib import blake2b
 def blake2(s, digest_size=32):
     if isinstance(s, str): # check string direct otherwise have to pass in j
         s = s.encode()
-    return blake2b(s,digest_size=digest_size)
+    return blake2b(s,digest_size=digest_size).digest()
 
 def blake2_string(s, digest_size=32):
-    return blake2(s, digest_size=digest_size).hexdigest()
+    return blake2(s, digest_size=digest_size).hex()
 
 def generateRandomInt(fromInt, toInt):
     return random.randint(fromInt, toInt)
