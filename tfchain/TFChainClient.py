@@ -573,15 +573,24 @@ class ExplorerUnlockhashResult():
             return info
         return self._client.blockchain_info_get()
 
-from typing import NamedTuple
-
-class ERC20AddressInfo(NamedTuple):
+class ERC20AddressInfo():
     """
     Contains the information for an ERC20 address (registration).
     """
-    address_tft: UnlockHash
-    address_erc20: ERC20Address
-    confirmations: int
+    def __init__(self, address_tft, address_erc20, confirmations):
+        self._address_tft = address_tft
+        self._address_erc20 = address_erc20
+        self._confirmations = confirmations
+
+    @property
+    def address_tft(self):
+        return self._address_tft
+    @property
+    def address_erc20(self):
+        return self._address_erc20
+    @property
+    def confirmations(self):
+        return self._confirmations
 
 class ExplorerBlock():
     def __init__(self, id, parentid, height, timestamp, transactions, miner_payouts):
@@ -817,17 +826,31 @@ class TFChainERC20Client():
             # return a KeyError as an invalid Explorer Response
             raise tfchain.errors.ExplorerInvalidResponse(str(exc), endpoint, resp) from exc
 
-
-from typing import NamedTuple
-
-class ThreeBotRecord(NamedTuple):
+class ThreeBotRecord():
     """
     ThreeBotRecord is a named tuple,
     used to represent a ThreeBot Record as fetched from an explorer,
     as the result of a local function.
     """
-    identifier: int
-    names: list
-    addresses: list
-    public_key: PublicKey
-    expiration: int
+    def __init__(self, identifier, names, addresses, public_key, expiration):
+        self._identifier = identifier
+        self._names = names
+        self._addresses = addresses
+        self._public_key = public_key
+        self._expiration = expiration
+
+    @property
+    def identifier(self):
+        return self._identifier
+    @property
+    def names(self):
+        return self._names
+    @property
+    def addresses(self):
+        return self._addresses
+    @property
+    def public_key(self):
+        return self._public_key
+    @property
+    def expiration(self):
+        return self._expiration

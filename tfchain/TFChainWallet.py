@@ -1699,44 +1699,85 @@ class TFChainERC20():
         """
         return self._wallet.client.transaction_put(transaction=transaction)
 
-
-from typing import NamedTuple
-
-class TransactionSendResult(NamedTuple):
+class TransactionSendResult():
     """
     TransactionSendResult is a named tuple,
     used as the result for a generic transaction send call.
     """
-    transaction: TransactionBaseClass
-    submitted: bool
+    def __init__(self, transaction, submitted):
+        self._transaction = transaction
+        self._submitted = submitted
 
-class TransactionSignResult(NamedTuple):
+    @property
+    def transaction(self):
+        return self._transaction
+    @property
+    def submitted(self):
+        return self._submitted
+
+class TransactionSignResult():
     """
     TransactionSignResult is a named tuple,
     used as the result for a transaction sign call.
     """
-    transaction: TransactionBaseClass
-    signed: bool
-    submitted: bool
+    def __init__(self, transaction, signed, submitted):
+        self._transaction = transaction
+        self._signed = signed
+        self._submitted = submitted
 
-class AtomicSwapInitiationResult(NamedTuple):
+    @property
+    def transaction(self):
+        return self._transaction
+    @property
+    def signed(self):
+        return self._signed
+    @property
+    def submitted(self):
+        return self._submitted
+
+class AtomicSwapInitiationResult():
     """
     AtomicSwapInitiationResult is a named tuple,
     used as the result for an atomic swap initiation call.
     """
-    contract: AtomicSwapContract
-    secret: AtomicSwapSecret
-    transaction: TransactionBaseClass
-    submitted: bool
+    def __init__(self, contract, secret, transaction, submitted):
+        self._contract = contract
+        self._secret = secret
+        self._transaction = transaction
+        self._submitted = submitted
 
-class AtomicSwapParticipationResult(NamedTuple):
+    @property
+    def contract(self):
+        return self._contract
+    @property
+    def secret(self):
+        return self._secret
+    @property
+    def transaction(self):
+        return self._transaction
+    @property
+    def submitted(self):
+        return self._submitted
+
+class AtomicSwapParticipationResult():
     """
     AtomicSwapParticipationResult is a named tuple,
     used as the result for an atomic swap participation call.
     """
-    contract: AtomicSwapContract
-    transaction: TransactionBaseClass
-    submitted: bool
+    def __init__(self, contract, transaction, submitted):
+        self._contract = contract
+        self._transaction = transaction
+        self._submitted = submitted
+
+    @property
+    def contract(self):
+        return self._contract
+    @property
+    def transaction(self):
+        return self._transaction
+    @property
+    def submitted(self):
+        return self._submitted
 
 class SpendableKey():
     """
