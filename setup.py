@@ -9,7 +9,7 @@ with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(name='tfchain',
-    version='0.1.1',
+    version='0.1.2',
     author="Glen De Cauwsemaecker",
     author_email="glen@threefold.tech",
     description='pythonic tfchain client',
