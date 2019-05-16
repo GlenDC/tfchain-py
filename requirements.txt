@@ -151,6 +151,5 @@ websocket-client==0.54.0
 Werkzeug==0.14.1
 wrapt==1.10.11
 WTForms==2.2.1
--e git+https://github.com/threefoldtech/0-hub@ca7715e693a7a6e85ec89cda7f92eab82399619e#egg=zerohub&subdirectory=client
 zerotier==1.1.2
 zipp==0.3.3
