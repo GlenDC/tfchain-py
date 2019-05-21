@@ -1,7 +1,8 @@
-gendeps: pipreqs . --force
+gendeps: 
+	pipreqs . --force
 
-tests:
-	pytests tests/
+test: 
+	pytest tests
 
 gendocs: 
 	pdoc tfchain --html --html-dir docs/api --overwrite

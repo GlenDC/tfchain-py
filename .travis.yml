@@ -4,10 +4,11 @@ python:
   - "3.6"
 install:
   - pip install -r requirements.txt 
+  - python3 setup.py install
   - pip3 install -U codecov pytest-cov
 
 script:
-  - make tests
+  - make test
 
 after_success:
   - codecov
