@@ -1,0 +1,2744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.internal.jsutils API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.internal.jsutils</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import re
+import random
+from datetime import datetime, timedelta
+import time
+from functools import reduce
+import traceback
+import struct
+import json
+import urllib
+from hashlib import blake2b
+
+# Copied and Modified from Jumpscale
+# TODO: Remove
+
+def blake2(s, digest_size=32):
+    if isinstance(s, str): # check string direct otherwise have to pass in j
+        s = s.encode()
+    return blake2b(s,digest_size=digest_size).digest()
+
+def blake2_string(s, digest_size=32):
+    return blake2(s, digest_size=digest_size).hex()
+
+def generateRandomInt(fromInt, toInt):
+    return random.randint(fromInt, toInt)
+
+
+def generateXCharID(x):
+    r = &#34;1234567890abcdefghijklmnopqrstuvwxyz&#34;
+    l = len(r)
+    out = &#34;&#34;
+    for _ in range(0, x):
+        p = generateRandomInt(0, l - 1)
+        out += r[p]
+    return out
+
+
+def generateXByteID(x):
+    out = bytearray()
+    for _ in range(0, x):
+        out.append(generateRandomInt(0, 255))
+    return out
+
+
+# TIME
+&#34;&#34;&#34; Timestamp routines &#34;&#34;&#34;
+
+LASTTIME = 0
+DELTATIME_INITIALIZED = False
+
+
+class TimeInterval:
+    &#34;&#34;&#34; Enumerator for time interval units &#34;&#34;&#34;
+
+    NANOSECONDS = -3
+    MICROSECONDS = -2
+    MILLISECONDS = -1
+    SECONDS = 0
+    MINUTES = 1
+    HOURS = 2
+    DAYS = 3
+    WEEKS = 4
+    MONTHS = 5
+    YEARS = 6
+
+
+def printdelta():
+    &#34;&#34;&#34;
+    This is a function for source code or performance debugging.
+    Call this function at every point cut in the source code
+    where you want to print out a timestamp, together with the source code line
+    &#34;&#34;&#34;
+
+    global LASTTIME, DELTATIME_INITIALIZED
+    currenttime = time.time()
+    if DELTATIME_INITIALIZED:
+        print((&#34;... TIME DELTA: &#34; + str(currenttime - LASTTIME)))
+        LASTTIME = currenttime
+    else:
+        print(&#34;... STARTING TIME MEASUREMENTS&#34;)
+        LASTTIME = currenttime
+        DELTATIME_INITIALIZED = True
+    print((&#34; @ Source file [&#34; +
+           traceback.extract_stack()[-2][0] +
+           &#34;] line [&#34; +
+           str(traceback.extract_stack()[-2][1]) +
+           &#34;]&#34;))
+
+
+def getabstime():
+    &#34;&#34;&#34; Get string representation of absolute time in milliseconds &#34;&#34;&#34;
+    x = time.time()
+    part1 = time.strftime(&#34;%a %d %b %Y, %H:%M:%S&#34;, time.localtime(x))
+    part2 = &#34;.%03d&#34; % ((x % 1) * 1000)
+    return part1 + part2
+
+
+TIMES = {&#39;s&#39;: 1,
+         &#39;m&#39;: 60,
+         &#39;h&#39;: 3600,
+         &#39;d&#39;: 3600 * 24,
+         &#39;w&#39;: 3600 * 24 * 7,
+         &#39;M&#39;: int(3600 * 24 * 365 / 12),
+         &#39;Y&#39;: 3600 * 24 * 365,
+         }
+
+
+class Time_(object):
+    &#34;&#34;&#34;
+    generic provider of time functions
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        self.timeinterval = TimeInterval()
+
+    @property
+    def epoch(self):
+        &#34;&#34;&#34;
+        jstime.epoch
+        &#34;&#34;&#34;
+
+        return int(time.time())
+
+    def getTimeEpoch(self):
+        &#39;&#39;&#39;
+        Get epoch timestamp (number of seconds passed since January 1, 1970)
+        &#39;&#39;&#39;
+        timestamp = int(time.time())
+        return timestamp
+
+    def getSecondsInHR(self, seconds):
+        &#34;&#34;&#34;
+        jstime.getSecondsInHR(365)
+        &#34;&#34;&#34;
+        minute = 60.
+        hour = 3600.
+        day = hour * 24
+        week = day * 7
+        if seconds &lt; minute:
+            return &#34;%s seconds&#34; % seconds
+        elif seconds &lt; hour:
+            return &#34;%s minutes&#34; % round((seconds / minute), 1)
+        elif seconds &lt; day:
+            return &#34;%s hours&#34; % round((seconds / hour), 1)
+        elif seconds &lt; week:
+            return &#34;%s days&#34; % round((seconds / day), 1)
+        else:
+            return &#34;%s weeks&#34; % round((seconds / week), 1)
+
+    def getTimeEpochBin(self):
+        &#39;&#39;&#39;
+        Get epoch timestamp (number of seconds passed since January 1, 1970) in binary format of 4 bytes
+        &#39;&#39;&#39;
+        return struct.pack(&#34;&lt;I&#34;, self.getTimeEpoch())
+
+    def getLocalTimeHR(self):
+        &#39;&#39;&#39;
+        Get the current local date and time in a human-readable form
+
+        jstime.getLocalTimeHR()
+        &#39;&#39;&#39;
+        #timestamp = time.asctime(time.localtime(time.time()))
+        timestr = self.formatTime(self.getTimeEpoch())
+        return timestr
+
+    def getLocalTimeHRForFilesystem(self):
+        # TODO: check if correct implementation
+        return time.strftime(&#34;%d_%b_%Y_%H_%M_%S&#34;, time.gmtime())
+
+    def formatTime(self, epoch, formatstr=&#39;%Y/%m/%d %H:%M:%S&#39;, local=True):
+        &#39;&#39;&#39;
+        Returns a formatted time string representing the current time
+
+        See http://docs.python.org/lib/module-time.html#l2h-2826 for an
+        overview of available formatting options.
+
+        @param format: Format string
+        @type format: string
+
+        @returns: Formatted current time
+        @rtype: string
+        &#39;&#39;&#39;
+        epoch = float(epoch)
+        if local:
+            timetuple = time.localtime(epoch)
+        else:
+            timetuple = time.gmtime(epoch)
+        timestr = time.strftime(formatstr, timetuple)
+        return timestr
+
+    def epoch2HRDate(self, epoch, local=True):
+        return self.formatTime(epoch, &#39;%Y/%m/%d&#39;, local)
+
+    def epoch2HRDateTime(self, epoch, local=True):
+        return self.formatTime(epoch, &#39;%Y/%m/%d %H:%M:%S&#39;, local)
+
+    def pythonDateTime2HRDateTime(self, pythonDateTime, local=True):
+        if not isinstance(pythonDateTime, datetime.datetime):
+            raise ValueError(
+                &#34;needs to be python date.time obj:%s&#34; % pythonDateTime)
+        epoch = pythonDateTime.timestamp()
+        return self.epoch2HRDateTime(epoch)
+
+    def pythonDateTime2Epoch(self, pythonDateTime, local=True):
+        if not isinstance(pythonDateTime, datetime.datetime):
+            raise ValueError(
+                &#34;needs to be python date.time obj:%s&#34; % pythonDateTime)
+
+        epoch = pythonDateTime.timestamp()
+        return epoch
+
+    def epoch2pythonDateTime(self, epoch):
+        return datetime.datetime.fromtimestamp(epoch)
+
+    def epoch2ISODateTime(self, epoch):
+        dt = datetime.datetime.fromtimestamp(epoch)
+        return dt.isoformat()
+
+    def epoch2pythonDate(self, epoch):
+        return datetime.date.fromtimestamp(epoch)
+
+    def epoch2HRTime(self, epoch, local=True):
+        return self.formatTime(epoch, &#39;%H:%M:%S&#39;, local)
+
+    def getMinuteId(self, epoch=None):
+        &#34;&#34;&#34;
+        is # min from jan 1 2010
+        &#34;&#34;&#34;
+        if epoch is None:
+            epoch = time.time()
+        if epoch &lt; 1262318400.0:
+            raise RuntimeError(
+                &#34;epoch cannot be smaller than 1262318400, given epoch:%s&#34; % epoch)
+
+        return int((epoch - 1262318400.0) / 60.0)
+
+    def getHourId(self, epoch=None):
+        &#34;&#34;&#34;
+        is # hour from jan 1 2010
+        &#34;&#34;&#34;
+        return int(self.getMinuteId(epoch) / 60)
+
+    def fiveMinuteIdToEpoch(self, fiveMinuteId):
+        return fiveMinuteId * 60 * 5 + 1262318400
+
+    def get5MinuteId(self, epoch=None):
+        &#34;&#34;&#34;
+        is # 5 min from jan 1 2010
+        &#34;&#34;&#34;
+        return int(self.getMinuteId(epoch) / 5)
+
+    def getDayId(self, epoch=None):
+        &#34;&#34;&#34;
+        is # day from jan 1 2010
+        &#34;&#34;&#34;
+        return int(self.getMinuteId(epoch) / (60 * 24))
+
+    def getDeltaTime(self, txt):
+        &#34;&#34;&#34;
+        only supported now is -3m, -3d and -3h (ofcourse 3 can be any int)
+        and an int which would be just be returned
+        means 3 days ago 3 hours ago
+        if 0 or &#39;&#39; then is now
+        &#34;&#34;&#34;
+        txt = txt.strip()
+        unit = txt[-1]
+        if txt[-1] not in list(TIMES.keys()):
+            raise RuntimeError(
+                &#34;Cannot find time, needs to be in format have time indicator %s &#34; %
+                list(
+                    TIMES.keys()))
+        value = float(txt[:-1])
+        return int(value * TIMES[unit])
+
+    def getEpochDeltaTime(self, txt):
+        &#34;&#34;&#34;
+        only supported now is + and -3m, -3d and -3h  (ofcourse 3 can be any int)
+        and an int which would be just be returned
+        means 3 days ago 3 hours ago
+        if 0 or &#39;&#39; then is now
+
+        supported:
+
+            s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+
+        &#34;&#34;&#34;
+        if txt is None or str(txt).strip() == &#34;0&#34;:
+            return self.getTimeEpoch()
+        return self.getTimeEpoch() + self.getDeltaTime(txt)
+
+    def HRDateToEpoch(self, datestr, local=True):
+        &#34;&#34;&#34;
+        convert string date to epoch
+        Date needs to be formatted as 1988/06/16  (Y/m/d)
+        &#34;&#34;&#34;
+        if datestr.strip() == &#34;&#34;:
+            return 0
+        try:
+            datestr = datestr.strip()
+            return time.mktime(time.strptime(datestr, &#34;%Y/%m/%d&#34;))
+        except BaseException:
+            raise ValueError(
+                &#34;Date needs to be formatted as \&#34; 1988/06/16\&#34;, also check if date is valid, now format = %s&#34; %
+                datestr)
+
+    def HRDateTime2epoch(self, hrdatetime):
+        &#34;&#34;&#34;
+        convert string date/time to epoch
+        Needs to be formatted as 16/06/1988 %H:%M:%S
+        &#34;&#34;&#34;
+        if hrdatetime.strip() == &#34;&#34;:
+            return 0
+        try:
+            hrdatetime = hrdatetime.strip()
+            return int(
+                time.mktime(
+                    time.strptime(
+                        hrdatetime,
+                        &#34;%Y/%m/%d %H:%M:%S&#34;)))
+        except BaseException:
+            raise ValueError(
+                &#34;Date needs to be formatted as Needs to be formatted as 16/06/1988 %H:%M:%S, also check if date is valid, now format = {}&#34;.format(
+                hrdatetime))
+
+    def any2epoch(self, val, in_list=False):
+        &#34;&#34;&#34;
+        if list will go item by item until not empty,0 or None
+        if int is epoch
+        if string is human readable format
+        if date.time yeh ...
+        &#34;&#34;&#34;
+        if isinstance(val, list):
+            for item in val:
+                res = self.any2epoch(item, in_list=True)
+                if res != 0:
+                    return res
+            return 0
+        if val is None:
+            return 0
+        if isinstance(val, int)(val):
+            return val
+        if isinstance(val, str)(val):
+            try:
+                return self.HRDateTime2epoch(val)
+            except BaseException:
+                pass
+            try:
+                return self.HRDateToEpoch(val)
+            except BaseException:
+                pass
+        if isinstance(val, datetime.datetime):
+            return self.pythonDateTime2Epoch(val)
+        if not in_list:
+            raise ValueError(
+                &#34;Could not define format of time value, needs to be int, human readable time, list or python datetime obj.&#34;)
+        else:
+            return 0
+
+    def any2HRDateTime(self, val):
+        &#34;&#34;&#34;
+        if list will go item by item until not empty,0 or None
+        if int is epoch
+        if string is human readable format
+        if date.time yeh ...
+        &#34;&#34;&#34;
+        epoch = self.any2epoch(val)
+        return self.epoch2HRDateTime(epoch)
+
+    def test(self):
+        now = self.getTimeEpoch()
+        hr = self.epoch2HRDateTime(now)
+        assert self.HRDateTime2epoch(hr) == now
+        assert self.any2epoch(hr) == now
+        dt = self.epoch2pythonDateTime(now)
+        assert self.any2epoch(dt) == now
+        hr = self.pythonDateTime2HRDateTime(dt)
+        assert self.any2epoch(hr) == now
+        hr = self.any2HRDateTime(now)
+        assert self.any2epoch(hr) == now
+        hr = self.any2HRDateTime(hr)
+        assert self.any2epoch(hr) == now
+        hr = self.any2HRDateTime(dt)
+        assert self.any2epoch(hr) == now
+        hr = self.any2HRDateTime([&#34;&#34;, 0, dt])
+        assert self.any2epoch(hr) == now
+
+def epoch2HRDateTime(epoch, local=True):
+    return Time_().epoch2HRDateTime(epoch, local=local)
+
+# FIXME: convert to static methods
+class Duration:
+    &#39;&#39;&#39;
+    internal representation is an int (seconds)
+    &#39;&#39;&#39;
+    NAME = &#39;duration&#39;
+
+    def __init__(self, default=None):
+        # inspired by https://stackoverflow.com/a/51916936
+        self._RE = re.compile(
+            r&#39;^((?P&lt;days&gt;[\.\d]+?)d)?((?P&lt;hours&gt;[\.\d]+?)h)?((?P&lt;minutes&gt;[\.\d]+?)m)?((?P&lt;seconds&gt;[\.\d]+?)s)?$&#39;)
+        self.BASETYPE = &#34;int&#34;
+        self.NOCHECK = True
+        self._default = default
+
+    def get_default(self):
+        return 0
+
+    def python_code_get(self, value):
+        &#34;&#34;&#34;
+        produce the python code which represents this value
+        &#34;&#34;&#34;
+        return self.clean(value)
+
+    def check(self, value):
+        &#39;&#39;&#39;
+        Check whether provided value is a valid duration representation
+        be carefull is SLOW
+        &#39;&#39;&#39;
+        try:
+            self.clean(value)
+            return True
+        except:
+            return False
+
+    def fromString(self, txt):
+        return self.clean(txt)
+
+    def toString(self, val):
+        val = self.clean(val)
+        if val == 0:
+            return &#34;&#34;
+        days = val//86400
+        hours = (val - days*86400)//3600
+        minutes = (val - days*86400 - hours*3600)//60
+        seconds = val - days*86400 - hours*3600 - minutes*60
+        return reduce(
+            (lambda r, p: r+str(p[0])+p[1] if p[0] &gt; 0 else r),
+            [(days, &#34;d&#34;), (hours, &#34;h&#34;), (minutes, &#34;m&#34;), (seconds, &#34;s&#34;)], &#34;&#34;)
+
+    def toHR(self, v):
+        return self.toString(v)
+
+    def clean(self, v):
+        &#34;&#34;&#34;
+        support following formats:
+        - None, 0: means undefined date
+        - seconds = int
+        - 1 (seconds)
+        - 1s (seconds)
+        - 2m (minutes)
+        - 3h (hours)
+        - 4d (days)
+        - 1d4h2m3s (can also combine multiple, has to be from biggest to smallest and each unit has to be unique (e.g. cannot have 2 times hour specified))
+        will return seconds
+        &#34;&#34;&#34;
+        if v in [0, &#34;0&#34;, None, &#34;&#34;]:
+            return 0
+        if isinstance(v, str):
+            v = v.replace(&#34;&#39;&#34;, &#34;&#34;).replace(&#34;\&#34;&#34;, &#34;&#34;).strip()
+            if v.isdigit():
+                return int(v)  # shortcut for when string is an integer
+            parts = self._RE.match(v)
+            if parts is None:
+                raise ValueError(
+                    &#34;Could not parse any time information from &#39;{}&#39;.  Examples of valid strings: &#39;8h&#39;, &#39;2d8h5m20s&#39;, &#39;2m4s&#39;&#34;.format(v))
+            time_params = {name: float(
+                param) for name, param in parts.groupdict().items() if param}
+            return int(timedelta(**time_params).total_seconds())
+        elif isinstance(v, int):
+            return v
+        else:
+            raise ValueError(
+                &#34;Input needs to be string or int: {} ({})&#34;.format(v, type(v)))
+
+
+duration = Duration()
+jstime = Time_()
+
+class DateTime:
+    NAME =  &#39;datetime,t&#39;
+
+    def __init__(self, default=None):
+
+        self.BASETYPE = &#34;int&#34;
+        self.NOCHECK = True
+        self._default = default
+
+    def default_get(self):
+        if not self._default:
+            self._default = 0
+        return self._default
+
+    def fromString(self, txt):
+        return self.clean(txt)
+
+    def toString(self, val, local=True):
+        val = self.clean(val)
+        if val == 0:
+            return &#34;&#34;
+        return jstime.epoch2HRDateTime(val, local=local)
+
+    def toHR(self, v):
+        return self.toString(v)
+
+    def clean(self, v):
+        &#34;&#34;&#34;
+        support following formats:
+        - None, 0: means undefined date
+        - epoch = int
+        - month/day 22:50
+        - month/day  (will be current year if specified this way)
+        - year(4char)/month/day
+        - year(4char)/month/day 10am:50
+        - year(2char)/month/day
+        - day/month/4char
+        - year(4char)/month/day 22:50
+        - +4h
+        - -4h
+        in stead of h also supported: s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+        will return epoch
+        &#34;&#34;&#34;
+        if v is None:
+            return self.default_get()
+        def date_process(dd):
+            if &#34;/&#34; not in dd:
+                raise ValueError(&#34;date needs to have:/, now:%s&#34; % v)
+            splitted = dd.split(&#34;/&#34;)
+            if len(splitted) == 2:
+                dfstr = &#34;%Y/%m/%d&#34;
+                dd = &#34;%s/%s&#34; % (jstime.epoch2HRDate(jstime.epoch).split(&#34;/&#34;)[0], dd.strip())
+            elif len(splitted) == 3:
+                s0 = splitted[0].strip()
+                s1 = splitted[1].strip()
+                s2 = splitted[2].strip()
+                if len(s0) == 4 and (len(s1) == 2 or len(s1) == 1) and (len(s2) == 2 or len(s2) == 1):
+                    # year in front
+                    dfstr = &#34;%Y/%m/%d&#34;
+                elif len(s2) == 4 and (len(s1) == 2 or len(s1) == 1) and (len(s0) == 2 or len(s0) == 1):
+                    # year at end
+                    dfstr = &#34;%d/%m/%Y&#34;
+                elif (len(s2) == 2 or len(s2) == 1) and (len(s1) == 2 or len(s1) == 1) and (len(s0) == 2 or len(s0) == 1):
+                    # year at start but small
+                    dfstr = &#34;%y/%m/%d&#34;
+                else:
+                    raise ValueError(&#34;date wrongly formatted, now:%s&#34; % v)
+            else:
+                raise ValueError(&#34;date needs to have 2 or 3 /, now:%s&#34; % v)
+            return (dd, dfstr)
+
+        def time_process(v):
+            v = v.strip()
+            if &#34;:&#34; not in v:
+                return (&#34;00:00:00&#34;, &#34;%H:%M:%S&#34;)
+            splitted = v.split(&#34;:&#34;)
+            if len(splitted) == 2:
+                if &#34;am&#34; in v.lower() or &#34;pm&#34; in v.lower():
+                    fstr = &#34;%I%p:%M&#34;
+                else:
+                    fstr = &#34;%H:%M&#34;
+            elif len(splitted) == 3:
+                if &#34;am&#34; in v.lower() or &#34;pm&#34; in v.lower():
+                    fstr = &#34;%I%p:%M:%S&#34;
+                else:
+                    fstr = &#34;%H:%M:%S&#34;
+            return (v, fstr)
+        
+        if v is None:
+            v=0
+
+        if isinstance(v, str):
+            v=v.replace(&#34;&#39;&#34;,&#34;&#34;).replace(&#34;\&#34;&#34;,&#34;&#34;).strip()
+            if v.strip() in [&#34;0&#34;, &#34;&#34;,0]:
+                return 0
+
+            if &#34;+&#34; in v or &#34;-&#34; in v:
+                return jstime.getEpochDeltaTime(v)
+
+            if &#34;:&#34; in v:
+                # have time inside the representation
+                dd, tt = v.split(&#34; &#34;, 1)
+                tt, tfstr = time_process(tt)
+            else:
+                tt, tfstr = time_process(&#34;&#34;)
+                dd = v
+
+            dd, dfstr = date_process(dd)
+
+            fstr = dfstr + &#34; &#34; + tfstr
+            hrdatetime = dd + &#34; &#34; + tt
+            epoch = int(time.mktime(time.strptime(hrdatetime, fstr)))
+            return epoch
+        elif isinstance(v, int):
+            return v
+        else:
+            raise ValueError(&#34;Input needs to be string:%s&#34; % v)
+
+    def capnp_schema_get(self, name, nr):
+        return &#34;%s @%s :UInt32;&#34; % (name, nr)
+
+    def test(self):
+        &#34;&#34;&#34;
+        js_shell &#39;jsdatetime.test()&#39;
+        &#34;&#34;&#34;
+
+
+class Date(DateTime):
+    &#39;&#39;&#39;
+    internal representation is an epoch (int)
+    &#39;&#39;&#39;
+    NAME =  &#39;date,d&#39;
+
+    def __init__(self, default=None):
+
+        self.BASETYPE = &#34;int&#34;
+        # self._RE = re.compile(&#39;[0-9]{4}/[0-9]{2}/[0-9]{2}&#39;)
+        self.NOCHECK = True
+        self._default = default
+
+    def clean(self, v):
+        &#34;&#34;&#34;
+        support following formats:
+        - 0: means undefined date
+        - epoch = int  (will round to start of the day = 00h)
+        - month/day  (will be current year if specified this way)
+        - year(4char)/month/day
+        - year(2char)/month/day
+        - day/month/4char
+        - +4M
+        - -4Y
+        in stead of h also supported: s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+        will return epoch
+        &#34;&#34;&#34;
+        if v is None:
+            return self.default_get()
+        if isinstance(v,str):
+            v=v.replace(&#34;&#39;&#34;,&#34;&#34;).replace(&#34;\&#34;&#34;,&#34;&#34;).strip()
+        if v in [0,&#34;0&#34;,None,&#34;&#34;]:
+            return 0
+        # am sure there are better ways how to do this but goes to beginning of day
+        v2 = DateTime.clean(self,v)
+        dt = datetime.fromtimestamp(v2)
+        dt2 = datetime(dt.year,dt.month,dt.day,0,0)
+        return int(dt2.strftime(&#39;%s&#39;))
+
+    def toString(self, val, local=True):
+        val = self.clean(val)
+        if val == 0:
+            return &#34;&#34;
+        return jstime.epoch2HRDate(val, local=local)
+
+
+jsdate = Date()
+jsdatetime = DateTime()
+
+class BytesEncoder(json.JSONEncoder):
+    ENCODING = &#39;ascii&#39;
+    def default(self, obj):
+        if isinstance(obj, bytes):
+            return obj.decode(self.ENCODING)
+        return json.JSONEncoder.default(self, obj)
+
+
+class Encoder(object):
+    @staticmethod
+    def get(encoding=&#39;ascii&#39;):
+        kls = BytesEncoder
+        kls.ENCODING = encoding
+        return kls
+
+
+def json_dumps(obj, sort_keys=False, indent=False, encoding=&#39;ascii&#39;):
+    return json.dumps(obj, ensure_ascii=False, sort_keys=sort_keys, indent=indent, cls=Encoder.get(encoding=encoding))
+
+
+def json_loads(s):
+    if isinstance(s, bytes):
+        s = s.decode(&#39;utf-8&#39;)
+    return json.loads(s)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="tfchain.internal.jsutils.blake2"><code class="name flex">
+<span>def <span class="ident">blake2</span></span>(<span>s, digest_size=32)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def blake2(s, digest_size=32):
+    if isinstance(s, str): # check string direct otherwise have to pass in j
+        s = s.encode()
+    return blake2b(s,digest_size=digest_size).digest()</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.blake2_string"><code class="name flex">
+<span>def <span class="ident">blake2_string</span></span>(<span>s, digest_size=32)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def blake2_string(s, digest_size=32):
+    return blake2(s, digest_size=digest_size).hex()</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.epoch2HRDateTime"><code class="name flex">
+<span>def <span class="ident">epoch2HRDateTime</span></span>(<span>epoch, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def epoch2HRDateTime(epoch, local=True):
+    return Time_().epoch2HRDateTime(epoch, local=local)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.generateRandomInt"><code class="name flex">
+<span>def <span class="ident">generateRandomInt</span></span>(<span>fromInt, toInt)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def generateRandomInt(fromInt, toInt):
+    return random.randint(fromInt, toInt)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.generateXByteID"><code class="name flex">
+<span>def <span class="ident">generateXByteID</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def generateXByteID(x):
+    out = bytearray()
+    for _ in range(0, x):
+        out.append(generateRandomInt(0, 255))
+    return out</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.generateXCharID"><code class="name flex">
+<span>def <span class="ident">generateXCharID</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def generateXCharID(x):
+    r = &#34;1234567890abcdefghijklmnopqrstuvwxyz&#34;
+    l = len(r)
+    out = &#34;&#34;
+    for _ in range(0, x):
+        p = generateRandomInt(0, l - 1)
+        out += r[p]
+    return out</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.getabstime"><code class="name flex">
+<span>def <span class="ident">getabstime</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get string representation of absolute time in milliseconds</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getabstime():
+    &#34;&#34;&#34; Get string representation of absolute time in milliseconds &#34;&#34;&#34;
+    x = time.time()
+    part1 = time.strftime(&#34;%a %d %b %Y, %H:%M:%S&#34;, time.localtime(x))
+    part2 = &#34;.%03d&#34; % ((x % 1) * 1000)
+    return part1 + part2</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.json_dumps"><code class="name flex">
+<span>def <span class="ident">json_dumps</span></span>(<span>obj, sort_keys=False, indent=False, encoding='ascii')</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_dumps(obj, sort_keys=False, indent=False, encoding=&#39;ascii&#39;):
+    return json.dumps(obj, ensure_ascii=False, sort_keys=sort_keys, indent=indent, cls=Encoder.get(encoding=encoding))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.json_loads"><code class="name flex">
+<span>def <span class="ident">json_loads</span></span>(<span>s)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_loads(s):
+    if isinstance(s, bytes):
+        s = s.decode(&#39;utf-8&#39;)
+    return json.loads(s)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.printdelta"><code class="name flex">
+<span>def <span class="ident">printdelta</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This is a function for source code or performance debugging.
+Call this function at every point cut in the source code
+where you want to print out a timestamp, together with the source code line</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def printdelta():
+    &#34;&#34;&#34;
+    This is a function for source code or performance debugging.
+    Call this function at every point cut in the source code
+    where you want to print out a timestamp, together with the source code line
+    &#34;&#34;&#34;
+
+    global LASTTIME, DELTATIME_INITIALIZED
+    currenttime = time.time()
+    if DELTATIME_INITIALIZED:
+        print((&#34;... TIME DELTA: &#34; + str(currenttime - LASTTIME)))
+        LASTTIME = currenttime
+    else:
+        print(&#34;... STARTING TIME MEASUREMENTS&#34;)
+        LASTTIME = currenttime
+        DELTATIME_INITIALIZED = True
+    print((&#34; @ Source file [&#34; +
+           traceback.extract_stack()[-2][0] +
+           &#34;] line [&#34; +
+           str(traceback.extract_stack()[-2][1]) +
+           &#34;]&#34;))</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.internal.jsutils.BytesEncoder"><code class="flex name class">
+<span>class <span class="ident">BytesEncoder</span></span>
+<span>(</span><span>*, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, sort_keys=False, indent=None, separators=None, default=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Extensible JSON <a href="http://json.org">http://json.org</a> encoder for Python data structures.</p>
+<p>Supports the following objects and types by default:</p>
+<p>+-------------------+---------------+
+| Python
+| JSON
+|
++===================+===============+
+| dict
+| object
+|
++-------------------+---------------+
+| list, tuple
+| array
+|
++-------------------+---------------+
+| str
+| string
+|
++-------------------+---------------+
+| int, float
+| number
+|
++-------------------+---------------+
+| True
+| true
+|
++-------------------+---------------+
+| False
+| false
+|
++-------------------+---------------+
+| None
+| null
+|
++-------------------+---------------+</p>
+<p>To extend this to recognize other objects, subclass and implement a
+<code>.default()</code> method with another method that returns a serializable
+object for <code>o</code> if possible, otherwise it should call the superclass
+implementation (to raise <code>TypeError</code>).</p>
+<p>Constructor for JSONEncoder, with sensible defaults.</p>
+<p>If skipkeys is false, then it is a TypeError to attempt
+encoding of keys that are not str, int, float or None.
+If
+skipkeys is True, such items are simply skipped.</p>
+<p>If ensure_ascii is true, the output is guaranteed to be str
+objects with all incoming non-ASCII characters escaped.
+If
+ensure_ascii is false, the output can contain non-ASCII characters.</p>
+<p>If check_circular is true, then lists, dicts, and custom encoded
+objects will be checked for circular references during encoding to
+prevent an infinite recursion (which would cause an OverflowError).
+Otherwise, no such check takes place.</p>
+<p>If allow_nan is true, then NaN, Infinity, and -Infinity will be
+encoded as such.
+This behavior is not JSON specification compliant,
+but is consistent with most JavaScript based encoders and decoders.
+Otherwise, it will be a ValueError to encode such floats.</p>
+<p>If sort_keys is true, then the output of dictionaries will be
+sorted by key; this is useful for regression tests to ensure
+that JSON serializations can be compared on a day-to-day basis.</p>
+<p>If indent is a non-negative integer, then JSON array
+elements and object members will be pretty-printed with that
+indent level.
+An indent level of 0 will only insert newlines.
+None is the most compact representation.</p>
+<p>If specified, separators should be an (item_separator, key_separator)
+tuple.
+The default is (', ', ': ') if <em>indent</em> is <code>None</code> and
+(',', ': ') otherwise.
+To get the most compact JSON representation,
+you should specify (',', ':') to eliminate whitespace.</p>
+<p>If specified, default is a function that gets called for objects
+that can't otherwise be serialized.
+It should return a JSON encodable
+version of the object or raise a <code>TypeError</code>.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class BytesEncoder(json.JSONEncoder):
+    ENCODING = &#39;ascii&#39;
+    def default(self, obj):
+        if isinstance(obj, bytes):
+            return obj.decode(self.ENCODING)
+        return json.JSONEncoder.default(self, obj)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>json.encoder.JSONEncoder</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.BytesEncoder.ENCODING"><code class="name">var <span class="ident">ENCODING</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.BytesEncoder.default"><code class="name flex">
+<span>def <span class="ident">default</span></span>(<span>self, obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Implement this method in a subclass such that it returns
+a serializable object for <code>o</code>, or calls the base implementation
+(to raise a <code>TypeError</code>).</p>
+<p>For example, to support arbitrary iterators, you could
+implement default like this::</p>
+<pre><code>def default(self, o):
+    try:
+        iterable = iter(o)
+    except TypeError:
+        pass
+    else:
+        return list(iterable)
+    # Let the base class default method raise the TypeError
+    return JSONEncoder.default(self, o)
+</code></pre></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def default(self, obj):
+    if isinstance(obj, bytes):
+        return obj.decode(self.ENCODING)
+    return json.JSONEncoder.default(self, obj)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.internal.jsutils.Date"><code class="flex name class">
+<span>class <span class="ident">Date</span></span>
+<span>(</span><span>default=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>internal representation is an epoch (int)</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Date(DateTime):
+    &#39;&#39;&#39;
+    internal representation is an epoch (int)
+    &#39;&#39;&#39;
+    NAME =  &#39;date,d&#39;
+
+    def __init__(self, default=None):
+
+        self.BASETYPE = &#34;int&#34;
+        # self._RE = re.compile(&#39;[0-9]{4}/[0-9]{2}/[0-9]{2}&#39;)
+        self.NOCHECK = True
+        self._default = default
+
+    def clean(self, v):
+        &#34;&#34;&#34;
+        support following formats:
+        - 0: means undefined date
+        - epoch = int  (will round to start of the day = 00h)
+        - month/day  (will be current year if specified this way)
+        - year(4char)/month/day
+        - year(2char)/month/day
+        - day/month/4char
+        - +4M
+        - -4Y
+        in stead of h also supported: s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+        will return epoch
+        &#34;&#34;&#34;
+        if v is None:
+            return self.default_get()
+        if isinstance(v,str):
+            v=v.replace(&#34;&#39;&#34;,&#34;&#34;).replace(&#34;\&#34;&#34;,&#34;&#34;).strip()
+        if v in [0,&#34;0&#34;,None,&#34;&#34;]:
+            return 0
+        # am sure there are better ways how to do this but goes to beginning of day
+        v2 = DateTime.clean(self,v)
+        dt = datetime.fromtimestamp(v2)
+        dt2 = datetime(dt.year,dt.month,dt.day,0,0)
+        return int(dt2.strftime(&#39;%s&#39;))
+
+    def toString(self, val, local=True):
+        val = self.clean(val)
+        if val == 0:
+            return &#34;&#34;
+        return jstime.epoch2HRDate(val, local=local)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.internal.jsutils.DateTime" href="#tfchain.internal.jsutils.DateTime">DateTime</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.Date.NAME"><code class="name">var <span class="ident">NAME</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.Date.clean"><code class="name flex">
+<span>def <span class="ident">clean</span></span>(<span>self, v)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>support following formats:
+- 0: means undefined date
+- epoch = int
+(will round to start of the day = 00h)
+- month/day
+(will be current year if specified this way)
+- year(4char)/month/day
+- year(2char)/month/day
+- day/month/4char
+- +4M
+- -4Y
+in stead of h also supported: s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+will return epoch</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def clean(self, v):
+    &#34;&#34;&#34;
+    support following formats:
+    - 0: means undefined date
+    - epoch = int  (will round to start of the day = 00h)
+    - month/day  (will be current year if specified this way)
+    - year(4char)/month/day
+    - year(2char)/month/day
+    - day/month/4char
+    - +4M
+    - -4Y
+    in stead of h also supported: s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+    will return epoch
+    &#34;&#34;&#34;
+    if v is None:
+        return self.default_get()
+    if isinstance(v,str):
+        v=v.replace(&#34;&#39;&#34;,&#34;&#34;).replace(&#34;\&#34;&#34;,&#34;&#34;).strip()
+    if v in [0,&#34;0&#34;,None,&#34;&#34;]:
+        return 0
+    # am sure there are better ways how to do this but goes to beginning of day
+    v2 = DateTime.clean(self,v)
+    dt = datetime.fromtimestamp(v2)
+    dt2 = datetime(dt.year,dt.month,dt.day,0,0)
+    return int(dt2.strftime(&#39;%s&#39;))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Date.toString"><code class="name flex">
+<span>def <span class="ident">toString</span></span>(<span>self, val, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def toString(self, val, local=True):
+    val = self.clean(val)
+    if val == 0:
+        return &#34;&#34;
+    return jstime.epoch2HRDate(val, local=local)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.internal.jsutils.DateTime" href="#tfchain.internal.jsutils.DateTime">DateTime</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.internal.jsutils.DateTime.test" href="#tfchain.internal.jsutils.DateTime.test">test</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.internal.jsutils.DateTime"><code class="flex name class">
+<span>class <span class="ident">DateTime</span></span>
+<span>(</span><span>default=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class DateTime:
+    NAME =  &#39;datetime,t&#39;
+
+    def __init__(self, default=None):
+
+        self.BASETYPE = &#34;int&#34;
+        self.NOCHECK = True
+        self._default = default
+
+    def default_get(self):
+        if not self._default:
+            self._default = 0
+        return self._default
+
+    def fromString(self, txt):
+        return self.clean(txt)
+
+    def toString(self, val, local=True):
+        val = self.clean(val)
+        if val == 0:
+            return &#34;&#34;
+        return jstime.epoch2HRDateTime(val, local=local)
+
+    def toHR(self, v):
+        return self.toString(v)
+
+    def clean(self, v):
+        &#34;&#34;&#34;
+        support following formats:
+        - None, 0: means undefined date
+        - epoch = int
+        - month/day 22:50
+        - month/day  (will be current year if specified this way)
+        - year(4char)/month/day
+        - year(4char)/month/day 10am:50
+        - year(2char)/month/day
+        - day/month/4char
+        - year(4char)/month/day 22:50
+        - +4h
+        - -4h
+        in stead of h also supported: s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+        will return epoch
+        &#34;&#34;&#34;
+        if v is None:
+            return self.default_get()
+        def date_process(dd):
+            if &#34;/&#34; not in dd:
+                raise ValueError(&#34;date needs to have:/, now:%s&#34; % v)
+            splitted = dd.split(&#34;/&#34;)
+            if len(splitted) == 2:
+                dfstr = &#34;%Y/%m/%d&#34;
+                dd = &#34;%s/%s&#34; % (jstime.epoch2HRDate(jstime.epoch).split(&#34;/&#34;)[0], dd.strip())
+            elif len(splitted) == 3:
+                s0 = splitted[0].strip()
+                s1 = splitted[1].strip()
+                s2 = splitted[2].strip()
+                if len(s0) == 4 and (len(s1) == 2 or len(s1) == 1) and (len(s2) == 2 or len(s2) == 1):
+                    # year in front
+                    dfstr = &#34;%Y/%m/%d&#34;
+                elif len(s2) == 4 and (len(s1) == 2 or len(s1) == 1) and (len(s0) == 2 or len(s0) == 1):
+                    # year at end
+                    dfstr = &#34;%d/%m/%Y&#34;
+                elif (len(s2) == 2 or len(s2) == 1) and (len(s1) == 2 or len(s1) == 1) and (len(s0) == 2 or len(s0) == 1):
+                    # year at start but small
+                    dfstr = &#34;%y/%m/%d&#34;
+                else:
+                    raise ValueError(&#34;date wrongly formatted, now:%s&#34; % v)
+            else:
+                raise ValueError(&#34;date needs to have 2 or 3 /, now:%s&#34; % v)
+            return (dd, dfstr)
+
+        def time_process(v):
+            v = v.strip()
+            if &#34;:&#34; not in v:
+                return (&#34;00:00:00&#34;, &#34;%H:%M:%S&#34;)
+            splitted = v.split(&#34;:&#34;)
+            if len(splitted) == 2:
+                if &#34;am&#34; in v.lower() or &#34;pm&#34; in v.lower():
+                    fstr = &#34;%I%p:%M&#34;
+                else:
+                    fstr = &#34;%H:%M&#34;
+            elif len(splitted) == 3:
+                if &#34;am&#34; in v.lower() or &#34;pm&#34; in v.lower():
+                    fstr = &#34;%I%p:%M:%S&#34;
+                else:
+                    fstr = &#34;%H:%M:%S&#34;
+            return (v, fstr)
+        
+        if v is None:
+            v=0
+
+        if isinstance(v, str):
+            v=v.replace(&#34;&#39;&#34;,&#34;&#34;).replace(&#34;\&#34;&#34;,&#34;&#34;).strip()
+            if v.strip() in [&#34;0&#34;, &#34;&#34;,0]:
+                return 0
+
+            if &#34;+&#34; in v or &#34;-&#34; in v:
+                return jstime.getEpochDeltaTime(v)
+
+            if &#34;:&#34; in v:
+                # have time inside the representation
+                dd, tt = v.split(&#34; &#34;, 1)
+                tt, tfstr = time_process(tt)
+            else:
+                tt, tfstr = time_process(&#34;&#34;)
+                dd = v
+
+            dd, dfstr = date_process(dd)
+
+            fstr = dfstr + &#34; &#34; + tfstr
+            hrdatetime = dd + &#34; &#34; + tt
+            epoch = int(time.mktime(time.strptime(hrdatetime, fstr)))
+            return epoch
+        elif isinstance(v, int):
+            return v
+        else:
+            raise ValueError(&#34;Input needs to be string:%s&#34; % v)
+
+    def capnp_schema_get(self, name, nr):
+        return &#34;%s @%s :UInt32;&#34; % (name, nr)
+
+    def test(self):
+        &#34;&#34;&#34;
+        js_shell &#39;jsdatetime.test()&#39;
+        &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.internal.jsutils.Date" href="#tfchain.internal.jsutils.Date">Date</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.DateTime.NAME"><code class="name">var <span class="ident">NAME</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.DateTime.capnp_schema_get"><code class="name flex">
+<span>def <span class="ident">capnp_schema_get</span></span>(<span>self, name, nr)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def capnp_schema_get(self, name, nr):
+    return &#34;%s @%s :UInt32;&#34; % (name, nr)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.DateTime.clean"><code class="name flex">
+<span>def <span class="ident">clean</span></span>(<span>self, v)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>support following formats:
+- None, 0: means undefined date
+- epoch = int
+- month/day 22:50
+- month/day
+(will be current year if specified this way)
+- year(4char)/month/day
+- year(4char)/month/day 10am:50
+- year(2char)/month/day
+- day/month/4char
+- year(4char)/month/day 22:50
+- +4h
+- -4h
+in stead of h also supported: s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+will return epoch</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def clean(self, v):
+    &#34;&#34;&#34;
+    support following formats:
+    - None, 0: means undefined date
+    - epoch = int
+    - month/day 22:50
+    - month/day  (will be current year if specified this way)
+    - year(4char)/month/day
+    - year(4char)/month/day 10am:50
+    - year(2char)/month/day
+    - day/month/4char
+    - year(4char)/month/day 22:50
+    - +4h
+    - -4h
+    in stead of h also supported: s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+    will return epoch
+    &#34;&#34;&#34;
+    if v is None:
+        return self.default_get()
+    def date_process(dd):
+        if &#34;/&#34; not in dd:
+            raise ValueError(&#34;date needs to have:/, now:%s&#34; % v)
+        splitted = dd.split(&#34;/&#34;)
+        if len(splitted) == 2:
+            dfstr = &#34;%Y/%m/%d&#34;
+            dd = &#34;%s/%s&#34; % (jstime.epoch2HRDate(jstime.epoch).split(&#34;/&#34;)[0], dd.strip())
+        elif len(splitted) == 3:
+            s0 = splitted[0].strip()
+            s1 = splitted[1].strip()
+            s2 = splitted[2].strip()
+            if len(s0) == 4 and (len(s1) == 2 or len(s1) == 1) and (len(s2) == 2 or len(s2) == 1):
+                # year in front
+                dfstr = &#34;%Y/%m/%d&#34;
+            elif len(s2) == 4 and (len(s1) == 2 or len(s1) == 1) and (len(s0) == 2 or len(s0) == 1):
+                # year at end
+                dfstr = &#34;%d/%m/%Y&#34;
+            elif (len(s2) == 2 or len(s2) == 1) and (len(s1) == 2 or len(s1) == 1) and (len(s0) == 2 or len(s0) == 1):
+                # year at start but small
+                dfstr = &#34;%y/%m/%d&#34;
+            else:
+                raise ValueError(&#34;date wrongly formatted, now:%s&#34; % v)
+        else:
+            raise ValueError(&#34;date needs to have 2 or 3 /, now:%s&#34; % v)
+        return (dd, dfstr)
+
+    def time_process(v):
+        v = v.strip()
+        if &#34;:&#34; not in v:
+            return (&#34;00:00:00&#34;, &#34;%H:%M:%S&#34;)
+        splitted = v.split(&#34;:&#34;)
+        if len(splitted) == 2:
+            if &#34;am&#34; in v.lower() or &#34;pm&#34; in v.lower():
+                fstr = &#34;%I%p:%M&#34;
+            else:
+                fstr = &#34;%H:%M&#34;
+        elif len(splitted) == 3:
+            if &#34;am&#34; in v.lower() or &#34;pm&#34; in v.lower():
+                fstr = &#34;%I%p:%M:%S&#34;
+            else:
+                fstr = &#34;%H:%M:%S&#34;
+        return (v, fstr)
+    
+    if v is None:
+        v=0
+
+    if isinstance(v, str):
+        v=v.replace(&#34;&#39;&#34;,&#34;&#34;).replace(&#34;\&#34;&#34;,&#34;&#34;).strip()
+        if v.strip() in [&#34;0&#34;, &#34;&#34;,0]:
+            return 0
+
+        if &#34;+&#34; in v or &#34;-&#34; in v:
+            return jstime.getEpochDeltaTime(v)
+
+        if &#34;:&#34; in v:
+            # have time inside the representation
+            dd, tt = v.split(&#34; &#34;, 1)
+            tt, tfstr = time_process(tt)
+        else:
+            tt, tfstr = time_process(&#34;&#34;)
+            dd = v
+
+        dd, dfstr = date_process(dd)
+
+        fstr = dfstr + &#34; &#34; + tfstr
+        hrdatetime = dd + &#34; &#34; + tt
+        epoch = int(time.mktime(time.strptime(hrdatetime, fstr)))
+        return epoch
+    elif isinstance(v, int):
+        return v
+    else:
+        raise ValueError(&#34;Input needs to be string:%s&#34; % v)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.DateTime.default_get"><code class="name flex">
+<span>def <span class="ident">default_get</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def default_get(self):
+    if not self._default:
+        self._default = 0
+    return self._default</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.DateTime.fromString"><code class="name flex">
+<span>def <span class="ident">fromString</span></span>(<span>self, txt)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def fromString(self, txt):
+    return self.clean(txt)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.DateTime.test"><code class="name flex">
+<span>def <span class="ident">test</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>js_shell 'jsdatetime.test()'</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def test(self):
+    &#34;&#34;&#34;
+    js_shell &#39;jsdatetime.test()&#39;
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.DateTime.toHR"><code class="name flex">
+<span>def <span class="ident">toHR</span></span>(<span>self, v)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def toHR(self, v):
+    return self.toString(v)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.DateTime.toString"><code class="name flex">
+<span>def <span class="ident">toString</span></span>(<span>self, val, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def toString(self, val, local=True):
+    val = self.clean(val)
+    if val == 0:
+        return &#34;&#34;
+    return jstime.epoch2HRDateTime(val, local=local)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.internal.jsutils.Duration"><code class="flex name class">
+<span>class <span class="ident">Duration</span></span>
+<span>(</span><span>default=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>internal representation is an int (seconds)</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Duration:
+    &#39;&#39;&#39;
+    internal representation is an int (seconds)
+    &#39;&#39;&#39;
+    NAME = &#39;duration&#39;
+
+    def __init__(self, default=None):
+        # inspired by https://stackoverflow.com/a/51916936
+        self._RE = re.compile(
+            r&#39;^((?P&lt;days&gt;[\.\d]+?)d)?((?P&lt;hours&gt;[\.\d]+?)h)?((?P&lt;minutes&gt;[\.\d]+?)m)?((?P&lt;seconds&gt;[\.\d]+?)s)?$&#39;)
+        self.BASETYPE = &#34;int&#34;
+        self.NOCHECK = True
+        self._default = default
+
+    def get_default(self):
+        return 0
+
+    def python_code_get(self, value):
+        &#34;&#34;&#34;
+        produce the python code which represents this value
+        &#34;&#34;&#34;
+        return self.clean(value)
+
+    def check(self, value):
+        &#39;&#39;&#39;
+        Check whether provided value is a valid duration representation
+        be carefull is SLOW
+        &#39;&#39;&#39;
+        try:
+            self.clean(value)
+            return True
+        except:
+            return False
+
+    def fromString(self, txt):
+        return self.clean(txt)
+
+    def toString(self, val):
+        val = self.clean(val)
+        if val == 0:
+            return &#34;&#34;
+        days = val//86400
+        hours = (val - days*86400)//3600
+        minutes = (val - days*86400 - hours*3600)//60
+        seconds = val - days*86400 - hours*3600 - minutes*60
+        return reduce(
+            (lambda r, p: r+str(p[0])+p[1] if p[0] &gt; 0 else r),
+            [(days, &#34;d&#34;), (hours, &#34;h&#34;), (minutes, &#34;m&#34;), (seconds, &#34;s&#34;)], &#34;&#34;)
+
+    def toHR(self, v):
+        return self.toString(v)
+
+    def clean(self, v):
+        &#34;&#34;&#34;
+        support following formats:
+        - None, 0: means undefined date
+        - seconds = int
+        - 1 (seconds)
+        - 1s (seconds)
+        - 2m (minutes)
+        - 3h (hours)
+        - 4d (days)
+        - 1d4h2m3s (can also combine multiple, has to be from biggest to smallest and each unit has to be unique (e.g. cannot have 2 times hour specified))
+        will return seconds
+        &#34;&#34;&#34;
+        if v in [0, &#34;0&#34;, None, &#34;&#34;]:
+            return 0
+        if isinstance(v, str):
+            v = v.replace(&#34;&#39;&#34;, &#34;&#34;).replace(&#34;\&#34;&#34;, &#34;&#34;).strip()
+            if v.isdigit():
+                return int(v)  # shortcut for when string is an integer
+            parts = self._RE.match(v)
+            if parts is None:
+                raise ValueError(
+                    &#34;Could not parse any time information from &#39;{}&#39;.  Examples of valid strings: &#39;8h&#39;, &#39;2d8h5m20s&#39;, &#39;2m4s&#39;&#34;.format(v))
+            time_params = {name: float(
+                param) for name, param in parts.groupdict().items() if param}
+            return int(timedelta(**time_params).total_seconds())
+        elif isinstance(v, int):
+            return v
+        else:
+            raise ValueError(
+                &#34;Input needs to be string or int: {} ({})&#34;.format(v, type(v)))</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.Duration.NAME"><code class="name">var <span class="ident">NAME</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.Duration.check"><code class="name flex">
+<span>def <span class="ident">check</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Check whether provided value is a valid duration representation
+be carefull is SLOW</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def check(self, value):
+    &#39;&#39;&#39;
+    Check whether provided value is a valid duration representation
+    be carefull is SLOW
+    &#39;&#39;&#39;
+    try:
+        self.clean(value)
+        return True
+    except:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Duration.clean"><code class="name flex">
+<span>def <span class="ident">clean</span></span>(<span>self, v)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>support following formats:
+- None, 0: means undefined date
+- seconds = int
+- 1 (seconds)
+- 1s (seconds)
+- 2m (minutes)
+- 3h (hours)
+- 4d (days)
+- 1d4h2m3s (can also combine multiple, has to be from biggest to smallest and each unit has to be unique (e.g. cannot have 2 times hour specified))
+will return seconds</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def clean(self, v):
+    &#34;&#34;&#34;
+    support following formats:
+    - None, 0: means undefined date
+    - seconds = int
+    - 1 (seconds)
+    - 1s (seconds)
+    - 2m (minutes)
+    - 3h (hours)
+    - 4d (days)
+    - 1d4h2m3s (can also combine multiple, has to be from biggest to smallest and each unit has to be unique (e.g. cannot have 2 times hour specified))
+    will return seconds
+    &#34;&#34;&#34;
+    if v in [0, &#34;0&#34;, None, &#34;&#34;]:
+        return 0
+    if isinstance(v, str):
+        v = v.replace(&#34;&#39;&#34;, &#34;&#34;).replace(&#34;\&#34;&#34;, &#34;&#34;).strip()
+        if v.isdigit():
+            return int(v)  # shortcut for when string is an integer
+        parts = self._RE.match(v)
+        if parts is None:
+            raise ValueError(
+                &#34;Could not parse any time information from &#39;{}&#39;.  Examples of valid strings: &#39;8h&#39;, &#39;2d8h5m20s&#39;, &#39;2m4s&#39;&#34;.format(v))
+        time_params = {name: float(
+            param) for name, param in parts.groupdict().items() if param}
+        return int(timedelta(**time_params).total_seconds())
+    elif isinstance(v, int):
+        return v
+    else:
+        raise ValueError(
+            &#34;Input needs to be string or int: {} ({})&#34;.format(v, type(v)))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Duration.fromString"><code class="name flex">
+<span>def <span class="ident">fromString</span></span>(<span>self, txt)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def fromString(self, txt):
+    return self.clean(txt)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Duration.get_default"><code class="name flex">
+<span>def <span class="ident">get_default</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_default(self):
+    return 0</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Duration.python_code_get"><code class="name flex">
+<span>def <span class="ident">python_code_get</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>produce the python code which represents this value</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def python_code_get(self, value):
+    &#34;&#34;&#34;
+    produce the python code which represents this value
+    &#34;&#34;&#34;
+    return self.clean(value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Duration.toHR"><code class="name flex">
+<span>def <span class="ident">toHR</span></span>(<span>self, v)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def toHR(self, v):
+    return self.toString(v)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Duration.toString"><code class="name flex">
+<span>def <span class="ident">toString</span></span>(<span>self, val)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def toString(self, val):
+    val = self.clean(val)
+    if val == 0:
+        return &#34;&#34;
+    days = val//86400
+    hours = (val - days*86400)//3600
+    minutes = (val - days*86400 - hours*3600)//60
+    seconds = val - days*86400 - hours*3600 - minutes*60
+    return reduce(
+        (lambda r, p: r+str(p[0])+p[1] if p[0] &gt; 0 else r),
+        [(days, &#34;d&#34;), (hours, &#34;h&#34;), (minutes, &#34;m&#34;), (seconds, &#34;s&#34;)], &#34;&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.internal.jsutils.Encoder"><code class="flex name class">
+<span>class <span class="ident">Encoder</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Encoder(object):
+    @staticmethod
+    def get(encoding=&#39;ascii&#39;):
+        kls = BytesEncoder
+        kls.ENCODING = encoding
+        return kls</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.Encoder.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>encoding='ascii')</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@staticmethod
+def get(encoding=&#39;ascii&#39;):
+    kls = BytesEncoder
+    kls.ENCODING = encoding
+    return kls</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval"><code class="flex name class">
+<span>class <span class="ident">TimeInterval</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Enumerator for time interval units</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TimeInterval:
+    &#34;&#34;&#34; Enumerator for time interval units &#34;&#34;&#34;
+
+    NANOSECONDS = -3
+    MICROSECONDS = -2
+    MILLISECONDS = -1
+    SECONDS = 0
+    MINUTES = 1
+    HOURS = 2
+    DAYS = 3
+    WEEKS = 4
+    MONTHS = 5
+    YEARS = 6</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.TimeInterval.DAYS"><code class="name">var <span class="ident">DAYS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.HOURS"><code class="name">var <span class="ident">HOURS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.MICROSECONDS"><code class="name">var <span class="ident">MICROSECONDS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.MILLISECONDS"><code class="name">var <span class="ident">MILLISECONDS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.MINUTES"><code class="name">var <span class="ident">MINUTES</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.MONTHS"><code class="name">var <span class="ident">MONTHS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.NANOSECONDS"><code class="name">var <span class="ident">NANOSECONDS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.SECONDS"><code class="name">var <span class="ident">SECONDS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.WEEKS"><code class="name">var <span class="ident">WEEKS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.internal.jsutils.TimeInterval.YEARS"><code class="name">var <span class="ident">YEARS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_"><code class="flex name class">
+<span>class <span class="ident">Time_</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>generic provider of time functions</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Time_(object):
+    &#34;&#34;&#34;
+    generic provider of time functions
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        self.timeinterval = TimeInterval()
+
+    @property
+    def epoch(self):
+        &#34;&#34;&#34;
+        jstime.epoch
+        &#34;&#34;&#34;
+
+        return int(time.time())
+
+    def getTimeEpoch(self):
+        &#39;&#39;&#39;
+        Get epoch timestamp (number of seconds passed since January 1, 1970)
+        &#39;&#39;&#39;
+        timestamp = int(time.time())
+        return timestamp
+
+    def getSecondsInHR(self, seconds):
+        &#34;&#34;&#34;
+        jstime.getSecondsInHR(365)
+        &#34;&#34;&#34;
+        minute = 60.
+        hour = 3600.
+        day = hour * 24
+        week = day * 7
+        if seconds &lt; minute:
+            return &#34;%s seconds&#34; % seconds
+        elif seconds &lt; hour:
+            return &#34;%s minutes&#34; % round((seconds / minute), 1)
+        elif seconds &lt; day:
+            return &#34;%s hours&#34; % round((seconds / hour), 1)
+        elif seconds &lt; week:
+            return &#34;%s days&#34; % round((seconds / day), 1)
+        else:
+            return &#34;%s weeks&#34; % round((seconds / week), 1)
+
+    def getTimeEpochBin(self):
+        &#39;&#39;&#39;
+        Get epoch timestamp (number of seconds passed since January 1, 1970) in binary format of 4 bytes
+        &#39;&#39;&#39;
+        return struct.pack(&#34;&lt;I&#34;, self.getTimeEpoch())
+
+    def getLocalTimeHR(self):
+        &#39;&#39;&#39;
+        Get the current local date and time in a human-readable form
+
+        jstime.getLocalTimeHR()
+        &#39;&#39;&#39;
+        #timestamp = time.asctime(time.localtime(time.time()))
+        timestr = self.formatTime(self.getTimeEpoch())
+        return timestr
+
+    def getLocalTimeHRForFilesystem(self):
+        # TODO: check if correct implementation
+        return time.strftime(&#34;%d_%b_%Y_%H_%M_%S&#34;, time.gmtime())
+
+    def formatTime(self, epoch, formatstr=&#39;%Y/%m/%d %H:%M:%S&#39;, local=True):
+        &#39;&#39;&#39;
+        Returns a formatted time string representing the current time
+
+        See http://docs.python.org/lib/module-time.html#l2h-2826 for an
+        overview of available formatting options.
+
+        @param format: Format string
+        @type format: string
+
+        @returns: Formatted current time
+        @rtype: string
+        &#39;&#39;&#39;
+        epoch = float(epoch)
+        if local:
+            timetuple = time.localtime(epoch)
+        else:
+            timetuple = time.gmtime(epoch)
+        timestr = time.strftime(formatstr, timetuple)
+        return timestr
+
+    def epoch2HRDate(self, epoch, local=True):
+        return self.formatTime(epoch, &#39;%Y/%m/%d&#39;, local)
+
+    def epoch2HRDateTime(self, epoch, local=True):
+        return self.formatTime(epoch, &#39;%Y/%m/%d %H:%M:%S&#39;, local)
+
+    def pythonDateTime2HRDateTime(self, pythonDateTime, local=True):
+        if not isinstance(pythonDateTime, datetime.datetime):
+            raise ValueError(
+                &#34;needs to be python date.time obj:%s&#34; % pythonDateTime)
+        epoch = pythonDateTime.timestamp()
+        return self.epoch2HRDateTime(epoch)
+
+    def pythonDateTime2Epoch(self, pythonDateTime, local=True):
+        if not isinstance(pythonDateTime, datetime.datetime):
+            raise ValueError(
+                &#34;needs to be python date.time obj:%s&#34; % pythonDateTime)
+
+        epoch = pythonDateTime.timestamp()
+        return epoch
+
+    def epoch2pythonDateTime(self, epoch):
+        return datetime.datetime.fromtimestamp(epoch)
+
+    def epoch2ISODateTime(self, epoch):
+        dt = datetime.datetime.fromtimestamp(epoch)
+        return dt.isoformat()
+
+    def epoch2pythonDate(self, epoch):
+        return datetime.date.fromtimestamp(epoch)
+
+    def epoch2HRTime(self, epoch, local=True):
+        return self.formatTime(epoch, &#39;%H:%M:%S&#39;, local)
+
+    def getMinuteId(self, epoch=None):
+        &#34;&#34;&#34;
+        is # min from jan 1 2010
+        &#34;&#34;&#34;
+        if epoch is None:
+            epoch = time.time()
+        if epoch &lt; 1262318400.0:
+            raise RuntimeError(
+                &#34;epoch cannot be smaller than 1262318400, given epoch:%s&#34; % epoch)
+
+        return int((epoch - 1262318400.0) / 60.0)
+
+    def getHourId(self, epoch=None):
+        &#34;&#34;&#34;
+        is # hour from jan 1 2010
+        &#34;&#34;&#34;
+        return int(self.getMinuteId(epoch) / 60)
+
+    def fiveMinuteIdToEpoch(self, fiveMinuteId):
+        return fiveMinuteId * 60 * 5 + 1262318400
+
+    def get5MinuteId(self, epoch=None):
+        &#34;&#34;&#34;
+        is # 5 min from jan 1 2010
+        &#34;&#34;&#34;
+        return int(self.getMinuteId(epoch) / 5)
+
+    def getDayId(self, epoch=None):
+        &#34;&#34;&#34;
+        is # day from jan 1 2010
+        &#34;&#34;&#34;
+        return int(self.getMinuteId(epoch) / (60 * 24))
+
+    def getDeltaTime(self, txt):
+        &#34;&#34;&#34;
+        only supported now is -3m, -3d and -3h (ofcourse 3 can be any int)
+        and an int which would be just be returned
+        means 3 days ago 3 hours ago
+        if 0 or &#39;&#39; then is now
+        &#34;&#34;&#34;
+        txt = txt.strip()
+        unit = txt[-1]
+        if txt[-1] not in list(TIMES.keys()):
+            raise RuntimeError(
+                &#34;Cannot find time, needs to be in format have time indicator %s &#34; %
+                list(
+                    TIMES.keys()))
+        value = float(txt[:-1])
+        return int(value * TIMES[unit])
+
+    def getEpochDeltaTime(self, txt):
+        &#34;&#34;&#34;
+        only supported now is + and -3m, -3d and -3h  (ofcourse 3 can be any int)
+        and an int which would be just be returned
+        means 3 days ago 3 hours ago
+        if 0 or &#39;&#39; then is now
+
+        supported:
+
+            s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+
+        &#34;&#34;&#34;
+        if txt is None or str(txt).strip() == &#34;0&#34;:
+            return self.getTimeEpoch()
+        return self.getTimeEpoch() + self.getDeltaTime(txt)
+
+    def HRDateToEpoch(self, datestr, local=True):
+        &#34;&#34;&#34;
+        convert string date to epoch
+        Date needs to be formatted as 1988/06/16  (Y/m/d)
+        &#34;&#34;&#34;
+        if datestr.strip() == &#34;&#34;:
+            return 0
+        try:
+            datestr = datestr.strip()
+            return time.mktime(time.strptime(datestr, &#34;%Y/%m/%d&#34;))
+        except BaseException:
+            raise ValueError(
+                &#34;Date needs to be formatted as \&#34; 1988/06/16\&#34;, also check if date is valid, now format = %s&#34; %
+                datestr)
+
+    def HRDateTime2epoch(self, hrdatetime):
+        &#34;&#34;&#34;
+        convert string date/time to epoch
+        Needs to be formatted as 16/06/1988 %H:%M:%S
+        &#34;&#34;&#34;
+        if hrdatetime.strip() == &#34;&#34;:
+            return 0
+        try:
+            hrdatetime = hrdatetime.strip()
+            return int(
+                time.mktime(
+                    time.strptime(
+                        hrdatetime,
+                        &#34;%Y/%m/%d %H:%M:%S&#34;)))
+        except BaseException:
+            raise ValueError(
+                &#34;Date needs to be formatted as Needs to be formatted as 16/06/1988 %H:%M:%S, also check if date is valid, now format = {}&#34;.format(
+                hrdatetime))
+
+    def any2epoch(self, val, in_list=False):
+        &#34;&#34;&#34;
+        if list will go item by item until not empty,0 or None
+        if int is epoch
+        if string is human readable format
+        if date.time yeh ...
+        &#34;&#34;&#34;
+        if isinstance(val, list):
+            for item in val:
+                res = self.any2epoch(item, in_list=True)
+                if res != 0:
+                    return res
+            return 0
+        if val is None:
+            return 0
+        if isinstance(val, int)(val):
+            return val
+        if isinstance(val, str)(val):
+            try:
+                return self.HRDateTime2epoch(val)
+            except BaseException:
+                pass
+            try:
+                return self.HRDateToEpoch(val)
+            except BaseException:
+                pass
+        if isinstance(val, datetime.datetime):
+            return self.pythonDateTime2Epoch(val)
+        if not in_list:
+            raise ValueError(
+                &#34;Could not define format of time value, needs to be int, human readable time, list or python datetime obj.&#34;)
+        else:
+            return 0
+
+    def any2HRDateTime(self, val):
+        &#34;&#34;&#34;
+        if list will go item by item until not empty,0 or None
+        if int is epoch
+        if string is human readable format
+        if date.time yeh ...
+        &#34;&#34;&#34;
+        epoch = self.any2epoch(val)
+        return self.epoch2HRDateTime(epoch)
+
+    def test(self):
+        now = self.getTimeEpoch()
+        hr = self.epoch2HRDateTime(now)
+        assert self.HRDateTime2epoch(hr) == now
+        assert self.any2epoch(hr) == now
+        dt = self.epoch2pythonDateTime(now)
+        assert self.any2epoch(dt) == now
+        hr = self.pythonDateTime2HRDateTime(dt)
+        assert self.any2epoch(hr) == now
+        hr = self.any2HRDateTime(now)
+        assert self.any2epoch(hr) == now
+        hr = self.any2HRDateTime(hr)
+        assert self.any2epoch(hr) == now
+        hr = self.any2HRDateTime(dt)
+        assert self.any2epoch(hr) == now
+        hr = self.any2HRDateTime([&#34;&#34;, 0, dt])
+        assert self.any2epoch(hr) == now</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.Time_.epoch"><code class="name">var <span class="ident">epoch</span></code></dt>
+<dd>
+<section class="desc"><p>jstime.epoch</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def epoch(self):
+    &#34;&#34;&#34;
+    jstime.epoch
+    &#34;&#34;&#34;
+
+    return int(time.time())</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.internal.jsutils.Time_.HRDateTime2epoch"><code class="name flex">
+<span>def <span class="ident">HRDateTime2epoch</span></span>(<span>self, hrdatetime)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>convert string date/time to epoch
+Needs to be formatted as 16/06/1988 %H:%M:%S</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def HRDateTime2epoch(self, hrdatetime):
+    &#34;&#34;&#34;
+    convert string date/time to epoch
+    Needs to be formatted as 16/06/1988 %H:%M:%S
+    &#34;&#34;&#34;
+    if hrdatetime.strip() == &#34;&#34;:
+        return 0
+    try:
+        hrdatetime = hrdatetime.strip()
+        return int(
+            time.mktime(
+                time.strptime(
+                    hrdatetime,
+                    &#34;%Y/%m/%d %H:%M:%S&#34;)))
+    except BaseException:
+        raise ValueError(
+            &#34;Date needs to be formatted as Needs to be formatted as 16/06/1988 %H:%M:%S, also check if date is valid, now format = {}&#34;.format(
+            hrdatetime))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.HRDateToEpoch"><code class="name flex">
+<span>def <span class="ident">HRDateToEpoch</span></span>(<span>self, datestr, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>convert string date to epoch
+Date needs to be formatted as 1988/06/16
+(Y/m/d)</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def HRDateToEpoch(self, datestr, local=True):
+    &#34;&#34;&#34;
+    convert string date to epoch
+    Date needs to be formatted as 1988/06/16  (Y/m/d)
+    &#34;&#34;&#34;
+    if datestr.strip() == &#34;&#34;:
+        return 0
+    try:
+        datestr = datestr.strip()
+        return time.mktime(time.strptime(datestr, &#34;%Y/%m/%d&#34;))
+    except BaseException:
+        raise ValueError(
+            &#34;Date needs to be formatted as \&#34; 1988/06/16\&#34;, also check if date is valid, now format = %s&#34; %
+            datestr)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.any2HRDateTime"><code class="name flex">
+<span>def <span class="ident">any2HRDateTime</span></span>(<span>self, val)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>if list will go item by item until not empty,0 or None
+if int is epoch
+if string is human readable format
+if date.time yeh &hellip;</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def any2HRDateTime(self, val):
+    &#34;&#34;&#34;
+    if list will go item by item until not empty,0 or None
+    if int is epoch
+    if string is human readable format
+    if date.time yeh ...
+    &#34;&#34;&#34;
+    epoch = self.any2epoch(val)
+    return self.epoch2HRDateTime(epoch)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.any2epoch"><code class="name flex">
+<span>def <span class="ident">any2epoch</span></span>(<span>self, val, in_list=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>if list will go item by item until not empty,0 or None
+if int is epoch
+if string is human readable format
+if date.time yeh &hellip;</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def any2epoch(self, val, in_list=False):
+    &#34;&#34;&#34;
+    if list will go item by item until not empty,0 or None
+    if int is epoch
+    if string is human readable format
+    if date.time yeh ...
+    &#34;&#34;&#34;
+    if isinstance(val, list):
+        for item in val:
+            res = self.any2epoch(item, in_list=True)
+            if res != 0:
+                return res
+        return 0
+    if val is None:
+        return 0
+    if isinstance(val, int)(val):
+        return val
+    if isinstance(val, str)(val):
+        try:
+            return self.HRDateTime2epoch(val)
+        except BaseException:
+            pass
+        try:
+            return self.HRDateToEpoch(val)
+        except BaseException:
+            pass
+    if isinstance(val, datetime.datetime):
+        return self.pythonDateTime2Epoch(val)
+    if not in_list:
+        raise ValueError(
+            &#34;Could not define format of time value, needs to be int, human readable time, list or python datetime obj.&#34;)
+    else:
+        return 0</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.epoch2HRDate"><code class="name flex">
+<span>def <span class="ident">epoch2HRDate</span></span>(<span>self, epoch, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def epoch2HRDate(self, epoch, local=True):
+    return self.formatTime(epoch, &#39;%Y/%m/%d&#39;, local)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.epoch2HRDateTime"><code class="name flex">
+<span>def <span class="ident">epoch2HRDateTime</span></span>(<span>self, epoch, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def epoch2HRDateTime(self, epoch, local=True):
+    return self.formatTime(epoch, &#39;%Y/%m/%d %H:%M:%S&#39;, local)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.epoch2HRTime"><code class="name flex">
+<span>def <span class="ident">epoch2HRTime</span></span>(<span>self, epoch, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def epoch2HRTime(self, epoch, local=True):
+    return self.formatTime(epoch, &#39;%H:%M:%S&#39;, local)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.epoch2ISODateTime"><code class="name flex">
+<span>def <span class="ident">epoch2ISODateTime</span></span>(<span>self, epoch)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def epoch2ISODateTime(self, epoch):
+    dt = datetime.datetime.fromtimestamp(epoch)
+    return dt.isoformat()</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.epoch2pythonDate"><code class="name flex">
+<span>def <span class="ident">epoch2pythonDate</span></span>(<span>self, epoch)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def epoch2pythonDate(self, epoch):
+    return datetime.date.fromtimestamp(epoch)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.epoch2pythonDateTime"><code class="name flex">
+<span>def <span class="ident">epoch2pythonDateTime</span></span>(<span>self, epoch)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def epoch2pythonDateTime(self, epoch):
+    return datetime.datetime.fromtimestamp(epoch)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.fiveMinuteIdToEpoch"><code class="name flex">
+<span>def <span class="ident">fiveMinuteIdToEpoch</span></span>(<span>self, fiveMinuteId)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def fiveMinuteIdToEpoch(self, fiveMinuteId):
+    return fiveMinuteId * 60 * 5 + 1262318400</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.formatTime"><code class="name flex">
+<span>def <span class="ident">formatTime</span></span>(<span>self, epoch, formatstr='%Y/%m/%d %H:%M:%S', local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns a formatted time string representing the current time</p>
+<p>See <a href="http://docs.python.org/lib/module-time.html#l2h-2826">http://docs.python.org/lib/module-time.html#l2h-2826</a> for an
+overview of available formatting options.</p>
+<p>@param format: Format string
+@type format: string</p>
+<p>@returns: Formatted current time
+@rtype: string</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def formatTime(self, epoch, formatstr=&#39;%Y/%m/%d %H:%M:%S&#39;, local=True):
+    &#39;&#39;&#39;
+    Returns a formatted time string representing the current time
+
+    See http://docs.python.org/lib/module-time.html#l2h-2826 for an
+    overview of available formatting options.
+
+    @param format: Format string
+    @type format: string
+
+    @returns: Formatted current time
+    @rtype: string
+    &#39;&#39;&#39;
+    epoch = float(epoch)
+    if local:
+        timetuple = time.localtime(epoch)
+    else:
+        timetuple = time.gmtime(epoch)
+    timestr = time.strftime(formatstr, timetuple)
+    return timestr</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.get5MinuteId"><code class="name flex">
+<span>def <span class="ident">get5MinuteId</span></span>(<span>self, epoch=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>is # 5 min from jan 1 2010</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get5MinuteId(self, epoch=None):
+    &#34;&#34;&#34;
+    is # 5 min from jan 1 2010
+    &#34;&#34;&#34;
+    return int(self.getMinuteId(epoch) / 5)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getDayId"><code class="name flex">
+<span>def <span class="ident">getDayId</span></span>(<span>self, epoch=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>is # day from jan 1 2010</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getDayId(self, epoch=None):
+    &#34;&#34;&#34;
+    is # day from jan 1 2010
+    &#34;&#34;&#34;
+    return int(self.getMinuteId(epoch) / (60 * 24))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getDeltaTime"><code class="name flex">
+<span>def <span class="ident">getDeltaTime</span></span>(<span>self, txt)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>only supported now is -3m, -3d and -3h (ofcourse 3 can be any int)
+and an int which would be just be returned
+means 3 days ago 3 hours ago
+if 0 or '' then is now</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getDeltaTime(self, txt):
+    &#34;&#34;&#34;
+    only supported now is -3m, -3d and -3h (ofcourse 3 can be any int)
+    and an int which would be just be returned
+    means 3 days ago 3 hours ago
+    if 0 or &#39;&#39; then is now
+    &#34;&#34;&#34;
+    txt = txt.strip()
+    unit = txt[-1]
+    if txt[-1] not in list(TIMES.keys()):
+        raise RuntimeError(
+            &#34;Cannot find time, needs to be in format have time indicator %s &#34; %
+            list(
+                TIMES.keys()))
+    value = float(txt[:-1])
+    return int(value * TIMES[unit])</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getEpochDeltaTime"><code class="name flex">
+<span>def <span class="ident">getEpochDeltaTime</span></span>(<span>self, txt)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>only supported now is + and -3m, -3d and -3h
+(ofcourse 3 can be any int)
+and an int which would be just be returned
+means 3 days ago 3 hours ago
+if 0 or '' then is now</p>
+<p>supported:</p>
+<pre><code>s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+</code></pre></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getEpochDeltaTime(self, txt):
+    &#34;&#34;&#34;
+    only supported now is + and -3m, -3d and -3h  (ofcourse 3 can be any int)
+    and an int which would be just be returned
+    means 3 days ago 3 hours ago
+    if 0 or &#39;&#39; then is now
+
+    supported:
+
+        s (second) ,m (min) ,h (hour) ,d (day),w (week), M (month), Y (year)
+
+    &#34;&#34;&#34;
+    if txt is None or str(txt).strip() == &#34;0&#34;:
+        return self.getTimeEpoch()
+    return self.getTimeEpoch() + self.getDeltaTime(txt)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getHourId"><code class="name flex">
+<span>def <span class="ident">getHourId</span></span>(<span>self, epoch=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>is # hour from jan 1 2010</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getHourId(self, epoch=None):
+    &#34;&#34;&#34;
+    is # hour from jan 1 2010
+    &#34;&#34;&#34;
+    return int(self.getMinuteId(epoch) / 60)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getLocalTimeHR"><code class="name flex">
+<span>def <span class="ident">getLocalTimeHR</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get the current local date and time in a human-readable form</p>
+<p>jstime.getLocalTimeHR()</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getLocalTimeHR(self):
+    &#39;&#39;&#39;
+    Get the current local date and time in a human-readable form
+
+    jstime.getLocalTimeHR()
+    &#39;&#39;&#39;
+    #timestamp = time.asctime(time.localtime(time.time()))
+    timestr = self.formatTime(self.getTimeEpoch())
+    return timestr</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getLocalTimeHRForFilesystem"><code class="name flex">
+<span>def <span class="ident">getLocalTimeHRForFilesystem</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getLocalTimeHRForFilesystem(self):
+    # TODO: check if correct implementation
+    return time.strftime(&#34;%d_%b_%Y_%H_%M_%S&#34;, time.gmtime())</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getMinuteId"><code class="name flex">
+<span>def <span class="ident">getMinuteId</span></span>(<span>self, epoch=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>is # min from jan 1 2010</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getMinuteId(self, epoch=None):
+    &#34;&#34;&#34;
+    is # min from jan 1 2010
+    &#34;&#34;&#34;
+    if epoch is None:
+        epoch = time.time()
+    if epoch &lt; 1262318400.0:
+        raise RuntimeError(
+            &#34;epoch cannot be smaller than 1262318400, given epoch:%s&#34; % epoch)
+
+    return int((epoch - 1262318400.0) / 60.0)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getSecondsInHR"><code class="name flex">
+<span>def <span class="ident">getSecondsInHR</span></span>(<span>self, seconds)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>jstime.getSecondsInHR(365)</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getSecondsInHR(self, seconds):
+    &#34;&#34;&#34;
+    jstime.getSecondsInHR(365)
+    &#34;&#34;&#34;
+    minute = 60.
+    hour = 3600.
+    day = hour * 24
+    week = day * 7
+    if seconds &lt; minute:
+        return &#34;%s seconds&#34; % seconds
+    elif seconds &lt; hour:
+        return &#34;%s minutes&#34; % round((seconds / minute), 1)
+    elif seconds &lt; day:
+        return &#34;%s hours&#34; % round((seconds / hour), 1)
+    elif seconds &lt; week:
+        return &#34;%s days&#34; % round((seconds / day), 1)
+    else:
+        return &#34;%s weeks&#34; % round((seconds / week), 1)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getTimeEpoch"><code class="name flex">
+<span>def <span class="ident">getTimeEpoch</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get epoch timestamp (number of seconds passed since January 1, 1970)</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getTimeEpoch(self):
+    &#39;&#39;&#39;
+    Get epoch timestamp (number of seconds passed since January 1, 1970)
+    &#39;&#39;&#39;
+    timestamp = int(time.time())
+    return timestamp</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.getTimeEpochBin"><code class="name flex">
+<span>def <span class="ident">getTimeEpochBin</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get epoch timestamp (number of seconds passed since January 1, 1970) in binary format of 4 bytes</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def getTimeEpochBin(self):
+    &#39;&#39;&#39;
+    Get epoch timestamp (number of seconds passed since January 1, 1970) in binary format of 4 bytes
+    &#39;&#39;&#39;
+    return struct.pack(&#34;&lt;I&#34;, self.getTimeEpoch())</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.pythonDateTime2Epoch"><code class="name flex">
+<span>def <span class="ident">pythonDateTime2Epoch</span></span>(<span>self, pythonDateTime, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def pythonDateTime2Epoch(self, pythonDateTime, local=True):
+    if not isinstance(pythonDateTime, datetime.datetime):
+        raise ValueError(
+            &#34;needs to be python date.time obj:%s&#34; % pythonDateTime)
+
+    epoch = pythonDateTime.timestamp()
+    return epoch</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.pythonDateTime2HRDateTime"><code class="name flex">
+<span>def <span class="ident">pythonDateTime2HRDateTime</span></span>(<span>self, pythonDateTime, local=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def pythonDateTime2HRDateTime(self, pythonDateTime, local=True):
+    if not isinstance(pythonDateTime, datetime.datetime):
+        raise ValueError(
+            &#34;needs to be python date.time obj:%s&#34; % pythonDateTime)
+    epoch = pythonDateTime.timestamp()
+    return self.epoch2HRDateTime(epoch)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.internal.jsutils.Time_.test"><code class="name flex">
+<span>def <span class="ident">test</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def test(self):
+    now = self.getTimeEpoch()
+    hr = self.epoch2HRDateTime(now)
+    assert self.HRDateTime2epoch(hr) == now
+    assert self.any2epoch(hr) == now
+    dt = self.epoch2pythonDateTime(now)
+    assert self.any2epoch(dt) == now
+    hr = self.pythonDateTime2HRDateTime(dt)
+    assert self.any2epoch(hr) == now
+    hr = self.any2HRDateTime(now)
+    assert self.any2epoch(hr) == now
+    hr = self.any2HRDateTime(hr)
+    assert self.any2epoch(hr) == now
+    hr = self.any2HRDateTime(dt)
+    assert self.any2epoch(hr) == now
+    hr = self.any2HRDateTime([&#34;&#34;, 0, dt])
+    assert self.any2epoch(hr) == now</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.internal" href="index.html">tfchain.internal</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="tfchain.internal.jsutils.blake2" href="#tfchain.internal.jsutils.blake2">blake2</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.blake2_string" href="#tfchain.internal.jsutils.blake2_string">blake2_string</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.epoch2HRDateTime" href="#tfchain.internal.jsutils.epoch2HRDateTime">epoch2HRDateTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.generateRandomInt" href="#tfchain.internal.jsutils.generateRandomInt">generateRandomInt</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.generateXByteID" href="#tfchain.internal.jsutils.generateXByteID">generateXByteID</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.generateXCharID" href="#tfchain.internal.jsutils.generateXCharID">generateXCharID</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.getabstime" href="#tfchain.internal.jsutils.getabstime">getabstime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.json_dumps" href="#tfchain.internal.jsutils.json_dumps">json_dumps</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.json_loads" href="#tfchain.internal.jsutils.json_loads">json_loads</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.printdelta" href="#tfchain.internal.jsutils.printdelta">printdelta</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.internal.jsutils.BytesEncoder" href="#tfchain.internal.jsutils.BytesEncoder">BytesEncoder</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.internal.jsutils.BytesEncoder.ENCODING" href="#tfchain.internal.jsutils.BytesEncoder.ENCODING">ENCODING</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.BytesEncoder.default" href="#tfchain.internal.jsutils.BytesEncoder.default">default</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.internal.jsutils.Date" href="#tfchain.internal.jsutils.Date">Date</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.internal.jsutils.Date.NAME" href="#tfchain.internal.jsutils.Date.NAME">NAME</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Date.clean" href="#tfchain.internal.jsutils.Date.clean">clean</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Date.toString" href="#tfchain.internal.jsutils.Date.toString">toString</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.internal.jsutils.DateTime" href="#tfchain.internal.jsutils.DateTime">DateTime</a></code></h4>
+<ul class="two-column">
+<li><code><a title="tfchain.internal.jsutils.DateTime.NAME" href="#tfchain.internal.jsutils.DateTime.NAME">NAME</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.DateTime.capnp_schema_get" href="#tfchain.internal.jsutils.DateTime.capnp_schema_get">capnp_schema_get</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.DateTime.clean" href="#tfchain.internal.jsutils.DateTime.clean">clean</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.DateTime.default_get" href="#tfchain.internal.jsutils.DateTime.default_get">default_get</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.DateTime.fromString" href="#tfchain.internal.jsutils.DateTime.fromString">fromString</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.DateTime.test" href="#tfchain.internal.jsutils.DateTime.test">test</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.DateTime.toHR" href="#tfchain.internal.jsutils.DateTime.toHR">toHR</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.DateTime.toString" href="#tfchain.internal.jsutils.DateTime.toString">toString</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.internal.jsutils.Duration" href="#tfchain.internal.jsutils.Duration">Duration</a></code></h4>
+<ul class="two-column">
+<li><code><a title="tfchain.internal.jsutils.Duration.NAME" href="#tfchain.internal.jsutils.Duration.NAME">NAME</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Duration.check" href="#tfchain.internal.jsutils.Duration.check">check</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Duration.clean" href="#tfchain.internal.jsutils.Duration.clean">clean</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Duration.fromString" href="#tfchain.internal.jsutils.Duration.fromString">fromString</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Duration.get_default" href="#tfchain.internal.jsutils.Duration.get_default">get_default</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Duration.python_code_get" href="#tfchain.internal.jsutils.Duration.python_code_get">python_code_get</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Duration.toHR" href="#tfchain.internal.jsutils.Duration.toHR">toHR</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Duration.toString" href="#tfchain.internal.jsutils.Duration.toString">toString</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.internal.jsutils.Encoder" href="#tfchain.internal.jsutils.Encoder">Encoder</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.internal.jsutils.Encoder.get" href="#tfchain.internal.jsutils.Encoder.get">get</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.internal.jsutils.TimeInterval" href="#tfchain.internal.jsutils.TimeInterval">TimeInterval</a></code></h4>
+<ul class="two-column">
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.DAYS" href="#tfchain.internal.jsutils.TimeInterval.DAYS">DAYS</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.HOURS" href="#tfchain.internal.jsutils.TimeInterval.HOURS">HOURS</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.MICROSECONDS" href="#tfchain.internal.jsutils.TimeInterval.MICROSECONDS">MICROSECONDS</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.MILLISECONDS" href="#tfchain.internal.jsutils.TimeInterval.MILLISECONDS">MILLISECONDS</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.MINUTES" href="#tfchain.internal.jsutils.TimeInterval.MINUTES">MINUTES</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.MONTHS" href="#tfchain.internal.jsutils.TimeInterval.MONTHS">MONTHS</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.NANOSECONDS" href="#tfchain.internal.jsutils.TimeInterval.NANOSECONDS">NANOSECONDS</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.SECONDS" href="#tfchain.internal.jsutils.TimeInterval.SECONDS">SECONDS</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.WEEKS" href="#tfchain.internal.jsutils.TimeInterval.WEEKS">WEEKS</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.TimeInterval.YEARS" href="#tfchain.internal.jsutils.TimeInterval.YEARS">YEARS</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.internal.jsutils.Time_" href="#tfchain.internal.jsutils.Time_">Time_</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.internal.jsutils.Time_.HRDateTime2epoch" href="#tfchain.internal.jsutils.Time_.HRDateTime2epoch">HRDateTime2epoch</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.HRDateToEpoch" href="#tfchain.internal.jsutils.Time_.HRDateToEpoch">HRDateToEpoch</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.any2HRDateTime" href="#tfchain.internal.jsutils.Time_.any2HRDateTime">any2HRDateTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.any2epoch" href="#tfchain.internal.jsutils.Time_.any2epoch">any2epoch</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.epoch" href="#tfchain.internal.jsutils.Time_.epoch">epoch</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.epoch2HRDate" href="#tfchain.internal.jsutils.Time_.epoch2HRDate">epoch2HRDate</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.epoch2HRDateTime" href="#tfchain.internal.jsutils.Time_.epoch2HRDateTime">epoch2HRDateTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.epoch2HRTime" href="#tfchain.internal.jsutils.Time_.epoch2HRTime">epoch2HRTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.epoch2ISODateTime" href="#tfchain.internal.jsutils.Time_.epoch2ISODateTime">epoch2ISODateTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.epoch2pythonDate" href="#tfchain.internal.jsutils.Time_.epoch2pythonDate">epoch2pythonDate</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.epoch2pythonDateTime" href="#tfchain.internal.jsutils.Time_.epoch2pythonDateTime">epoch2pythonDateTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.fiveMinuteIdToEpoch" href="#tfchain.internal.jsutils.Time_.fiveMinuteIdToEpoch">fiveMinuteIdToEpoch</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.formatTime" href="#tfchain.internal.jsutils.Time_.formatTime">formatTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.get5MinuteId" href="#tfchain.internal.jsutils.Time_.get5MinuteId">get5MinuteId</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getDayId" href="#tfchain.internal.jsutils.Time_.getDayId">getDayId</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getDeltaTime" href="#tfchain.internal.jsutils.Time_.getDeltaTime">getDeltaTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getEpochDeltaTime" href="#tfchain.internal.jsutils.Time_.getEpochDeltaTime">getEpochDeltaTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getHourId" href="#tfchain.internal.jsutils.Time_.getHourId">getHourId</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getLocalTimeHR" href="#tfchain.internal.jsutils.Time_.getLocalTimeHR">getLocalTimeHR</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getLocalTimeHRForFilesystem" href="#tfchain.internal.jsutils.Time_.getLocalTimeHRForFilesystem">getLocalTimeHRForFilesystem</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getMinuteId" href="#tfchain.internal.jsutils.Time_.getMinuteId">getMinuteId</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getSecondsInHR" href="#tfchain.internal.jsutils.Time_.getSecondsInHR">getSecondsInHR</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getTimeEpoch" href="#tfchain.internal.jsutils.Time_.getTimeEpoch">getTimeEpoch</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.getTimeEpochBin" href="#tfchain.internal.jsutils.Time_.getTimeEpochBin">getTimeEpochBin</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.pythonDateTime2Epoch" href="#tfchain.internal.jsutils.Time_.pythonDateTime2Epoch">pythonDateTime2Epoch</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.pythonDateTime2HRDateTime" href="#tfchain.internal.jsutils.Time_.pythonDateTime2HRDateTime">pythonDateTime2HRDateTime</a></code></li>
+<li><code><a title="tfchain.internal.jsutils.Time_.test" href="#tfchain.internal.jsutils.Time_.test">test</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

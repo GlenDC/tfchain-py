@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.encoders.rivine API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.encoders.rivine</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">from tfchain.encoders.exceptions import IntegerOutOfRange, SliceLengthOutOfRange
+
+_INT_1BYTE_UPPERLIMIT = pow(2, 8) - 1
+_INT_2BYTE_UPPERLIMIT = pow(2, 16) - 1
+_INT_3BYTE_UPPERLIMIT = pow(2, 24) - 1
+_INT_4BYTE_UPPERLIMIT = pow(2, 32) - 1
+_INT_8BYTE_UPPERLIMIT = pow(2, 64) - 1
+
+from abc import ABC, abstractmethod
+
+
+class RivineBinaryObjectEncoderBase(ABC):
+    @abstractmethod
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        rivine_binary_encode encodes this object as a byte-slice,
+        using the primitive encoding functions provided by the RivineBinaryEncoder module,
+        resulting in a custom and/or complex byteslice,
+        encoded according to the rivbin encoding specification.
+        &#34;&#34;&#34;
+        pass
+
+
+class RivineBinaryEncoder:
+    &#34;&#34;&#34;
+    Module implementing the rivbin binary encoding,
+    for the purposes of creating signatures only.
+
+    Decoding of rivbin-encoded data is not supported,
+    and is out of scope for the rivine binary encoder Module.
+
+    official specification can be found at
+    https://github.com/threefoldtech/rivine/blob/7c87733e250d0e195c87119208fe7ba15e762e4b/doc/encoding/RivineEncoding.md
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        self._data = bytearray()
+
+    @property
+    def data(self):
+        return self._data
+
+    def reset(self):
+        self._data = bytearray()
+
+    def add(self, value):
+        &#34;&#34;&#34;
+        Add a value, after encoding it as specified by the rivbin encoding specification,
+        automatically matching the value&#39;s type with a matching rivbin type.
+
+        Use a specific encoding function if you want to make sure you
+        encode in a specific way.
+
+        NOTE: an integer will always be encoded as an 64-bit integer,
+              use a specific add_intx method if this is not desireable.
+
+        @param value: the value to be rivbin-encoded
+        &#34;&#34;&#34;
+
+        # if the value implements the RivineBinaryObjectEncoderBase class,
+        # we ignore the underlying type and use the custom-defined logic
+        # as provided by the RivineBinaryObjectEncoder.
+        if isinstance(value, RivineBinaryObjectEncoderBase):
+            value.rivine_binary_encode(encoder=self)
+            return
+
+        # try to rivbin-encode the value based on its python type
+        if isinstance(value, bool):
+            if value:
+                self._data += bytearray([1])
+            else:
+                self._data += bytearray([0])
+        elif isinstance(value, int) or hasattr(value, &#39;__int__&#39;):
+            self.add_int64(value)
+        else:
+            # try to rivbin-encode the value as a slice
+            te = None
+            try:
+                self.add_slice(value)
+                return
+            except TypeError as e:
+                te = e
+            raise ValueError(
+                &#34;cannot rivbin-encode value with unsupported type {}: {}&#34;.format(type(value), te))
+
+    def _check_int_type(self, value, limit):
+        if not isinstance(value, int) and not hasattr(value, &#39;__int__&#39;):
+            raise TypeError(&#34;value is not an integer&#34;)
+        ivalue = int(value)
+        if ivalue &lt; 0:
+            raise IntegerOutOfRange(
+                &#34;integer {} is out of lower range of 0&#34;.format(ivalue))
+        if ivalue &gt; limit:
+            raise IntegerOutOfRange(
+                &#34;integer {} is out of upper range of {}&#34;.format(ivalue, limit))
+
+    def add_int8(self, value):
+        &#34;&#34;&#34;
+        Encode an uin8/int8 as a single byte, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in a single byte
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_1BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(1, byteorder=&#39;little&#39;)
+
+    def add_int16(self, value):
+        &#34;&#34;&#34;
+        Encode an uin16/int16 as two bytes, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in two bytes
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_2BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(2, byteorder=&#39;little&#39;)
+
+    def add_int24(self, value):
+        &#34;&#34;&#34;
+        Encode an uin24/int24 as three bytes, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in three bytes
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_3BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(3, byteorder=&#39;little&#39;)
+
+    def add_int32(self, value):
+        &#34;&#34;&#34;
+        Encode an uin32/int32 as four bytes, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in four bytes
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_4BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(4, byteorder=&#39;little&#39;)
+
+    def add_int64(self, value):
+        &#34;&#34;&#34;
+        Encode an uint64/int64 as three bytes, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in eight bytes
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_8BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(8, byteorder=&#39;little&#39;)
+
+    def add_array(self, value):
+        &#34;&#34;&#34;
+        Encode an iterateble value as an array,
+        as specified by the rivbin encoding specification.
+
+        @param value: the iterateble object to be rivbin-encoded as an array
+        &#34;&#34;&#34;
+        if isinstance(value, str):
+            self._data += value.encode(&#39;utf-8&#39;)
+        elif isinstance(value, (bytes, bytearray)):
+            self._data += value
+        else:
+            try:
+                for element in value:
+                    self.add(element)
+            except TypeError as e:
+                raise TypeError(&#34;value cannot be encoded as an array: {}&#34;, e)
+
+    def add_slice(self, value):
+        &#34;&#34;&#34;
+        Encode an iterateble value as a slice,
+        as specified by the rivbin encoding specification.
+
+        @param value: the iterateble object to be rivbin-encoded as a slice
+        &#34;&#34;&#34;
+        if isinstance(value, str):
+            self._add_slice_length(len(value))
+            self._data += value.encode(&#39;utf-8&#39;)
+        elif isinstance(value, (bytes, bytearray)):
+            self._add_slice_length(len(value))
+            self._data += value
+        else:
+            length = 0
+            for _ in value:
+                length += 1
+            self._add_slice_length(length)
+            self.add_array(value)
+
+    def _add_slice_length(self, length):
+        &#34;&#34;&#34;
+        Encodes the length of the slice
+        &#34;&#34;&#34;
+        if length &lt; pow(2, 7):
+            self.add_int8(length &lt;&lt; 1)
+        elif length &lt; pow(2, 14):
+            self.add_int16(1 | length &lt;&lt; 2)
+        elif length &lt; pow(2, 21):
+            self.add_int24(3 | length &lt;&lt; 3)
+        elif length &lt; pow(2, 29):
+            self.add_int32(7 | length &lt;&lt; 3)
+        else:
+            raise SliceLengthOutOfRange(
+                &#34;slice length {} is out of range&#34;.format(length))
+
+    def add_byte(self, value):
+        &#34;&#34;&#34;
+        Add an encoded iterateble value as a single byte.
+
+        @param value: the value to be added as a single byte
+        &#34;&#34;&#34;
+        if isinstance(value, int) or hasattr(value, &#39;__int__&#39;):
+            self.add_int8(int(value))
+        else:
+            if isinstance(value, str):
+                value = value.encode(&#39;utf-8&#39;)
+            elif not isinstance(value, (bytes, bytearray)):
+                raise ValueError(
+                    &#34;value of type {} cannot be added as a single byte&#34;.format(type(value)))
+            if len(value) != 1:
+                raise ValueError(
+                    &#34;a single byte has to be accepted, amount of bytes given: {}&#34;.format(len(value)))
+            self._data += value
+
+    def add_all(self, *values):
+        &#34;&#34;&#34;
+        Encode values, one by one, as specified by the rivbin encoding specification,
+        automatically matching each value&#39;s type with a matching rivbin type.
+
+        Each value is encoded one after another within a single bytearray.
+
+        @param values: the values to be rivbin-encoded
+        &#34;&#34;&#34;
+        for value in values:
+            self.add(value)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder"><code class="flex name class">
+<span>class <span class="ident">RivineBinaryEncoder</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Module implementing the rivbin binary encoding,
+for the purposes of creating signatures only.</p>
+<p>Decoding of rivbin-encoded data is not supported,
+and is out of scope for the rivine binary encoder Module.</p>
+<p>official specification can be found at
+<a href="https://github.com/threefoldtech/rivine/blob/7c87733e250d0e195c87119208fe7ba15e762e4b/doc/encoding/RivineEncoding.md">https://github.com/threefoldtech/rivine/blob/7c87733e250d0e195c87119208fe7ba15e762e4b/doc/encoding/RivineEncoding.md</a></p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class RivineBinaryEncoder:
+    &#34;&#34;&#34;
+    Module implementing the rivbin binary encoding,
+    for the purposes of creating signatures only.
+
+    Decoding of rivbin-encoded data is not supported,
+    and is out of scope for the rivine binary encoder Module.
+
+    official specification can be found at
+    https://github.com/threefoldtech/rivine/blob/7c87733e250d0e195c87119208fe7ba15e762e4b/doc/encoding/RivineEncoding.md
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        self._data = bytearray()
+
+    @property
+    def data(self):
+        return self._data
+
+    def reset(self):
+        self._data = bytearray()
+
+    def add(self, value):
+        &#34;&#34;&#34;
+        Add a value, after encoding it as specified by the rivbin encoding specification,
+        automatically matching the value&#39;s type with a matching rivbin type.
+
+        Use a specific encoding function if you want to make sure you
+        encode in a specific way.
+
+        NOTE: an integer will always be encoded as an 64-bit integer,
+              use a specific add_intx method if this is not desireable.
+
+        @param value: the value to be rivbin-encoded
+        &#34;&#34;&#34;
+
+        # if the value implements the RivineBinaryObjectEncoderBase class,
+        # we ignore the underlying type and use the custom-defined logic
+        # as provided by the RivineBinaryObjectEncoder.
+        if isinstance(value, RivineBinaryObjectEncoderBase):
+            value.rivine_binary_encode(encoder=self)
+            return
+
+        # try to rivbin-encode the value based on its python type
+        if isinstance(value, bool):
+            if value:
+                self._data += bytearray([1])
+            else:
+                self._data += bytearray([0])
+        elif isinstance(value, int) or hasattr(value, &#39;__int__&#39;):
+            self.add_int64(value)
+        else:
+            # try to rivbin-encode the value as a slice
+            te = None
+            try:
+                self.add_slice(value)
+                return
+            except TypeError as e:
+                te = e
+            raise ValueError(
+                &#34;cannot rivbin-encode value with unsupported type {}: {}&#34;.format(type(value), te))
+
+    def _check_int_type(self, value, limit):
+        if not isinstance(value, int) and not hasattr(value, &#39;__int__&#39;):
+            raise TypeError(&#34;value is not an integer&#34;)
+        ivalue = int(value)
+        if ivalue &lt; 0:
+            raise IntegerOutOfRange(
+                &#34;integer {} is out of lower range of 0&#34;.format(ivalue))
+        if ivalue &gt; limit:
+            raise IntegerOutOfRange(
+                &#34;integer {} is out of upper range of {}&#34;.format(ivalue, limit))
+
+    def add_int8(self, value):
+        &#34;&#34;&#34;
+        Encode an uin8/int8 as a single byte, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in a single byte
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_1BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(1, byteorder=&#39;little&#39;)
+
+    def add_int16(self, value):
+        &#34;&#34;&#34;
+        Encode an uin16/int16 as two bytes, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in two bytes
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_2BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(2, byteorder=&#39;little&#39;)
+
+    def add_int24(self, value):
+        &#34;&#34;&#34;
+        Encode an uin24/int24 as three bytes, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in three bytes
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_3BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(3, byteorder=&#39;little&#39;)
+
+    def add_int32(self, value):
+        &#34;&#34;&#34;
+        Encode an uin32/int32 as four bytes, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in four bytes
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_4BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(4, byteorder=&#39;little&#39;)
+
+    def add_int64(self, value):
+        &#34;&#34;&#34;
+        Encode an uint64/int64 as three bytes, using little-endianness,
+        as specified by the rivbin encoding specification.
+
+        @param value: int value that fits in eight bytes
+        &#34;&#34;&#34;
+        self._check_int_type(value, _INT_8BYTE_UPPERLIMIT)
+        self._data += int(value).to_bytes(8, byteorder=&#39;little&#39;)
+
+    def add_array(self, value):
+        &#34;&#34;&#34;
+        Encode an iterateble value as an array,
+        as specified by the rivbin encoding specification.
+
+        @param value: the iterateble object to be rivbin-encoded as an array
+        &#34;&#34;&#34;
+        if isinstance(value, str):
+            self._data += value.encode(&#39;utf-8&#39;)
+        elif isinstance(value, (bytes, bytearray)):
+            self._data += value
+        else:
+            try:
+                for element in value:
+                    self.add(element)
+            except TypeError as e:
+                raise TypeError(&#34;value cannot be encoded as an array: {}&#34;, e)
+
+    def add_slice(self, value):
+        &#34;&#34;&#34;
+        Encode an iterateble value as a slice,
+        as specified by the rivbin encoding specification.
+
+        @param value: the iterateble object to be rivbin-encoded as a slice
+        &#34;&#34;&#34;
+        if isinstance(value, str):
+            self._add_slice_length(len(value))
+            self._data += value.encode(&#39;utf-8&#39;)
+        elif isinstance(value, (bytes, bytearray)):
+            self._add_slice_length(len(value))
+            self._data += value
+        else:
+            length = 0
+            for _ in value:
+                length += 1
+            self._add_slice_length(length)
+            self.add_array(value)
+
+    def _add_slice_length(self, length):
+        &#34;&#34;&#34;
+        Encodes the length of the slice
+        &#34;&#34;&#34;
+        if length &lt; pow(2, 7):
+            self.add_int8(length &lt;&lt; 1)
+        elif length &lt; pow(2, 14):
+            self.add_int16(1 | length &lt;&lt; 2)
+        elif length &lt; pow(2, 21):
+            self.add_int24(3 | length &lt;&lt; 3)
+        elif length &lt; pow(2, 29):
+            self.add_int32(7 | length &lt;&lt; 3)
+        else:
+            raise SliceLengthOutOfRange(
+                &#34;slice length {} is out of range&#34;.format(length))
+
+    def add_byte(self, value):
+        &#34;&#34;&#34;
+        Add an encoded iterateble value as a single byte.
+
+        @param value: the value to be added as a single byte
+        &#34;&#34;&#34;
+        if isinstance(value, int) or hasattr(value, &#39;__int__&#39;):
+            self.add_int8(int(value))
+        else:
+            if isinstance(value, str):
+                value = value.encode(&#39;utf-8&#39;)
+            elif not isinstance(value, (bytes, bytearray)):
+                raise ValueError(
+                    &#34;value of type {} cannot be added as a single byte&#34;.format(type(value)))
+            if len(value) != 1:
+                raise ValueError(
+                    &#34;a single byte has to be accepted, amount of bytes given: {}&#34;.format(len(value)))
+            self._data += value
+
+    def add_all(self, *values):
+        &#34;&#34;&#34;
+        Encode values, one by one, as specified by the rivbin encoding specification,
+        automatically matching each value&#39;s type with a matching rivbin type.
+
+        Each value is encoded one after another within a single bytearray.
+
+        @param values: the values to be rivbin-encoded
+        &#34;&#34;&#34;
+        for value in values:
+            self.add(value)</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.data"><code class="name">var <span class="ident">data</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def data(self):
+    return self._data</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add"><code class="name flex">
+<span>def <span class="ident">add</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a value, after encoding it as specified by the rivbin encoding specification,
+automatically matching the value's type with a matching rivbin type.</p>
+<p>Use a specific encoding function if you want to make sure you
+encode in a specific way.</p>
+<p>NOTE: an integer will always be encoded as an 64-bit integer,
+use a specific add_intx method if this is not desireable.</p>
+<p>@param value: the value to be rivbin-encoded</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add(self, value):
+    &#34;&#34;&#34;
+    Add a value, after encoding it as specified by the rivbin encoding specification,
+    automatically matching the value&#39;s type with a matching rivbin type.
+
+    Use a specific encoding function if you want to make sure you
+    encode in a specific way.
+
+    NOTE: an integer will always be encoded as an 64-bit integer,
+          use a specific add_intx method if this is not desireable.
+
+    @param value: the value to be rivbin-encoded
+    &#34;&#34;&#34;
+
+    # if the value implements the RivineBinaryObjectEncoderBase class,
+    # we ignore the underlying type and use the custom-defined logic
+    # as provided by the RivineBinaryObjectEncoder.
+    if isinstance(value, RivineBinaryObjectEncoderBase):
+        value.rivine_binary_encode(encoder=self)
+        return
+
+    # try to rivbin-encode the value based on its python type
+    if isinstance(value, bool):
+        if value:
+            self._data += bytearray([1])
+        else:
+            self._data += bytearray([0])
+    elif isinstance(value, int) or hasattr(value, &#39;__int__&#39;):
+        self.add_int64(value)
+    else:
+        # try to rivbin-encode the value as a slice
+        te = None
+        try:
+            self.add_slice(value)
+            return
+        except TypeError as e:
+            te = e
+        raise ValueError(
+            &#34;cannot rivbin-encode value with unsupported type {}: {}&#34;.format(type(value), te))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_all"><code class="name flex">
+<span>def <span class="ident">add_all</span></span>(<span>self, *values)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode values, one by one, as specified by the rivbin encoding specification,
+automatically matching each value's type with a matching rivbin type.</p>
+<p>Each value is encoded one after another within a single bytearray.</p>
+<p>@param values: the values to be rivbin-encoded</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_all(self, *values):
+    &#34;&#34;&#34;
+    Encode values, one by one, as specified by the rivbin encoding specification,
+    automatically matching each value&#39;s type with a matching rivbin type.
+
+    Each value is encoded one after another within a single bytearray.
+
+    @param values: the values to be rivbin-encoded
+    &#34;&#34;&#34;
+    for value in values:
+        self.add(value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_array"><code class="name flex">
+<span>def <span class="ident">add_array</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode an iterateble value as an array,
+as specified by the rivbin encoding specification.</p>
+<p>@param value: the iterateble object to be rivbin-encoded as an array</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_array(self, value):
+    &#34;&#34;&#34;
+    Encode an iterateble value as an array,
+    as specified by the rivbin encoding specification.
+
+    @param value: the iterateble object to be rivbin-encoded as an array
+    &#34;&#34;&#34;
+    if isinstance(value, str):
+        self._data += value.encode(&#39;utf-8&#39;)
+    elif isinstance(value, (bytes, bytearray)):
+        self._data += value
+    else:
+        try:
+            for element in value:
+                self.add(element)
+        except TypeError as e:
+            raise TypeError(&#34;value cannot be encoded as an array: {}&#34;, e)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_byte"><code class="name flex">
+<span>def <span class="ident">add_byte</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add an encoded iterateble value as a single byte.</p>
+<p>@param value: the value to be added as a single byte</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_byte(self, value):
+    &#34;&#34;&#34;
+    Add an encoded iterateble value as a single byte.
+
+    @param value: the value to be added as a single byte
+    &#34;&#34;&#34;
+    if isinstance(value, int) or hasattr(value, &#39;__int__&#39;):
+        self.add_int8(int(value))
+    else:
+        if isinstance(value, str):
+            value = value.encode(&#39;utf-8&#39;)
+        elif not isinstance(value, (bytes, bytearray)):
+            raise ValueError(
+                &#34;value of type {} cannot be added as a single byte&#34;.format(type(value)))
+        if len(value) != 1:
+            raise ValueError(
+                &#34;a single byte has to be accepted, amount of bytes given: {}&#34;.format(len(value)))
+        self._data += value</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_int16"><code class="name flex">
+<span>def <span class="ident">add_int16</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode an uin16/int16 as two bytes, using little-endianness,
+as specified by the rivbin encoding specification.</p>
+<p>@param value: int value that fits in two bytes</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_int16(self, value):
+    &#34;&#34;&#34;
+    Encode an uin16/int16 as two bytes, using little-endianness,
+    as specified by the rivbin encoding specification.
+
+    @param value: int value that fits in two bytes
+    &#34;&#34;&#34;
+    self._check_int_type(value, _INT_2BYTE_UPPERLIMIT)
+    self._data += int(value).to_bytes(2, byteorder=&#39;little&#39;)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_int24"><code class="name flex">
+<span>def <span class="ident">add_int24</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode an uin24/int24 as three bytes, using little-endianness,
+as specified by the rivbin encoding specification.</p>
+<p>@param value: int value that fits in three bytes</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_int24(self, value):
+    &#34;&#34;&#34;
+    Encode an uin24/int24 as three bytes, using little-endianness,
+    as specified by the rivbin encoding specification.
+
+    @param value: int value that fits in three bytes
+    &#34;&#34;&#34;
+    self._check_int_type(value, _INT_3BYTE_UPPERLIMIT)
+    self._data += int(value).to_bytes(3, byteorder=&#39;little&#39;)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_int32"><code class="name flex">
+<span>def <span class="ident">add_int32</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode an uin32/int32 as four bytes, using little-endianness,
+as specified by the rivbin encoding specification.</p>
+<p>@param value: int value that fits in four bytes</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_int32(self, value):
+    &#34;&#34;&#34;
+    Encode an uin32/int32 as four bytes, using little-endianness,
+    as specified by the rivbin encoding specification.
+
+    @param value: int value that fits in four bytes
+    &#34;&#34;&#34;
+    self._check_int_type(value, _INT_4BYTE_UPPERLIMIT)
+    self._data += int(value).to_bytes(4, byteorder=&#39;little&#39;)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_int64"><code class="name flex">
+<span>def <span class="ident">add_int64</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode an uint64/int64 as three bytes, using little-endianness,
+as specified by the rivbin encoding specification.</p>
+<p>@param value: int value that fits in eight bytes</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_int64(self, value):
+    &#34;&#34;&#34;
+    Encode an uint64/int64 as three bytes, using little-endianness,
+    as specified by the rivbin encoding specification.
+
+    @param value: int value that fits in eight bytes
+    &#34;&#34;&#34;
+    self._check_int_type(value, _INT_8BYTE_UPPERLIMIT)
+    self._data += int(value).to_bytes(8, byteorder=&#39;little&#39;)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_int8"><code class="name flex">
+<span>def <span class="ident">add_int8</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode an uin8/int8 as a single byte, using little-endianness,
+as specified by the rivbin encoding specification.</p>
+<p>@param value: int value that fits in a single byte</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_int8(self, value):
+    &#34;&#34;&#34;
+    Encode an uin8/int8 as a single byte, using little-endianness,
+    as specified by the rivbin encoding specification.
+
+    @param value: int value that fits in a single byte
+    &#34;&#34;&#34;
+    self._check_int_type(value, _INT_1BYTE_UPPERLIMIT)
+    self._data += int(value).to_bytes(1, byteorder=&#39;little&#39;)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.add_slice"><code class="name flex">
+<span>def <span class="ident">add_slice</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode an iterateble value as a slice,
+as specified by the rivbin encoding specification.</p>
+<p>@param value: the iterateble object to be rivbin-encoded as a slice</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_slice(self, value):
+    &#34;&#34;&#34;
+    Encode an iterateble value as a slice,
+    as specified by the rivbin encoding specification.
+
+    @param value: the iterateble object to be rivbin-encoded as a slice
+    &#34;&#34;&#34;
+    if isinstance(value, str):
+        self._add_slice_length(len(value))
+        self._data += value.encode(&#39;utf-8&#39;)
+    elif isinstance(value, (bytes, bytearray)):
+        self._add_slice_length(len(value))
+        self._data += value
+    else:
+        length = 0
+        for _ in value:
+            length += 1
+        self._add_slice_length(length)
+        self.add_array(value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryEncoder.reset"><code class="name flex">
+<span>def <span class="ident">reset</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def reset(self):
+    self._data = bytearray()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase"><code class="flex name class">
+<span>class <span class="ident">RivineBinaryObjectEncoderBase</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class RivineBinaryObjectEncoderBase(ABC):
+    @abstractmethod
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        rivine_binary_encode encodes this object as a byte-slice,
+        using the primitive encoding functions provided by the RivineBinaryEncoder module,
+        resulting in a custom and/or complex byteslice,
+        encoded according to the rivbin encoding specification.
+        &#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="../types/BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData" href="../types/transactions/ThreeBot.html#tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData">BotMonthsAndFlagsData</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>rivine_binary_encode encodes this object as a byte-slice,
+using the primitive encoding functions provided by the RivineBinaryEncoder module,
+resulting in a custom and/or complex byteslice,
+encoded according to the rivbin encoding specification.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    rivine_binary_encode encodes this object as a byte-slice,
+    using the primitive encoding functions provided by the RivineBinaryEncoder module,
+    resulting in a custom and/or complex byteslice,
+    encoded according to the rivbin encoding specification.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.encoders" href="index.html">tfchain.encoders</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder" href="#tfchain.encoders.rivine.RivineBinaryEncoder">RivineBinaryEncoder</a></code></h4>
+<ul class="two-column">
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add">add</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_all" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_all">add_all</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_array" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_array">add_array</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_byte" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_byte">add_byte</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_int16" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_int16">add_int16</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_int24" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_int24">add_int24</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_int32" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_int32">add_int32</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_int64" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_int64">add_int64</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_int8" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_int8">add_int8</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.add_slice" href="#tfchain.encoders.rivine.RivineBinaryEncoder.add_slice">add_slice</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.data" href="#tfchain.encoders.rivine.RivineBinaryEncoder.data">data</a></code></li>
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryEncoder.reset" href="#tfchain.encoders.rivine.RivineBinaryEncoder.reset">reset</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase.rivine_binary_encode" href="#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase.rivine_binary_encode">rivine_binary_encode</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

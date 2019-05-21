@@ -1,0 +1,3698 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.types.transactions.ThreeBot API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.types.transactions.ThreeBot</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">from tfchain.types.transactions.Base import TransactionBaseClass, TransactionVersion, InputSignatureHashFactory
+
+from tfchain.types.FulfillmentTypes import ED25519Signature, SignatureCallbackBase, SignatureRequest
+from tfchain.types.ConditionTypes import ConditionBaseClass, ConditionNil
+from tfchain.types.ThreeBot import NetworkAddress, BotName
+from tfchain.types.PrimitiveTypes import BinaryData, Currency
+from tfchain.types.CryptoTypes import PublicKey
+from tfchain.types.IO import CoinInput, CoinOutput
+from abc import abstractmethod
+
+from tfchain.encoders import BaseRivineObjectEncoder, BaseSiaObjectEncoder
+from tfchain.encoders import encoder_sia_get, encoder_rivine_get
+
+
+class BotTransactionBaseClass(TransactionBaseClass, SignatureCallbackBase):
+    BOT_FEE_NETWORK_ADDRESS_UPDATE = Currency(value=&#39;20 TFT&#39;)
+    BOT_FEE_ADDITIONAL_NAME = Currency(value=&#39;50 TFT&#39;)
+    BOT_FEE_REGISTRATION = Currency(value=&#39;90 TFT&#39;)
+    BOT_FEE_MONTHLY = Currency(value=&#39;10 TFT&#39;)
+
+    MAX_NAMES_PER_BOT = 5
+    MAX_ADDRESSES_PER_BOT = 10
+
+    SPECIFIER_SENDER = BinaryData(value=b&#39;sender&#39;, fixed_size=0)
+    SPECIFIER_RECEIVER = BinaryData(value=b&#39;receiver&#39;, fixed_size=0)
+
+    @staticmethod
+    def compute_monthly_bot_fees(months):
+        &#34;&#34;&#34;
+        computes the total monthly fees required for the given months,
+        using the given oneCoin value as the currency&#39;s unit value.
+        &#34;&#34;&#34;
+        fees = BotTransactionBaseClass.BOT_FEE_MONTHLY * months
+        if months &lt; 12:
+            return fees
+        if months &lt; 24:
+            return fees * 0.7
+        return fees * 0.5
+
+    @property
+    @abstractmethod
+    def required_bot_fees(self):
+        &#34;&#34;&#34;
+        The bot fees required to pay for this Bot Transaction.
+        &#34;&#34;&#34;
+        pass
+
+class BotMonthsAndFlagsData(BaseSiaObjectEncoder, BaseRivineObjectEncoder):
+    def __init__(self, number_of_months, has_addresses, has_names, has_refund):
+        if not isinstance(number_of_months, int) or number_of_months &lt; 0 or number_of_months &gt; 24:
+            raise TypeError(&#34;{} ({}) is not a valid number of months, has to be a integer in the [0,24] range&#34;.format(number_of_months, type(number_of_months)))
+        self._number_of_months = number_of_months
+        if not isinstance(has_addresses, bool):
+            raise TypeError(&#34;has_addresses has to be a bool, not {}&#34;.format(type(has_addresses)))
+        self._has_addresses = has_addresses
+        if not isinstance(has_names, bool):
+            raise TypeError(&#34;has_names has to be a bool, not {}&#34;.format(type(has_names)))
+        self._has_names = has_names
+        if not isinstance(has_refund, bool):
+            raise TypeError(&#34;has_refund has to be a bool, not {}&#34;.format(type(has_refund)))
+        self._has_refund = has_refund
+
+    @property
+    def number_of_months(self):
+        return self._number_of_months
+
+    @property
+    def has_addresses(self):
+        return self._has_addresses
+
+    @property
+    def has_names(self):
+        return self._has_names
+
+    @property
+    def has_refund(self):
+        return self._has_refund
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Sia binary encodes a BotMonthsAndFlagsData as a one-byte flag,
+        uses the Rivine Encoder. See rivine_binary_encode for more information.
+        &#34;&#34;&#34;
+        e = encoder_rivine_get()
+        self.rivine_binary_encode(e)
+        encoder.add_array(e.data)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Rivine binary encodes a BotMonthsAndFlagsData as a one-byte flag.
+        &#34;&#34;&#34;
+        flag = self._number_of_months
+        if self._has_addresses:
+            flag |= 32
+        if self._has_names:
+            flag |= 64
+        if self._has_refund:
+            flag |= 128
+        encoder.add_int8(flag)
+
+
+class TransactionV144(BotTransactionBaseClass):
+    _SPECIFIER = b&#39;bot register tx\0&#39;
+
+    def __init__(self):
+        self._addresses = []
+        self._names = []
+        self._number_of_months = 0
+        self._transaction_fee = None
+        self._coin_inputs = []
+        self._refund_coin_output = None
+        self._public_key = None
+        self._signature = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.THREEBOT_REGISTRATION
+
+    @property
+    def required_bot_fees(self):
+        &#34;&#34;&#34;
+        The fees required to pay for this 3Bot Registration Transaction.
+        &#34;&#34;&#34;
+        # a static registration fee has to be paid
+        fees = 0 + BotTransactionBaseClass.BOT_FEE_REGISTRATION
+        # the amount of desired months also has to be paid
+        fees += BotTransactionBaseClass.compute_monthly_bot_fees(self._number_of_months)
+        # if more than one name is defined it also has to be paid
+        lnames = len(self._names)
+        if lnames &gt; 1:
+            fees += BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * (lnames-1)
+        # no fee has to be paid for the used network addresses during registration
+        # return the total fees
+        return fees
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment, parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(&#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(&#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+
+    @property
+    def addresses(self):
+        &#34;&#34;&#34;
+        Network addresses that will be part of the 3Bot Registration.
+        &#34;&#34;&#34;
+        return self._addresses
+    @addresses.setter
+    def addresses(self, value):
+        self._addresses = []
+        if not value:
+            return
+        for address in value:
+            self.address_add(address)
+
+    def address_add(self, address):
+        &#34;&#34;&#34;
+        Add a NetworkAddress that will be added as part of the 3Bot Registration.
+        &#34;&#34;&#34;
+        if len(self._addresses) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+        self._addresses.append(NetworkAddress(address=address))
+    
+    @property
+    def names(self):
+        &#34;&#34;&#34;
+        Bot names that will be part of the 3Bot Registration.
+        &#34;&#34;&#34;
+        return self._names
+    @names.setter
+    def names(self, value):
+        self._names = []
+        if not value:
+            return
+        for name in value:
+            self.name_add(name)
+
+    def name_add(self, name):
+        &#34;&#34;&#34;
+        Add a BotName that will be added as part of the 3Bot Registration.
+        &#34;&#34;&#34;
+        if len(self._names) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+        self._names.append(BotName(value=name))
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    @property
+    def number_of_months(self):
+        return self._number_of_months
+
+    @number_of_months.setter
+    def number_of_months(self, n):
+        if n &lt; 1 or n &gt; 24:
+            raise ValueError(&#34;number of months for a 3Bot Registration Transaction has to be in the inclusive range [1,24]&#34;)
+        self._number_of_months = n
+    
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature(as_array=True)
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+            return
+        self._signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def public_key(self):
+        if self._public_key is None:
+            return PublicKey()
+        return self._public_key
+    @public_key.setter
+    def public_key(self, value):
+        if value is None:
+            self._public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as BotRegistration&#39;s public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._public_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        if self._public_key.unlockhash != public_key.unlockhash:
+            raise ValueError(&#34;given public key ({}) does not equal public key ({})&#34;.format(
+                str(self._public_key.unlockhash), str(public_key.unlockhash)))
+        self.signature = signature
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV144._SPECIFIER)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode addresses, names and number of months
+        e.add_all(self.addresses, self.names)
+        e.add_int8(self.number_of_months)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode transaction fee
+        e.add_all(self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+        
+        # encode public key
+        e.add(self.public_key)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV144._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+
+        # get addresses and names
+        addresses = self.addresses
+        names = self.names
+        addresses_length = len(addresses)
+        names_length = len(names)
+
+        # encode bot binary encoding prefix (containing length and refund info)
+        maf = BotMonthsAndFlagsData(
+            number_of_months=self.number_of_months,
+            has_addresses=(addresses_length&gt;0),
+            has_names=(names_length&gt;0),
+            has_refund=(self._refund_coin_output is not None),
+        )
+        e.add(maf)
+        # encode the address and name length
+        e.add_int8(addresses_length | (names_length&lt;&lt; 4))
+        
+        # encode all addresses and names
+        e.add_array(addresses)
+        e.add_array(names)
+        
+        # encode transaction fee and coin inputs
+        e.add_all(self.transaction_fee, self.coin_inputs)
+
+        # encode refund coin output, if defined
+        if maf.has_refund:
+            e.add(self._refund_coin_output)
+    
+        # encode the identification at the end
+        e.add_all(self.public_key, self.signature)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        self._addresses = [NetworkAddress.from_json(address) for address in data.get(&#39;addresses&#39;, []) or []]
+        self._names = [BotName.from_json(name) for name in data.get(&#39;names&#39;, []) or []]
+        self._number_of_months = int(data.get(&#39;nrofmonths&#39;, 0) or 0)
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        self._coin_inputs = [CoinInput.from_json(ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+        if &#39;identification&#39; not in data or data[&#39;identification&#39;] in (None, {}):
+            self._public_key = None
+            self._signature = None
+        else:
+            identification = data[&#39;identification&#39;]
+            self._public_key = PublicKey.from_json(identification[&#39;publickey&#39;])
+            self._signature = ED25519Signature.from_json(identification[&#39;signature&#39;], as_array=True)
+
+    def _json_data_object(self):
+        output = {
+            &#39;nrofmonths&#39;: self.number_of_months,
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs],
+            &#39;identification&#39;: {
+                &#39;publickey&#39;: self._public_key.json(),
+                &#39;signature&#39;: self._signature.json(),
+            },
+        }
+        addresses = self.addresses
+        if len(addresses) &gt; 0:
+            output[&#39;addresses&#39;] = [address.json() for address in addresses]
+        names = self.names
+        if len(names) &gt; 0:
+            output[&#39;names&#39;] = [name.json() for name in names]
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+    def _extra_signature_requests_new(self):
+        if self._public_key is None:
+            # if no parent public key is defined, cannot do anything
+            return []
+        if self._signature is not None:
+            return [] # nothing to do
+        # generate the input hash func
+        input_hash_func = InputSignatureHashFactory(self, BotTransactionBaseClass.SPECIFIER_SENDER).signature_hash_new
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        unlockhash = self._public_key.unlockhash
+        def input_hash_gen(public_key):
+            return input_hash_func()
+        # create the only signature request
+        return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]
+
+    def _extra_is_fulfilled(self):
+        return self._signature is not None
+
+class TransactionV145(BotTransactionBaseClass):
+    _SPECIFIER = b&#39;bot recupdate tx&#39;
+
+    def __init__(self):
+        self._botid = None
+        self._addresses_to_add = []
+        self._addresses_to_remove = []
+        self._names_to_add = []
+        self._names_to_remove = []
+        self._number_of_months = 0
+        self._transaction_fee = None
+        self._coin_inputs = []
+        self._refund_coin_output = None
+        self._signature = None
+        self._parent_public_key = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.THREEBOT_RECORD_UPDATE
+
+    @property
+    def required_bot_fees(self):
+        &#34;&#34;&#34;
+        The fees required to pay for this 3Bot Record Update Transaction.
+        &#34;&#34;&#34;
+        fees = Currency(value=0)
+        # all months have to be paid
+        if self._number_of_months &gt; 0:
+            fees += BotTransactionBaseClass.compute_monthly_bot_fees(self._number_of_months)
+        # if addresses have been modified, this has to be paid
+        if len(self._addresses_to_add) &gt; 0 or len(self._addresses_to_remove) &gt; 0:
+            fees += BotTransactionBaseClass.BOT_FEE_NETWORK_ADDRESS_UPDATE
+        # each additional that is added, has to be paid as well
+        lnames = len(self._names_to_add)
+        if lnames &gt; 0:
+            fees += BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * lnames
+        # return the total fees
+        return fees
+
+    @property
+    def botid(self):
+        if self._botid is None:
+            return 0
+        return self._botid
+    @botid.setter
+    def botid(self, value):
+        if value is None:
+            self._botid = None
+        elif isinstance(value, int):
+            if value &lt;= 0:
+                raise ValueError(&#34;a bot identifier has to be at least equal to 1: {} is invalid&#34;.format(value))
+            self._botid = value
+        else:
+            raise TypeError(&#34;a bot identifier has to be an integer, cannot be of type {}&#34;.format(type(value)))
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment, parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(&#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(&#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+
+    @property
+    def addresses_to_add(self):
+        &#34;&#34;&#34;
+        Network addresses that will be added to the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        return self._addresses_to_add
+    @addresses_to_add.setter
+    def addresses_to_add(self, value):
+        self._addresses_to_add = []
+        if not value:
+            return
+        for address in value:
+            self.address_add(address)
+
+    def address_add(self, address):
+        &#34;&#34;&#34;
+        Add a NetworkAddress that will be added to the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        if len(self._addresses_to_add) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+        self._addresses_to_add.append(NetworkAddress(address=address))
+    
+    @property
+    def addresses_to_remove(self):
+        &#34;&#34;&#34;
+        Network addresses that will be removed from the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        return self._addresses_to_remove
+    @addresses_to_remove.setter
+    def addresses_to_remove(self, value):
+        self._addresses_to_remove = []
+        if not value:
+            return
+        for address in value:
+            self.address_remove(address)
+
+    def address_remove(self, address):
+        &#34;&#34;&#34;
+        Add a NetworkAddress that will be removed from the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        if len(self._addresses_to_remove) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+        self._addresses_to_remove.append(NetworkAddress(address=address))
+    
+    @property
+    def names_to_add(self):
+        &#34;&#34;&#34;
+        Bot names that will added to the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        return self._names_to_add
+    @names_to_add.setter
+    def names_to_add(self, value):
+        self._names_to_add = []
+        if not value:
+            return
+        for name in value:
+            self.name_add(name)
+
+    def name_add(self, name):
+        &#34;&#34;&#34;
+        Add a BotName that will be added to the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        if len(self._names_to_add) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+        self._names_to_add.append(BotName(value=name))
+
+    @property
+    def names_to_remove(self):
+        &#34;&#34;&#34;
+        Bot names that will be removed from the 3Bot&#39;s record
+        &#34;&#34;&#34;
+        return self._names_to_remove
+    @names_to_remove.setter
+    def names_to_remove(self, value):
+        self._names_to_remove = []
+        if not value:
+            return
+        for name in value:
+            self.name_remove(name)
+
+    def name_remove(self, name):
+        &#34;&#34;&#34;
+        Add a BotName that will be removed from the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        if len(self._names_to_remove) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+        self._names_to_remove.append(BotName(value=name))
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    @property
+    def number_of_months(self):
+        return self._number_of_months
+
+    @number_of_months.setter
+    def number_of_months(self, n):
+        if n &lt; 0 or n &gt; 24:
+            raise ValueError(&#34;number of months for a 3Bot Record Update has to be in the inclusive range [0,24]&#34;)
+        self._number_of_months = n
+
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature(as_array=True)
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+            return
+        self._signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def parent_public_key(self):
+        if self._parent_public_key is None:
+            return PublicKey()
+        return self._parent_public_key
+    @parent_public_key.setter
+    def parent_public_key(self, value):
+        if value is None:
+            self._parent_public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as BotRecordUpdateTransactions&#39;s parent public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._parent_public_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        if self._parent_public_key.unlockhash != public_key.unlockhash:
+            raise ValueError(&#34;given public key ({}) does not equal parent public key ({})&#34;.format(
+                str(self._parent_public_key.unlockhash), str(public_key.unlockhash)))
+        self.signature = signature
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV145._SPECIFIER)
+
+        # encode the botID
+        e.add_int32(self.botid)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode addresses, names and number of months
+        e.add_all(self.addresses_to_add, self.addresses_to_remove)
+        e.add_all(self.names_to_add, self.names_to_remove)
+        e.add_int8(self.number_of_months)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode transaction fee
+        e.add_all(self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV145._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+
+        # get addresses and names
+        addresses_to_add = self.addresses_to_add
+        addresses_to_remove = self.addresses_to_remove
+        names_to_add = self.names_to_add
+        names_to_remove = self.names_to_remove
+        addresses_to_add_length = len(addresses_to_add)
+        addresses_to_remove_length = len(addresses_to_remove)
+        names_to_add_length = len(names_to_add)
+        names_to_remove_length = len(names_to_remove)
+
+        # encode the identifier
+        e.add_int32(self.botid)
+
+        # encode bot binary encoding prefix (containing length and refund info)
+        maf = BotMonthsAndFlagsData(
+            number_of_months=self.number_of_months,
+            has_addresses=(addresses_to_add_length&gt;0 or addresses_to_remove_length&gt;0),
+            has_names=(names_to_add_length&gt;0 or names_to_remove_length&gt;0),
+            has_refund=(self._refund_coin_output is not None),
+        )
+        e.add(maf)
+
+        # if we have addresses, encode it
+        if maf.has_addresses:
+            e.add_int8(addresses_to_add_length | (addresses_to_remove_length&lt;&lt; 4))
+            e.add_array(addresses_to_add)
+            e.add_array(addresses_to_remove)
+
+        # if we have names, encode it
+        if maf.has_names:
+            e.add_int8(names_to_add_length | (names_to_remove_length&lt;&lt; 4))
+            e.add_array(names_to_add)
+            e.add_array(names_to_remove)
+        
+        # encode transaction fee and coin inputs
+        e.add_all(self.transaction_fee, self.coin_inputs)
+
+        # encode refund coin output, if defined
+        if maf.has_refund:
+            e.add(self._refund_coin_output)
+    
+        # encode the signature at the end
+        e.add(self.signature)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        self._botid = int(data.get(&#39;id&#39;, 0) or 0)
+        addresses = data.get(&#39;addresses&#39;, {}) or {}
+        self._addresses_to_add = [NetworkAddress.from_json(address) for address in addresses.get(&#39;add&#39;, []) or []]
+        self._addresses_to_remove = [NetworkAddress.from_json(address) for address in addresses.get(&#39;remove&#39;, []) or []]
+        names = data.get(&#39;names&#39;, {}) or {}
+        self._names_to_add = [BotName.from_json(name) for name in names.get(&#39;add&#39;, []) or []]
+        self._names_to_remove = [BotName.from_json(name) for name in names.get(&#39;remove&#39;, []) or []]
+        self._number_of_months = int(data.get(&#39;nrofmonths&#39;, 0) or 0)
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        self._coin_inputs = [CoinInput.from_json(ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+        self._signature = ED25519Signature.from_json(data.get(&#39;signature&#39;, None) or None)
+
+    def _json_data_object(self):
+        output = {
+            &#39;id&#39;: self.botid,
+            &#39;nrofmonths&#39;: self.number_of_months,
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs],
+            &#39;signature&#39;: self.signature.json(),
+        }
+        # encode addresses
+        addresses_to_add = self.addresses_to_add
+        addresses_to_remove = self.addresses_to_remove
+        addresses_to_add_length = len(addresses_to_add)
+        addresses_to_remove_length = len(addresses_to_remove)
+        if addresses_to_add_length &gt; 0:
+            output[&#39;addresses&#39;] = {
+                &#39;add&#39;: [address.json() for address in addresses_to_add]
+            }
+        if addresses_to_remove_length &gt; 0:
+            d = output.get(&#39;addresses&#39;, {})
+            d[&#39;remove&#39;] = [address.json() for address in addresses_to_remove]
+            output[&#39;addresses&#39;] = d
+
+        # encode names
+        names_to_add = self.names_to_add
+        names_to_remove = self.names_to_remove
+        names_to_add_length = len(names_to_add)
+        names_to_remove_length = len(names_to_remove)
+        if names_to_add_length &gt; 0:
+            output[&#39;names&#39;] = {
+                &#39;add&#39;: [name.json() for name in names_to_add]
+            }
+        if names_to_remove_length &gt; 0:
+            d = output.get(&#39;names&#39;, {})
+            d[&#39;remove&#39;] = [name.json() for name in names_to_remove]
+            output[&#39;names&#39;] = d
+
+        # encode refund coin output
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+    def _extra_signature_requests_new(self):
+        if self._parent_public_key is None:
+            # if no parent public key is defined, cannot do anything
+            return []
+        if self._signature is not None:
+            return [] # nothing to do
+        # generate the input hash func
+        input_hash_func = InputSignatureHashFactory(self, BotTransactionBaseClass.SPECIFIER_SENDER).signature_hash_new
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        unlockhash = self._parent_public_key.unlockhash
+        def input_hash_gen(public_key):
+            return input_hash_func()
+        # create the only signature request
+        return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]
+
+    def _extra_is_fulfilled(self):
+        return self._signature is not None
+
+
+class TransactionV146(BotTransactionBaseClass):
+    _SPECIFIER = b&#39;bot nametrans tx&#39;
+
+    def __init__(self):
+        self._sender_botid = None
+        self._receiver_botid = None
+        self._names = []
+        self._transaction_fee = None
+        self._coin_inputs = None
+        self._refund_coin_output = None
+        self._sender_signature = None
+        self._receiver_signature = None
+        self._sender_parent_public_key = None
+        self._receiver_parent_public_key = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.THREEBOT_NAME_TRANSFER
+
+    @property
+    def required_bot_fees(self):
+        &#34;&#34;&#34;
+        The fees required to pay for this 3Bot Name Transfer Transaction.
+        &#34;&#34;&#34;
+        return BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * len(self.names)
+
+    @property
+    def sender_botid(self):
+        if self._sender_botid is None:
+            return 0
+        return self._sender_botid
+    @sender_botid.setter
+    def sender_botid(self, value):
+        if value is None:
+            self._sender_botid = None
+        elif isinstance(value, int):
+            if value &lt;= 0:
+                raise ValueError(&#34;a (sender) bot identifier has to be at least equal to 1: {} is invalid&#34;.format(value))
+            self._sender_botid = value
+        else:
+            raise TypeError(&#34;a (sender) bot identifier has to be an integer, cannot be of type {}&#34;.format(type(value)))
+
+    @property
+    def receiver_botid(self):
+        if self._receiver_botid is None:
+            return 0
+        return self._receiver_botid
+    @receiver_botid.setter
+    def receiver_botid(self, value):
+        if value is None:
+            self._receiver_botid = None
+        elif isinstance(value, int):
+            if value &lt;= 0:
+                raise ValueError(&#34;a (receiver) bot identifier has to be at least equal to 1: {} is invalid&#34;.format(value))
+            self._receiver_botid = value
+        else:
+            raise TypeError(&#34;a (receiver) bot identifier has to be an integer, cannot be of type {}&#34;.format(type(value)))
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment, parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(&#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(&#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+    
+    @property
+    def names(self):
+        &#34;&#34;&#34;
+        Bot names that will be transfered from the sender- to the receiver 3Bot.
+        &#34;&#34;&#34;
+        return self._names
+    @names.setter
+    def names(self, value):
+        self._names_to_add = []
+        if not value:
+            return
+        for name in value:
+            self.name_add(name)
+
+    def name_add(self, name):
+        &#34;&#34;&#34;
+        Add a BotName that will be tranfered from the sender- to the receiver 3Bot.
+        &#34;&#34;&#34;
+        if len(self._names) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+        self._names.append(BotName(value=name))
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    @property
+    def sender_signature(self):
+        if self._sender_signature is None:
+            return ED25519Signature(as_array=True)
+        return self._sender_signature
+    @sender_signature.setter
+    def sender_signature(self, value):
+        if value is None:
+            self._sender_signature = None
+            return
+        self._sender_signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def receiver_signature(self):
+        if self._receiver_signature is None:
+            return ED25519Signature(as_array=True)
+        return self._receiver_signature
+    @receiver_signature.setter
+    def receiver_signature(self, value):
+        if value is None:
+            self._receiver_signature = None
+            return
+        self._receiver_signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def sender_parent_public_key(self):
+        if self._sender_parent_public_key is None:
+            return PublicKey()
+        return self._sender_parent_public_key
+    @sender_parent_public_key.setter
+    def sender_parent_public_key(self, value):
+        if value is None:
+            self._sender_parent_public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as BotNameTransferTransaction&#39;s sender parent public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._sender_parent_public_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    @property
+    def receiver_parent_public_key(self):
+        if self._receiver_parent_public_key is None:
+            return PublicKey()
+        return self._receiver_parent_public_key
+    @receiver_parent_public_key.setter
+    def receiver_parent_public_key(self, value):
+        if value is None:
+            self._receiver_parent_public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as BotNameTransferTransaction&#39;s receiver parent public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._receiver_parent_public_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        unlockhash = public_key.unlockhash
+        if unlockhash == self.sender_parent_public_key.unlockhash:
+            self.sender_signature = signature
+        elif unlockhash == self.receiver_parent_public_key.unlockhash:
+            self.receiver_signature = signature
+        else:
+            raise ValueError(&#34;given public key (unlockhash: {}) is not linked to this BotNameTransfer Transaction&#34;.format(str(unlockhash)))
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV146._SPECIFIER)
+
+        # encode the bot identifiers
+        e.add_int32(self.sender_botid)
+        e.add_int32(self.receiver_botid)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode names
+        e.add(self.names)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode transaction fee
+        e.add(self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV146._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+
+        # get names
+        names = self.names
+        names_length = len(names)
+        info_value = names_length
+
+        # get has refund status
+        has_refund = False
+        if self._refund_coin_output is not None:
+            has_refund = True
+            info_value |= 16
+
+        # encode sender bot info
+        e.add_int32(self.sender_botid)
+        e.add(self.sender_signature)
+
+        # encode receiver bot info
+        e.add_int32(self.receiver_botid)
+        e.add(self.receiver_signature)
+
+        # encode info value
+        e.add_int8(info_value)
+
+        # encode the names
+        e.add_array(names)
+        
+        # encode transaction fee and coin inputs
+        e.add_all(self.transaction_fee, self.coin_inputs)
+
+        # encode refund coin output, if defined
+        if has_refund:
+            e.add(self._refund_coin_output)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        # decode sender info
+        if &#39;sender&#39; in data:
+            bot_data = data[&#39;sender&#39;]
+            self._sender_botid = int(bot_data.get(&#39;id&#39;, 0) or 0)
+            self._sender_signature = ED25519Signature.from_json(bot_data.get(&#39;signature&#39;, None) or None)
+        else:
+            self._sender_botid = None
+            self._sender_signature = None
+        # decode receiver info
+        if &#39;receiver&#39; in data:
+            bot_data = data[&#39;receiver&#39;]
+            self._receiver_botid = int(bot_data.get(&#39;id&#39;, 0) or 0)
+            self._receiver_signature = ED25519Signature.from_json(bot_data.get(&#39;signature&#39;, None) or None)
+        else:
+            self._receiver_botid = None
+            self._receiver_signature = None
+        # decode names
+        self._names = [BotName.from_json(name) for name in data.get(&#39;names&#39;, []) or []]
+        # decode transaction fee
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        # decode coin inputs
+        self._coin_inputs = [CoinInput.from_json(ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        # decode refund coin output
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+
+    def _json_data_object(self):
+        output = {
+            &#39;sender&#39;: {
+                &#39;id&#39;: self.sender_botid,
+                &#39;signature&#39;: self.sender_signature.json(),
+            },
+            &#39;receiver&#39;: {
+                &#39;id&#39;: self.receiver_botid,
+                &#39;signature&#39;: self.receiver_signature.json(),
+            },
+            &#39;names&#39;: [name.json() for name in self.names],
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs]
+        }
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+    def _extra_signature_requests_new(self):
+        requests = []
+        # collect, if possible, the sender request
+        request = self._extra_signature_requests_for(self._sender_parent_public_key, self._sender_signature, BotTransactionBaseClass.SPECIFIER_SENDER)
+        if request is not None:
+            requests.append(request)
+        # collect, if possible, the receiver request
+        request = self._extra_signature_requests_for(self._receiver_parent_public_key, self._receiver_signature, BotTransactionBaseClass.SPECIFIER_RECEIVER)
+        if request is not None:
+            requests.append(request)
+        # return all requests, if any
+        return requests
+
+    def _extra_signature_requests_for(self, public_key, signature, specifier):
+        if public_key is None:
+            # if no parent public key is defined, cannot do anything
+            return None
+        if signature is not None:
+            return None
+        # generate the input hash func
+        factory = InputSignatureHashFactory(self, specifier)
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        unlockhash = public_key.unlockhash
+        # create the only signature request
+        return SignatureRequest(
+            unlockhash=unlockhash,
+            input_hash_gen=(lambda public_key: factory.signature_hash_new()),
+            callback=self)
+
+    def _extra_is_fulfilled(self):
+        return self._sender_signature is not None and self._receiver_signature is not None</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData"><code class="flex name class">
+<span>class <span class="ident">BotMonthsAndFlagsData</span></span>
+<span>(</span><span>number_of_months, has_addresses, has_names, has_refund)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class BotMonthsAndFlagsData(BaseSiaObjectEncoder, BaseRivineObjectEncoder):
+    def __init__(self, number_of_months, has_addresses, has_names, has_refund):
+        if not isinstance(number_of_months, int) or number_of_months &lt; 0 or number_of_months &gt; 24:
+            raise TypeError(&#34;{} ({}) is not a valid number of months, has to be a integer in the [0,24] range&#34;.format(number_of_months, type(number_of_months)))
+        self._number_of_months = number_of_months
+        if not isinstance(has_addresses, bool):
+            raise TypeError(&#34;has_addresses has to be a bool, not {}&#34;.format(type(has_addresses)))
+        self._has_addresses = has_addresses
+        if not isinstance(has_names, bool):
+            raise TypeError(&#34;has_names has to be a bool, not {}&#34;.format(type(has_names)))
+        self._has_names = has_names
+        if not isinstance(has_refund, bool):
+            raise TypeError(&#34;has_refund has to be a bool, not {}&#34;.format(type(has_refund)))
+        self._has_refund = has_refund
+
+    @property
+    def number_of_months(self):
+        return self._number_of_months
+
+    @property
+    def has_addresses(self):
+        return self._has_addresses
+
+    @property
+    def has_names(self):
+        return self._has_names
+
+    @property
+    def has_refund(self):
+        return self._has_refund
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Sia binary encodes a BotMonthsAndFlagsData as a one-byte flag,
+        uses the Rivine Encoder. See rivine_binary_encode for more information.
+        &#34;&#34;&#34;
+        e = encoder_rivine_get()
+        self.rivine_binary_encode(e)
+        encoder.add_array(e.data)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Rivine binary encodes a BotMonthsAndFlagsData as a one-byte flag.
+        &#34;&#34;&#34;
+        flag = self._number_of_months
+        if self._has_addresses:
+            flag |= 32
+        if self._has_names:
+            flag |= 64
+        if self._has_refund:
+            flag |= 128
+        encoder.add_int8(flag)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_addresses"><code class="name">var <span class="ident">has_addresses</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def has_addresses(self):
+    return self._has_addresses</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_names"><code class="name">var <span class="ident">has_names</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def has_names(self):
+    return self._has_names</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_refund"><code class="name">var <span class="ident">has_refund</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def has_refund(self):
+    return self._has_refund</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.number_of_months"><code class="name">var <span class="ident">number_of_months</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def number_of_months(self):
+    return self._number_of_months</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Rivine binary encodes a BotMonthsAndFlagsData as a one-byte flag.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Rivine binary encodes a BotMonthsAndFlagsData as a one-byte flag.
+    &#34;&#34;&#34;
+    flag = self._number_of_months
+    if self._has_addresses:
+        flag |= 32
+    if self._has_names:
+        flag |= 64
+    if self._has_refund:
+        flag |= 128
+    encoder.add_int8(flag)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sia binary encodes a BotMonthsAndFlagsData as a one-byte flag,
+uses the Rivine Encoder. See rivine_binary_encode for more information.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Sia binary encodes a BotMonthsAndFlagsData as a one-byte flag,
+    uses the Rivine Encoder. See rivine_binary_encode for more information.
+    &#34;&#34;&#34;
+    e = encoder_rivine_get()
+    self.rivine_binary_encode(e)
+    encoder.add_array(e.data)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass"><code class="flex name class">
+<span>class <span class="ident">BotTransactionBaseClass</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class BotTransactionBaseClass(TransactionBaseClass, SignatureCallbackBase):
+    BOT_FEE_NETWORK_ADDRESS_UPDATE = Currency(value=&#39;20 TFT&#39;)
+    BOT_FEE_ADDITIONAL_NAME = Currency(value=&#39;50 TFT&#39;)
+    BOT_FEE_REGISTRATION = Currency(value=&#39;90 TFT&#39;)
+    BOT_FEE_MONTHLY = Currency(value=&#39;10 TFT&#39;)
+
+    MAX_NAMES_PER_BOT = 5
+    MAX_ADDRESSES_PER_BOT = 10
+
+    SPECIFIER_SENDER = BinaryData(value=b&#39;sender&#39;, fixed_size=0)
+    SPECIFIER_RECEIVER = BinaryData(value=b&#39;receiver&#39;, fixed_size=0)
+
+    @staticmethod
+    def compute_monthly_bot_fees(months):
+        &#34;&#34;&#34;
+        computes the total monthly fees required for the given months,
+        using the given oneCoin value as the currency&#39;s unit value.
+        &#34;&#34;&#34;
+        fees = BotTransactionBaseClass.BOT_FEE_MONTHLY * months
+        if months &lt; 12:
+            return fees
+        if months &lt; 24:
+            return fees * 0.7
+        return fees * 0.5
+
+    @property
+    @abstractmethod
+    def required_bot_fees(self):
+        &#34;&#34;&#34;
+        The bot fees required to pay for this Bot Transaction.
+        &#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="../FulfillmentTypes.html#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.ThreeBot.TransactionV144" href="#tfchain.types.transactions.ThreeBot.TransactionV144">TransactionV144</a></li>
+<li><a title="tfchain.types.transactions.ThreeBot.TransactionV145" href="#tfchain.types.transactions.ThreeBot.TransactionV145">TransactionV145</a></li>
+<li><a title="tfchain.types.transactions.ThreeBot.TransactionV146" href="#tfchain.types.transactions.ThreeBot.TransactionV146">TransactionV146</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME"><code class="name">var <span class="ident">BOT_FEE_ADDITIONAL_NAME</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_MONTHLY"><code class="name">var <span class="ident">BOT_FEE_MONTHLY</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_NETWORK_ADDRESS_UPDATE"><code class="name">var <span class="ident">BOT_FEE_NETWORK_ADDRESS_UPDATE</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_REGISTRATION"><code class="name">var <span class="ident">BOT_FEE_REGISTRATION</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT"><code class="name">var <span class="ident">MAX_ADDRESSES_PER_BOT</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.MAX_NAMES_PER_BOT"><code class="name">var <span class="ident">MAX_NAMES_PER_BOT</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.SPECIFIER_RECEIVER"><code class="name">var <span class="ident">SPECIFIER_RECEIVER</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.SPECIFIER_SENDER"><code class="name">var <span class="ident">SPECIFIER_SENDER</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees"><code class="name flex">
+<span>def <span class="ident">compute_monthly_bot_fees</span></span>(<span>months)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>computes the total monthly fees required for the given months,
+using the given oneCoin value as the currency's unit value.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@staticmethod
+def compute_monthly_bot_fees(months):
+    &#34;&#34;&#34;
+    computes the total monthly fees required for the given months,
+    using the given oneCoin value as the currency&#39;s unit value.
+    &#34;&#34;&#34;
+    fees = BotTransactionBaseClass.BOT_FEE_MONTHLY * months
+    if months &lt; 12:
+        return fees
+    if months &lt; 24:
+        return fees * 0.7
+    return fees * 0.5</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.required_bot_fees"><code class="name">var <span class="ident">required_bot_fees</span></code></dt>
+<dd>
+<section class="desc"><p>The bot fees required to pay for this Bot Transaction.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+@abstractmethod
+def required_bot_fees(self):
+    &#34;&#34;&#34;
+    The bot fees required to pay for this Bot Transaction.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144"><code class="flex name class">
+<span>class <span class="ident">TransactionV144</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TransactionV144(BotTransactionBaseClass):
+    _SPECIFIER = b&#39;bot register tx\0&#39;
+
+    def __init__(self):
+        self._addresses = []
+        self._names = []
+        self._number_of_months = 0
+        self._transaction_fee = None
+        self._coin_inputs = []
+        self._refund_coin_output = None
+        self._public_key = None
+        self._signature = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.THREEBOT_REGISTRATION
+
+    @property
+    def required_bot_fees(self):
+        &#34;&#34;&#34;
+        The fees required to pay for this 3Bot Registration Transaction.
+        &#34;&#34;&#34;
+        # a static registration fee has to be paid
+        fees = 0 + BotTransactionBaseClass.BOT_FEE_REGISTRATION
+        # the amount of desired months also has to be paid
+        fees += BotTransactionBaseClass.compute_monthly_bot_fees(self._number_of_months)
+        # if more than one name is defined it also has to be paid
+        lnames = len(self._names)
+        if lnames &gt; 1:
+            fees += BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * (lnames-1)
+        # no fee has to be paid for the used network addresses during registration
+        # return the total fees
+        return fees
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment, parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(&#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(&#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+
+    @property
+    def addresses(self):
+        &#34;&#34;&#34;
+        Network addresses that will be part of the 3Bot Registration.
+        &#34;&#34;&#34;
+        return self._addresses
+    @addresses.setter
+    def addresses(self, value):
+        self._addresses = []
+        if not value:
+            return
+        for address in value:
+            self.address_add(address)
+
+    def address_add(self, address):
+        &#34;&#34;&#34;
+        Add a NetworkAddress that will be added as part of the 3Bot Registration.
+        &#34;&#34;&#34;
+        if len(self._addresses) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+        self._addresses.append(NetworkAddress(address=address))
+    
+    @property
+    def names(self):
+        &#34;&#34;&#34;
+        Bot names that will be part of the 3Bot Registration.
+        &#34;&#34;&#34;
+        return self._names
+    @names.setter
+    def names(self, value):
+        self._names = []
+        if not value:
+            return
+        for name in value:
+            self.name_add(name)
+
+    def name_add(self, name):
+        &#34;&#34;&#34;
+        Add a BotName that will be added as part of the 3Bot Registration.
+        &#34;&#34;&#34;
+        if len(self._names) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+        self._names.append(BotName(value=name))
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    @property
+    def number_of_months(self):
+        return self._number_of_months
+
+    @number_of_months.setter
+    def number_of_months(self, n):
+        if n &lt; 1 or n &gt; 24:
+            raise ValueError(&#34;number of months for a 3Bot Registration Transaction has to be in the inclusive range [1,24]&#34;)
+        self._number_of_months = n
+    
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature(as_array=True)
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+            return
+        self._signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def public_key(self):
+        if self._public_key is None:
+            return PublicKey()
+        return self._public_key
+    @public_key.setter
+    def public_key(self, value):
+        if value is None:
+            self._public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as BotRegistration&#39;s public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._public_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        if self._public_key.unlockhash != public_key.unlockhash:
+            raise ValueError(&#34;given public key ({}) does not equal public key ({})&#34;.format(
+                str(self._public_key.unlockhash), str(public_key.unlockhash)))
+        self.signature = signature
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV144._SPECIFIER)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode addresses, names and number of months
+        e.add_all(self.addresses, self.names)
+        e.add_int8(self.number_of_months)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode transaction fee
+        e.add_all(self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+        
+        # encode public key
+        e.add(self.public_key)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV144._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+
+        # get addresses and names
+        addresses = self.addresses
+        names = self.names
+        addresses_length = len(addresses)
+        names_length = len(names)
+
+        # encode bot binary encoding prefix (containing length and refund info)
+        maf = BotMonthsAndFlagsData(
+            number_of_months=self.number_of_months,
+            has_addresses=(addresses_length&gt;0),
+            has_names=(names_length&gt;0),
+            has_refund=(self._refund_coin_output is not None),
+        )
+        e.add(maf)
+        # encode the address and name length
+        e.add_int8(addresses_length | (names_length&lt;&lt; 4))
+        
+        # encode all addresses and names
+        e.add_array(addresses)
+        e.add_array(names)
+        
+        # encode transaction fee and coin inputs
+        e.add_all(self.transaction_fee, self.coin_inputs)
+
+        # encode refund coin output, if defined
+        if maf.has_refund:
+            e.add(self._refund_coin_output)
+    
+        # encode the identification at the end
+        e.add_all(self.public_key, self.signature)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        self._addresses = [NetworkAddress.from_json(address) for address in data.get(&#39;addresses&#39;, []) or []]
+        self._names = [BotName.from_json(name) for name in data.get(&#39;names&#39;, []) or []]
+        self._number_of_months = int(data.get(&#39;nrofmonths&#39;, 0) or 0)
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        self._coin_inputs = [CoinInput.from_json(ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+        if &#39;identification&#39; not in data or data[&#39;identification&#39;] in (None, {}):
+            self._public_key = None
+            self._signature = None
+        else:
+            identification = data[&#39;identification&#39;]
+            self._public_key = PublicKey.from_json(identification[&#39;publickey&#39;])
+            self._signature = ED25519Signature.from_json(identification[&#39;signature&#39;], as_array=True)
+
+    def _json_data_object(self):
+        output = {
+            &#39;nrofmonths&#39;: self.number_of_months,
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs],
+            &#39;identification&#39;: {
+                &#39;publickey&#39;: self._public_key.json(),
+                &#39;signature&#39;: self._signature.json(),
+            },
+        }
+        addresses = self.addresses
+        if len(addresses) &gt; 0:
+            output[&#39;addresses&#39;] = [address.json() for address in addresses]
+        names = self.names
+        if len(names) &gt; 0:
+            output[&#39;names&#39;] = [name.json() for name in names]
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+    def _extra_signature_requests_new(self):
+        if self._public_key is None:
+            # if no parent public key is defined, cannot do anything
+            return []
+        if self._signature is not None:
+            return [] # nothing to do
+        # generate the input hash func
+        input_hash_func = InputSignatureHashFactory(self, BotTransactionBaseClass.SPECIFIER_SENDER).signature_hash_new
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        unlockhash = self._public_key.unlockhash
+        def input_hash_gen(public_key):
+            return input_hash_func()
+        # create the only signature request
+        return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]
+
+    def _extra_is_fulfilled(self):
+        return self._signature is not None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass">BotTransactionBaseClass</a></li>
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="../FulfillmentTypes.html#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.addresses"><code class="name">var <span class="ident">addresses</span></code></dt>
+<dd>
+<section class="desc"><p>Network addresses that will be part of the 3Bot Registration.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def addresses(self):
+    &#34;&#34;&#34;
+    Network addresses that will be part of the 3Bot Registration.
+    &#34;&#34;&#34;
+    return self._addresses</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.coin_outputs"><code class="name">var <span class="ident">coin_outputs</span></code></dt>
+<dd>
+<section class="desc"><p>Empty list, or a singleton with the refund coin output if that one exists.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def coin_outputs(self):
+    &#34;&#34;&#34;
+    Empty list, or a singleton with the refund coin output if that one exists.
+    &#34;&#34;&#34;
+    if self._refund_coin_output is None:
+        return []
+    return [self._refund_coin_output]</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.names"><code class="name">var <span class="ident">names</span></code></dt>
+<dd>
+<section class="desc"><p>Bot names that will be part of the 3Bot Registration.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def names(self):
+    &#34;&#34;&#34;
+    Bot names that will be part of the 3Bot Registration.
+    &#34;&#34;&#34;
+    return self._names</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.number_of_months"><code class="name">var <span class="ident">number_of_months</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def number_of_months(self):
+    return self._number_of_months</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.public_key"><code class="name">var <span class="ident">public_key</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def public_key(self):
+    if self._public_key is None:
+        return PublicKey()
+    return self._public_key</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.refund_coin_output"><code class="name">var <span class="ident">refund_coin_output</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def refund_coin_output(self):
+    if self._refund_coin_output is None:
+        return CoinOutput()
+    return self._refund_coin_output</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.required_bot_fees"><code class="name">var <span class="ident">required_bot_fees</span></code></dt>
+<dd>
+<section class="desc"><p>The fees required to pay for this 3Bot Registration Transaction.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def required_bot_fees(self):
+    &#34;&#34;&#34;
+    The fees required to pay for this 3Bot Registration Transaction.
+    &#34;&#34;&#34;
+    # a static registration fee has to be paid
+    fees = 0 + BotTransactionBaseClass.BOT_FEE_REGISTRATION
+    # the amount of desired months also has to be paid
+    fees += BotTransactionBaseClass.compute_monthly_bot_fees(self._number_of_months)
+    # if more than one name is defined it also has to be paid
+    lnames = len(self._names)
+    if lnames &gt; 1:
+        fees += BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * (lnames-1)
+    # no fee has to be paid for the used network addresses during registration
+    # return the total fees
+    return fees</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.signature"><code class="name">var <span class="ident">signature</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def signature(self):
+    if self._signature is None:
+        return ED25519Signature(as_array=True)
+    return self._signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.transaction_fee"><code class="name">var <span class="ident">transaction_fee</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def transaction_fee(self):
+    if self._transaction_fee is None:
+        return Currency()
+    return self._transaction_fee</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.address_add"><code class="name flex">
+<span>def <span class="ident">address_add</span></span>(<span>self, address)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a NetworkAddress that will be added as part of the 3Bot Registration.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def address_add(self, address):
+    &#34;&#34;&#34;
+    Add a NetworkAddress that will be added as part of the 3Bot Registration.
+    &#34;&#34;&#34;
+    if len(self._addresses) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+        raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+            BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+    self._addresses.append(NetworkAddress(address=address))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.coin_input_add"><code class="name flex">
+<span>def <span class="ident">coin_input_add</span></span>(<span>self, parentid, fulfillment, parent_output=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def coin_input_add(self, parentid, fulfillment, parent_output=None):
+    ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+    ci.parent_output = parent_output
+    self._coin_inputs.append(ci)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.name_add"><code class="name flex">
+<span>def <span class="ident">name_add</span></span>(<span>self, name)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a BotName that will be added as part of the 3Bot Registration.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def name_add(self, name):
+    &#34;&#34;&#34;
+    Add a BotName that will be added as part of the 3Bot Registration.
+    &#34;&#34;&#34;
+    if len(self._names) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+        raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+            BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+    self._names.append(BotName(value=name))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.refund_coin_output_set"><code class="name flex">
+<span>def <span class="ident">refund_coin_output_set</span></span>(<span>self, value, condition, id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def refund_coin_output_set(self, value, condition, id=None):
+    co = CoinOutput(value=value, condition=condition)
+    co.id = id
+    self._refund_coin_output = co</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV144.signature_add"><code class="name flex">
+<span>def <span class="ident">signature_add</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Implements SignatureCallbackBase.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_add(self, public_key, signature):
+    &#34;&#34;&#34;
+    Implements SignatureCallbackBase.
+    &#34;&#34;&#34;
+    if self._public_key.unlockhash != public_key.unlockhash:
+        raise ValueError(&#34;given public key ({}) does not equal public key ({})&#34;.format(
+            str(self._public_key.unlockhash), str(public_key.unlockhash)))
+    self.signature = signature</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass">BotTransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees">compute_monthly_bot_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145"><code class="flex name class">
+<span>class <span class="ident">TransactionV145</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TransactionV145(BotTransactionBaseClass):
+    _SPECIFIER = b&#39;bot recupdate tx&#39;
+
+    def __init__(self):
+        self._botid = None
+        self._addresses_to_add = []
+        self._addresses_to_remove = []
+        self._names_to_add = []
+        self._names_to_remove = []
+        self._number_of_months = 0
+        self._transaction_fee = None
+        self._coin_inputs = []
+        self._refund_coin_output = None
+        self._signature = None
+        self._parent_public_key = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.THREEBOT_RECORD_UPDATE
+
+    @property
+    def required_bot_fees(self):
+        &#34;&#34;&#34;
+        The fees required to pay for this 3Bot Record Update Transaction.
+        &#34;&#34;&#34;
+        fees = Currency(value=0)
+        # all months have to be paid
+        if self._number_of_months &gt; 0:
+            fees += BotTransactionBaseClass.compute_monthly_bot_fees(self._number_of_months)
+        # if addresses have been modified, this has to be paid
+        if len(self._addresses_to_add) &gt; 0 or len(self._addresses_to_remove) &gt; 0:
+            fees += BotTransactionBaseClass.BOT_FEE_NETWORK_ADDRESS_UPDATE
+        # each additional that is added, has to be paid as well
+        lnames = len(self._names_to_add)
+        if lnames &gt; 0:
+            fees += BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * lnames
+        # return the total fees
+        return fees
+
+    @property
+    def botid(self):
+        if self._botid is None:
+            return 0
+        return self._botid
+    @botid.setter
+    def botid(self, value):
+        if value is None:
+            self._botid = None
+        elif isinstance(value, int):
+            if value &lt;= 0:
+                raise ValueError(&#34;a bot identifier has to be at least equal to 1: {} is invalid&#34;.format(value))
+            self._botid = value
+        else:
+            raise TypeError(&#34;a bot identifier has to be an integer, cannot be of type {}&#34;.format(type(value)))
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment, parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(&#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(&#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+
+    @property
+    def addresses_to_add(self):
+        &#34;&#34;&#34;
+        Network addresses that will be added to the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        return self._addresses_to_add
+    @addresses_to_add.setter
+    def addresses_to_add(self, value):
+        self._addresses_to_add = []
+        if not value:
+            return
+        for address in value:
+            self.address_add(address)
+
+    def address_add(self, address):
+        &#34;&#34;&#34;
+        Add a NetworkAddress that will be added to the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        if len(self._addresses_to_add) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+        self._addresses_to_add.append(NetworkAddress(address=address))
+    
+    @property
+    def addresses_to_remove(self):
+        &#34;&#34;&#34;
+        Network addresses that will be removed from the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        return self._addresses_to_remove
+    @addresses_to_remove.setter
+    def addresses_to_remove(self, value):
+        self._addresses_to_remove = []
+        if not value:
+            return
+        for address in value:
+            self.address_remove(address)
+
+    def address_remove(self, address):
+        &#34;&#34;&#34;
+        Add a NetworkAddress that will be removed from the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        if len(self._addresses_to_remove) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+        self._addresses_to_remove.append(NetworkAddress(address=address))
+    
+    @property
+    def names_to_add(self):
+        &#34;&#34;&#34;
+        Bot names that will added to the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        return self._names_to_add
+    @names_to_add.setter
+    def names_to_add(self, value):
+        self._names_to_add = []
+        if not value:
+            return
+        for name in value:
+            self.name_add(name)
+
+    def name_add(self, name):
+        &#34;&#34;&#34;
+        Add a BotName that will be added to the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        if len(self._names_to_add) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+        self._names_to_add.append(BotName(value=name))
+
+    @property
+    def names_to_remove(self):
+        &#34;&#34;&#34;
+        Bot names that will be removed from the 3Bot&#39;s record
+        &#34;&#34;&#34;
+        return self._names_to_remove
+    @names_to_remove.setter
+    def names_to_remove(self, value):
+        self._names_to_remove = []
+        if not value:
+            return
+        for name in value:
+            self.name_remove(name)
+
+    def name_remove(self, name):
+        &#34;&#34;&#34;
+        Add a BotName that will be removed from the 3Bot&#39;s record.
+        &#34;&#34;&#34;
+        if len(self._names_to_remove) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+        self._names_to_remove.append(BotName(value=name))
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    @property
+    def number_of_months(self):
+        return self._number_of_months
+
+    @number_of_months.setter
+    def number_of_months(self, n):
+        if n &lt; 0 or n &gt; 24:
+            raise ValueError(&#34;number of months for a 3Bot Record Update has to be in the inclusive range [0,24]&#34;)
+        self._number_of_months = n
+
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature(as_array=True)
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+            return
+        self._signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def parent_public_key(self):
+        if self._parent_public_key is None:
+            return PublicKey()
+        return self._parent_public_key
+    @parent_public_key.setter
+    def parent_public_key(self, value):
+        if value is None:
+            self._parent_public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as BotRecordUpdateTransactions&#39;s parent public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._parent_public_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        if self._parent_public_key.unlockhash != public_key.unlockhash:
+            raise ValueError(&#34;given public key ({}) does not equal parent public key ({})&#34;.format(
+                str(self._parent_public_key.unlockhash), str(public_key.unlockhash)))
+        self.signature = signature
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV145._SPECIFIER)
+
+        # encode the botID
+        e.add_int32(self.botid)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode addresses, names and number of months
+        e.add_all(self.addresses_to_add, self.addresses_to_remove)
+        e.add_all(self.names_to_add, self.names_to_remove)
+        e.add_int8(self.number_of_months)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode transaction fee
+        e.add_all(self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV145._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+
+        # get addresses and names
+        addresses_to_add = self.addresses_to_add
+        addresses_to_remove = self.addresses_to_remove
+        names_to_add = self.names_to_add
+        names_to_remove = self.names_to_remove
+        addresses_to_add_length = len(addresses_to_add)
+        addresses_to_remove_length = len(addresses_to_remove)
+        names_to_add_length = len(names_to_add)
+        names_to_remove_length = len(names_to_remove)
+
+        # encode the identifier
+        e.add_int32(self.botid)
+
+        # encode bot binary encoding prefix (containing length and refund info)
+        maf = BotMonthsAndFlagsData(
+            number_of_months=self.number_of_months,
+            has_addresses=(addresses_to_add_length&gt;0 or addresses_to_remove_length&gt;0),
+            has_names=(names_to_add_length&gt;0 or names_to_remove_length&gt;0),
+            has_refund=(self._refund_coin_output is not None),
+        )
+        e.add(maf)
+
+        # if we have addresses, encode it
+        if maf.has_addresses:
+            e.add_int8(addresses_to_add_length | (addresses_to_remove_length&lt;&lt; 4))
+            e.add_array(addresses_to_add)
+            e.add_array(addresses_to_remove)
+
+        # if we have names, encode it
+        if maf.has_names:
+            e.add_int8(names_to_add_length | (names_to_remove_length&lt;&lt; 4))
+            e.add_array(names_to_add)
+            e.add_array(names_to_remove)
+        
+        # encode transaction fee and coin inputs
+        e.add_all(self.transaction_fee, self.coin_inputs)
+
+        # encode refund coin output, if defined
+        if maf.has_refund:
+            e.add(self._refund_coin_output)
+    
+        # encode the signature at the end
+        e.add(self.signature)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        self._botid = int(data.get(&#39;id&#39;, 0) or 0)
+        addresses = data.get(&#39;addresses&#39;, {}) or {}
+        self._addresses_to_add = [NetworkAddress.from_json(address) for address in addresses.get(&#39;add&#39;, []) or []]
+        self._addresses_to_remove = [NetworkAddress.from_json(address) for address in addresses.get(&#39;remove&#39;, []) or []]
+        names = data.get(&#39;names&#39;, {}) or {}
+        self._names_to_add = [BotName.from_json(name) for name in names.get(&#39;add&#39;, []) or []]
+        self._names_to_remove = [BotName.from_json(name) for name in names.get(&#39;remove&#39;, []) or []]
+        self._number_of_months = int(data.get(&#39;nrofmonths&#39;, 0) or 0)
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        self._coin_inputs = [CoinInput.from_json(ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+        self._signature = ED25519Signature.from_json(data.get(&#39;signature&#39;, None) or None)
+
+    def _json_data_object(self):
+        output = {
+            &#39;id&#39;: self.botid,
+            &#39;nrofmonths&#39;: self.number_of_months,
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs],
+            &#39;signature&#39;: self.signature.json(),
+        }
+        # encode addresses
+        addresses_to_add = self.addresses_to_add
+        addresses_to_remove = self.addresses_to_remove
+        addresses_to_add_length = len(addresses_to_add)
+        addresses_to_remove_length = len(addresses_to_remove)
+        if addresses_to_add_length &gt; 0:
+            output[&#39;addresses&#39;] = {
+                &#39;add&#39;: [address.json() for address in addresses_to_add]
+            }
+        if addresses_to_remove_length &gt; 0:
+            d = output.get(&#39;addresses&#39;, {})
+            d[&#39;remove&#39;] = [address.json() for address in addresses_to_remove]
+            output[&#39;addresses&#39;] = d
+
+        # encode names
+        names_to_add = self.names_to_add
+        names_to_remove = self.names_to_remove
+        names_to_add_length = len(names_to_add)
+        names_to_remove_length = len(names_to_remove)
+        if names_to_add_length &gt; 0:
+            output[&#39;names&#39;] = {
+                &#39;add&#39;: [name.json() for name in names_to_add]
+            }
+        if names_to_remove_length &gt; 0:
+            d = output.get(&#39;names&#39;, {})
+            d[&#39;remove&#39;] = [name.json() for name in names_to_remove]
+            output[&#39;names&#39;] = d
+
+        # encode refund coin output
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+    def _extra_signature_requests_new(self):
+        if self._parent_public_key is None:
+            # if no parent public key is defined, cannot do anything
+            return []
+        if self._signature is not None:
+            return [] # nothing to do
+        # generate the input hash func
+        input_hash_func = InputSignatureHashFactory(self, BotTransactionBaseClass.SPECIFIER_SENDER).signature_hash_new
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        unlockhash = self._parent_public_key.unlockhash
+        def input_hash_gen(public_key):
+            return input_hash_func()
+        # create the only signature request
+        return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]
+
+    def _extra_is_fulfilled(self):
+        return self._signature is not None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass">BotTransactionBaseClass</a></li>
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="../FulfillmentTypes.html#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.addresses_to_add"><code class="name">var <span class="ident">addresses_to_add</span></code></dt>
+<dd>
+<section class="desc"><p>Network addresses that will be added to the 3Bot's record.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def addresses_to_add(self):
+    &#34;&#34;&#34;
+    Network addresses that will be added to the 3Bot&#39;s record.
+    &#34;&#34;&#34;
+    return self._addresses_to_add</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.addresses_to_remove"><code class="name">var <span class="ident">addresses_to_remove</span></code></dt>
+<dd>
+<section class="desc"><p>Network addresses that will be removed from the 3Bot's record.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def addresses_to_remove(self):
+    &#34;&#34;&#34;
+    Network addresses that will be removed from the 3Bot&#39;s record.
+    &#34;&#34;&#34;
+    return self._addresses_to_remove</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.botid"><code class="name">var <span class="ident">botid</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def botid(self):
+    if self._botid is None:
+        return 0
+    return self._botid</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.coin_outputs"><code class="name">var <span class="ident">coin_outputs</span></code></dt>
+<dd>
+<section class="desc"><p>Empty list, or a singleton with the refund coin output if that one exists.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def coin_outputs(self):
+    &#34;&#34;&#34;
+    Empty list, or a singleton with the refund coin output if that one exists.
+    &#34;&#34;&#34;
+    if self._refund_coin_output is None:
+        return []
+    return [self._refund_coin_output]</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.names_to_add"><code class="name">var <span class="ident">names_to_add</span></code></dt>
+<dd>
+<section class="desc"><p>Bot names that will added to the 3Bot's record.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def names_to_add(self):
+    &#34;&#34;&#34;
+    Bot names that will added to the 3Bot&#39;s record.
+    &#34;&#34;&#34;
+    return self._names_to_add</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.names_to_remove"><code class="name">var <span class="ident">names_to_remove</span></code></dt>
+<dd>
+<section class="desc"><p>Bot names that will be removed from the 3Bot's record</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def names_to_remove(self):
+    &#34;&#34;&#34;
+    Bot names that will be removed from the 3Bot&#39;s record
+    &#34;&#34;&#34;
+    return self._names_to_remove</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.number_of_months"><code class="name">var <span class="ident">number_of_months</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def number_of_months(self):
+    return self._number_of_months</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.parent_public_key"><code class="name">var <span class="ident">parent_public_key</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def parent_public_key(self):
+    if self._parent_public_key is None:
+        return PublicKey()
+    return self._parent_public_key</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.refund_coin_output"><code class="name">var <span class="ident">refund_coin_output</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def refund_coin_output(self):
+    if self._refund_coin_output is None:
+        return CoinOutput()
+    return self._refund_coin_output</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.required_bot_fees"><code class="name">var <span class="ident">required_bot_fees</span></code></dt>
+<dd>
+<section class="desc"><p>The fees required to pay for this 3Bot Record Update Transaction.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def required_bot_fees(self):
+    &#34;&#34;&#34;
+    The fees required to pay for this 3Bot Record Update Transaction.
+    &#34;&#34;&#34;
+    fees = Currency(value=0)
+    # all months have to be paid
+    if self._number_of_months &gt; 0:
+        fees += BotTransactionBaseClass.compute_monthly_bot_fees(self._number_of_months)
+    # if addresses have been modified, this has to be paid
+    if len(self._addresses_to_add) &gt; 0 or len(self._addresses_to_remove) &gt; 0:
+        fees += BotTransactionBaseClass.BOT_FEE_NETWORK_ADDRESS_UPDATE
+    # each additional that is added, has to be paid as well
+    lnames = len(self._names_to_add)
+    if lnames &gt; 0:
+        fees += BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * lnames
+    # return the total fees
+    return fees</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.signature"><code class="name">var <span class="ident">signature</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def signature(self):
+    if self._signature is None:
+        return ED25519Signature(as_array=True)
+    return self._signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.transaction_fee"><code class="name">var <span class="ident">transaction_fee</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def transaction_fee(self):
+    if self._transaction_fee is None:
+        return Currency()
+    return self._transaction_fee</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.address_add"><code class="name flex">
+<span>def <span class="ident">address_add</span></span>(<span>self, address)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a NetworkAddress that will be added to the 3Bot's record.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def address_add(self, address):
+    &#34;&#34;&#34;
+    Add a NetworkAddress that will be added to the 3Bot&#39;s record.
+    &#34;&#34;&#34;
+    if len(self._addresses_to_add) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+        raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+            BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+    self._addresses_to_add.append(NetworkAddress(address=address))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.address_remove"><code class="name flex">
+<span>def <span class="ident">address_remove</span></span>(<span>self, address)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a NetworkAddress that will be removed from the 3Bot's record.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def address_remove(self, address):
+    &#34;&#34;&#34;
+    Add a NetworkAddress that will be removed from the 3Bot&#39;s record.
+    &#34;&#34;&#34;
+    if len(self._addresses_to_remove) == BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT:
+        raise Exception(&#34;a 3Bot can have a maximum of {} addresses, there is no more space for {} ({})&#34;.format(
+            BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT, address, type(address)))
+    self._addresses_to_remove.append(NetworkAddress(address=address))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.coin_input_add"><code class="name flex">
+<span>def <span class="ident">coin_input_add</span></span>(<span>self, parentid, fulfillment, parent_output=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def coin_input_add(self, parentid, fulfillment, parent_output=None):
+    ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+    ci.parent_output = parent_output
+    self._coin_inputs.append(ci)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.name_add"><code class="name flex">
+<span>def <span class="ident">name_add</span></span>(<span>self, name)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a BotName that will be added to the 3Bot's record.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def name_add(self, name):
+    &#34;&#34;&#34;
+    Add a BotName that will be added to the 3Bot&#39;s record.
+    &#34;&#34;&#34;
+    if len(self._names_to_add) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+        raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+            BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+    self._names_to_add.append(BotName(value=name))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.name_remove"><code class="name flex">
+<span>def <span class="ident">name_remove</span></span>(<span>self, name)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a BotName that will be removed from the 3Bot's record.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def name_remove(self, name):
+    &#34;&#34;&#34;
+    Add a BotName that will be removed from the 3Bot&#39;s record.
+    &#34;&#34;&#34;
+    if len(self._names_to_remove) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+        raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+            BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+    self._names_to_remove.append(BotName(value=name))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.refund_coin_output_set"><code class="name flex">
+<span>def <span class="ident">refund_coin_output_set</span></span>(<span>self, value, condition, id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def refund_coin_output_set(self, value, condition, id=None):
+    co = CoinOutput(value=value, condition=condition)
+    co.id = id
+    self._refund_coin_output = co</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV145.signature_add"><code class="name flex">
+<span>def <span class="ident">signature_add</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Implements SignatureCallbackBase.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_add(self, public_key, signature):
+    &#34;&#34;&#34;
+    Implements SignatureCallbackBase.
+    &#34;&#34;&#34;
+    if self._parent_public_key.unlockhash != public_key.unlockhash:
+        raise ValueError(&#34;given public key ({}) does not equal parent public key ({})&#34;.format(
+            str(self._parent_public_key.unlockhash), str(public_key.unlockhash)))
+    self.signature = signature</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass">BotTransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees">compute_monthly_bot_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146"><code class="flex name class">
+<span>class <span class="ident">TransactionV146</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TransactionV146(BotTransactionBaseClass):
+    _SPECIFIER = b&#39;bot nametrans tx&#39;
+
+    def __init__(self):
+        self._sender_botid = None
+        self._receiver_botid = None
+        self._names = []
+        self._transaction_fee = None
+        self._coin_inputs = None
+        self._refund_coin_output = None
+        self._sender_signature = None
+        self._receiver_signature = None
+        self._sender_parent_public_key = None
+        self._receiver_parent_public_key = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.THREEBOT_NAME_TRANSFER
+
+    @property
+    def required_bot_fees(self):
+        &#34;&#34;&#34;
+        The fees required to pay for this 3Bot Name Transfer Transaction.
+        &#34;&#34;&#34;
+        return BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * len(self.names)
+
+    @property
+    def sender_botid(self):
+        if self._sender_botid is None:
+            return 0
+        return self._sender_botid
+    @sender_botid.setter
+    def sender_botid(self, value):
+        if value is None:
+            self._sender_botid = None
+        elif isinstance(value, int):
+            if value &lt;= 0:
+                raise ValueError(&#34;a (sender) bot identifier has to be at least equal to 1: {} is invalid&#34;.format(value))
+            self._sender_botid = value
+        else:
+            raise TypeError(&#34;a (sender) bot identifier has to be an integer, cannot be of type {}&#34;.format(type(value)))
+
+    @property
+    def receiver_botid(self):
+        if self._receiver_botid is None:
+            return 0
+        return self._receiver_botid
+    @receiver_botid.setter
+    def receiver_botid(self, value):
+        if value is None:
+            self._receiver_botid = None
+        elif isinstance(value, int):
+            if value &lt;= 0:
+                raise ValueError(&#34;a (receiver) bot identifier has to be at least equal to 1: {} is invalid&#34;.format(value))
+            self._receiver_botid = value
+        else:
+            raise TypeError(&#34;a (receiver) bot identifier has to be an integer, cannot be of type {}&#34;.format(type(value)))
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment, parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(&#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(&#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+    
+    @property
+    def names(self):
+        &#34;&#34;&#34;
+        Bot names that will be transfered from the sender- to the receiver 3Bot.
+        &#34;&#34;&#34;
+        return self._names
+    @names.setter
+    def names(self, value):
+        self._names_to_add = []
+        if not value:
+            return
+        for name in value:
+            self.name_add(name)
+
+    def name_add(self, name):
+        &#34;&#34;&#34;
+        Add a BotName that will be tranfered from the sender- to the receiver 3Bot.
+        &#34;&#34;&#34;
+        if len(self._names) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+            raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+                BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+        self._names.append(BotName(value=name))
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    @property
+    def sender_signature(self):
+        if self._sender_signature is None:
+            return ED25519Signature(as_array=True)
+        return self._sender_signature
+    @sender_signature.setter
+    def sender_signature(self, value):
+        if value is None:
+            self._sender_signature = None
+            return
+        self._sender_signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def receiver_signature(self):
+        if self._receiver_signature is None:
+            return ED25519Signature(as_array=True)
+        return self._receiver_signature
+    @receiver_signature.setter
+    def receiver_signature(self, value):
+        if value is None:
+            self._receiver_signature = None
+            return
+        self._receiver_signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def sender_parent_public_key(self):
+        if self._sender_parent_public_key is None:
+            return PublicKey()
+        return self._sender_parent_public_key
+    @sender_parent_public_key.setter
+    def sender_parent_public_key(self, value):
+        if value is None:
+            self._sender_parent_public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as BotNameTransferTransaction&#39;s sender parent public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._sender_parent_public_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    @property
+    def receiver_parent_public_key(self):
+        if self._receiver_parent_public_key is None:
+            return PublicKey()
+        return self._receiver_parent_public_key
+    @receiver_parent_public_key.setter
+    def receiver_parent_public_key(self, value):
+        if value is None:
+            self._receiver_parent_public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as BotNameTransferTransaction&#39;s receiver parent public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._receiver_parent_public_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        unlockhash = public_key.unlockhash
+        if unlockhash == self.sender_parent_public_key.unlockhash:
+            self.sender_signature = signature
+        elif unlockhash == self.receiver_parent_public_key.unlockhash:
+            self.receiver_signature = signature
+        else:
+            raise ValueError(&#34;given public key (unlockhash: {}) is not linked to this BotNameTransfer Transaction&#34;.format(str(unlockhash)))
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV146._SPECIFIER)
+
+        # encode the bot identifiers
+        e.add_int32(self.sender_botid)
+        e.add_int32(self.receiver_botid)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode names
+        e.add(self.names)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode transaction fee
+        e.add(self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV146._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+
+        # get names
+        names = self.names
+        names_length = len(names)
+        info_value = names_length
+
+        # get has refund status
+        has_refund = False
+        if self._refund_coin_output is not None:
+            has_refund = True
+            info_value |= 16
+
+        # encode sender bot info
+        e.add_int32(self.sender_botid)
+        e.add(self.sender_signature)
+
+        # encode receiver bot info
+        e.add_int32(self.receiver_botid)
+        e.add(self.receiver_signature)
+
+        # encode info value
+        e.add_int8(info_value)
+
+        # encode the names
+        e.add_array(names)
+        
+        # encode transaction fee and coin inputs
+        e.add_all(self.transaction_fee, self.coin_inputs)
+
+        # encode refund coin output, if defined
+        if has_refund:
+            e.add(self._refund_coin_output)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        # decode sender info
+        if &#39;sender&#39; in data:
+            bot_data = data[&#39;sender&#39;]
+            self._sender_botid = int(bot_data.get(&#39;id&#39;, 0) or 0)
+            self._sender_signature = ED25519Signature.from_json(bot_data.get(&#39;signature&#39;, None) or None)
+        else:
+            self._sender_botid = None
+            self._sender_signature = None
+        # decode receiver info
+        if &#39;receiver&#39; in data:
+            bot_data = data[&#39;receiver&#39;]
+            self._receiver_botid = int(bot_data.get(&#39;id&#39;, 0) or 0)
+            self._receiver_signature = ED25519Signature.from_json(bot_data.get(&#39;signature&#39;, None) or None)
+        else:
+            self._receiver_botid = None
+            self._receiver_signature = None
+        # decode names
+        self._names = [BotName.from_json(name) for name in data.get(&#39;names&#39;, []) or []]
+        # decode transaction fee
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        # decode coin inputs
+        self._coin_inputs = [CoinInput.from_json(ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        # decode refund coin output
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+
+    def _json_data_object(self):
+        output = {
+            &#39;sender&#39;: {
+                &#39;id&#39;: self.sender_botid,
+                &#39;signature&#39;: self.sender_signature.json(),
+            },
+            &#39;receiver&#39;: {
+                &#39;id&#39;: self.receiver_botid,
+                &#39;signature&#39;: self.receiver_signature.json(),
+            },
+            &#39;names&#39;: [name.json() for name in self.names],
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs]
+        }
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+    def _extra_signature_requests_new(self):
+        requests = []
+        # collect, if possible, the sender request
+        request = self._extra_signature_requests_for(self._sender_parent_public_key, self._sender_signature, BotTransactionBaseClass.SPECIFIER_SENDER)
+        if request is not None:
+            requests.append(request)
+        # collect, if possible, the receiver request
+        request = self._extra_signature_requests_for(self._receiver_parent_public_key, self._receiver_signature, BotTransactionBaseClass.SPECIFIER_RECEIVER)
+        if request is not None:
+            requests.append(request)
+        # return all requests, if any
+        return requests
+
+    def _extra_signature_requests_for(self, public_key, signature, specifier):
+        if public_key is None:
+            # if no parent public key is defined, cannot do anything
+            return None
+        if signature is not None:
+            return None
+        # generate the input hash func
+        factory = InputSignatureHashFactory(self, specifier)
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        unlockhash = public_key.unlockhash
+        # create the only signature request
+        return SignatureRequest(
+            unlockhash=unlockhash,
+            input_hash_gen=(lambda public_key: factory.signature_hash_new()),
+            callback=self)
+
+    def _extra_is_fulfilled(self):
+        return self._sender_signature is not None and self._receiver_signature is not None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass">BotTransactionBaseClass</a></li>
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="../FulfillmentTypes.html#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.coin_outputs"><code class="name">var <span class="ident">coin_outputs</span></code></dt>
+<dd>
+<section class="desc"><p>Empty list, or a singleton with the refund coin output if that one exists.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def coin_outputs(self):
+    &#34;&#34;&#34;
+    Empty list, or a singleton with the refund coin output if that one exists.
+    &#34;&#34;&#34;
+    if self._refund_coin_output is None:
+        return []
+    return [self._refund_coin_output]</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.names"><code class="name">var <span class="ident">names</span></code></dt>
+<dd>
+<section class="desc"><p>Bot names that will be transfered from the sender- to the receiver 3Bot.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def names(self):
+    &#34;&#34;&#34;
+    Bot names that will be transfered from the sender- to the receiver 3Bot.
+    &#34;&#34;&#34;
+    return self._names</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.receiver_botid"><code class="name">var <span class="ident">receiver_botid</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def receiver_botid(self):
+    if self._receiver_botid is None:
+        return 0
+    return self._receiver_botid</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.receiver_parent_public_key"><code class="name">var <span class="ident">receiver_parent_public_key</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def receiver_parent_public_key(self):
+    if self._receiver_parent_public_key is None:
+        return PublicKey()
+    return self._receiver_parent_public_key</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.receiver_signature"><code class="name">var <span class="ident">receiver_signature</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def receiver_signature(self):
+    if self._receiver_signature is None:
+        return ED25519Signature(as_array=True)
+    return self._receiver_signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.refund_coin_output"><code class="name">var <span class="ident">refund_coin_output</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def refund_coin_output(self):
+    if self._refund_coin_output is None:
+        return CoinOutput()
+    return self._refund_coin_output</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.required_bot_fees"><code class="name">var <span class="ident">required_bot_fees</span></code></dt>
+<dd>
+<section class="desc"><p>The fees required to pay for this 3Bot Name Transfer Transaction.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def required_bot_fees(self):
+    &#34;&#34;&#34;
+    The fees required to pay for this 3Bot Name Transfer Transaction.
+    &#34;&#34;&#34;
+    return BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME * len(self.names)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.sender_botid"><code class="name">var <span class="ident">sender_botid</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def sender_botid(self):
+    if self._sender_botid is None:
+        return 0
+    return self._sender_botid</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.sender_parent_public_key"><code class="name">var <span class="ident">sender_parent_public_key</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def sender_parent_public_key(self):
+    if self._sender_parent_public_key is None:
+        return PublicKey()
+    return self._sender_parent_public_key</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.sender_signature"><code class="name">var <span class="ident">sender_signature</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def sender_signature(self):
+    if self._sender_signature is None:
+        return ED25519Signature(as_array=True)
+    return self._sender_signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.transaction_fee"><code class="name">var <span class="ident">transaction_fee</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def transaction_fee(self):
+    if self._transaction_fee is None:
+        return Currency()
+    return self._transaction_fee</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.coin_input_add"><code class="name flex">
+<span>def <span class="ident">coin_input_add</span></span>(<span>self, parentid, fulfillment, parent_output=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def coin_input_add(self, parentid, fulfillment, parent_output=None):
+    ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+    ci.parent_output = parent_output
+    self._coin_inputs.append(ci)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.name_add"><code class="name flex">
+<span>def <span class="ident">name_add</span></span>(<span>self, name)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a BotName that will be tranfered from the sender- to the receiver 3Bot.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def name_add(self, name):
+    &#34;&#34;&#34;
+    Add a BotName that will be tranfered from the sender- to the receiver 3Bot.
+    &#34;&#34;&#34;
+    if len(self._names) == BotTransactionBaseClass.MAX_NAMES_PER_BOT:
+        raise Exception(&#34;a 3Bot can have a maximum of {} names, there is no more space for {} ({})&#34;.format(
+            BotTransactionBaseClass.MAX_NAMES_PER_BOT, name, type(name)))
+    self._names.append(BotName(value=name))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.refund_coin_output_set"><code class="name flex">
+<span>def <span class="ident">refund_coin_output_set</span></span>(<span>self, value, condition, id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def refund_coin_output_set(self, value, condition, id=None):
+    co = CoinOutput(value=value, condition=condition)
+    co.id = id
+    self._refund_coin_output = co</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ThreeBot.TransactionV146.signature_add"><code class="name flex">
+<span>def <span class="ident">signature_add</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Implements SignatureCallbackBase.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_add(self, public_key, signature):
+    &#34;&#34;&#34;
+    Implements SignatureCallbackBase.
+    &#34;&#34;&#34;
+    unlockhash = public_key.unlockhash
+    if unlockhash == self.sender_parent_public_key.unlockhash:
+        self.sender_signature = signature
+    elif unlockhash == self.receiver_parent_public_key.unlockhash:
+        self.receiver_signature = signature
+    else:
+        raise ValueError(&#34;given public key (unlockhash: {}) is not linked to this BotNameTransfer Transaction&#34;.format(str(unlockhash)))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass">BotTransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees">compute_monthly_bot_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.types.transactions" href="index.html">tfchain.types.transactions</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData" href="#tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData">BotMonthsAndFlagsData</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_addresses" href="#tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_addresses">has_addresses</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_names" href="#tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_names">has_names</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_refund" href="#tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.has_refund">has_refund</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.number_of_months" href="#tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.number_of_months">number_of_months</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.rivine_binary_encode" href="#tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.sia_binary_encode" href="#tfchain.types.transactions.ThreeBot.BotMonthsAndFlagsData.sia_binary_encode">sia_binary_encode</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass">BotTransactionBaseClass</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_ADDITIONAL_NAME">BOT_FEE_ADDITIONAL_NAME</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_MONTHLY" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_MONTHLY">BOT_FEE_MONTHLY</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_NETWORK_ADDRESS_UPDATE" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_NETWORK_ADDRESS_UPDATE">BOT_FEE_NETWORK_ADDRESS_UPDATE</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_REGISTRATION" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.BOT_FEE_REGISTRATION">BOT_FEE_REGISTRATION</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.MAX_ADDRESSES_PER_BOT">MAX_ADDRESSES_PER_BOT</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.MAX_NAMES_PER_BOT" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.MAX_NAMES_PER_BOT">MAX_NAMES_PER_BOT</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.SPECIFIER_RECEIVER" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.SPECIFIER_RECEIVER">SPECIFIER_RECEIVER</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.SPECIFIER_SENDER" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.SPECIFIER_SENDER">SPECIFIER_SENDER</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.compute_monthly_bot_fees">compute_monthly_bot_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.required_bot_fees" href="#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass.required_bot_fees">required_bot_fees</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144" href="#tfchain.types.transactions.ThreeBot.TransactionV144">TransactionV144</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.address_add" href="#tfchain.types.transactions.ThreeBot.TransactionV144.address_add">address_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.addresses" href="#tfchain.types.transactions.ThreeBot.TransactionV144.addresses">addresses</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.coin_input_add" href="#tfchain.types.transactions.ThreeBot.TransactionV144.coin_input_add">coin_input_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.coin_outputs" href="#tfchain.types.transactions.ThreeBot.TransactionV144.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.name_add" href="#tfchain.types.transactions.ThreeBot.TransactionV144.name_add">name_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.names" href="#tfchain.types.transactions.ThreeBot.TransactionV144.names">names</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.number_of_months" href="#tfchain.types.transactions.ThreeBot.TransactionV144.number_of_months">number_of_months</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.public_key" href="#tfchain.types.transactions.ThreeBot.TransactionV144.public_key">public_key</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.refund_coin_output" href="#tfchain.types.transactions.ThreeBot.TransactionV144.refund_coin_output">refund_coin_output</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.refund_coin_output_set" href="#tfchain.types.transactions.ThreeBot.TransactionV144.refund_coin_output_set">refund_coin_output_set</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.required_bot_fees" href="#tfchain.types.transactions.ThreeBot.TransactionV144.required_bot_fees">required_bot_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.signature" href="#tfchain.types.transactions.ThreeBot.TransactionV144.signature">signature</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.signature_add" href="#tfchain.types.transactions.ThreeBot.TransactionV144.signature_add">signature_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV144.transaction_fee" href="#tfchain.types.transactions.ThreeBot.TransactionV144.transaction_fee">transaction_fee</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145" href="#tfchain.types.transactions.ThreeBot.TransactionV145">TransactionV145</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.address_add" href="#tfchain.types.transactions.ThreeBot.TransactionV145.address_add">address_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.address_remove" href="#tfchain.types.transactions.ThreeBot.TransactionV145.address_remove">address_remove</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.addresses_to_add" href="#tfchain.types.transactions.ThreeBot.TransactionV145.addresses_to_add">addresses_to_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.addresses_to_remove" href="#tfchain.types.transactions.ThreeBot.TransactionV145.addresses_to_remove">addresses_to_remove</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.botid" href="#tfchain.types.transactions.ThreeBot.TransactionV145.botid">botid</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.coin_input_add" href="#tfchain.types.transactions.ThreeBot.TransactionV145.coin_input_add">coin_input_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.coin_outputs" href="#tfchain.types.transactions.ThreeBot.TransactionV145.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.name_add" href="#tfchain.types.transactions.ThreeBot.TransactionV145.name_add">name_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.name_remove" href="#tfchain.types.transactions.ThreeBot.TransactionV145.name_remove">name_remove</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.names_to_add" href="#tfchain.types.transactions.ThreeBot.TransactionV145.names_to_add">names_to_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.names_to_remove" href="#tfchain.types.transactions.ThreeBot.TransactionV145.names_to_remove">names_to_remove</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.number_of_months" href="#tfchain.types.transactions.ThreeBot.TransactionV145.number_of_months">number_of_months</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.parent_public_key" href="#tfchain.types.transactions.ThreeBot.TransactionV145.parent_public_key">parent_public_key</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.refund_coin_output" href="#tfchain.types.transactions.ThreeBot.TransactionV145.refund_coin_output">refund_coin_output</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.refund_coin_output_set" href="#tfchain.types.transactions.ThreeBot.TransactionV145.refund_coin_output_set">refund_coin_output_set</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.required_bot_fees" href="#tfchain.types.transactions.ThreeBot.TransactionV145.required_bot_fees">required_bot_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.signature" href="#tfchain.types.transactions.ThreeBot.TransactionV145.signature">signature</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.signature_add" href="#tfchain.types.transactions.ThreeBot.TransactionV145.signature_add">signature_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV145.transaction_fee" href="#tfchain.types.transactions.ThreeBot.TransactionV145.transaction_fee">transaction_fee</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146" href="#tfchain.types.transactions.ThreeBot.TransactionV146">TransactionV146</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.coin_input_add" href="#tfchain.types.transactions.ThreeBot.TransactionV146.coin_input_add">coin_input_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.coin_outputs" href="#tfchain.types.transactions.ThreeBot.TransactionV146.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.name_add" href="#tfchain.types.transactions.ThreeBot.TransactionV146.name_add">name_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.names" href="#tfchain.types.transactions.ThreeBot.TransactionV146.names">names</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.receiver_botid" href="#tfchain.types.transactions.ThreeBot.TransactionV146.receiver_botid">receiver_botid</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.receiver_parent_public_key" href="#tfchain.types.transactions.ThreeBot.TransactionV146.receiver_parent_public_key">receiver_parent_public_key</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.receiver_signature" href="#tfchain.types.transactions.ThreeBot.TransactionV146.receiver_signature">receiver_signature</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.refund_coin_output" href="#tfchain.types.transactions.ThreeBot.TransactionV146.refund_coin_output">refund_coin_output</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.refund_coin_output_set" href="#tfchain.types.transactions.ThreeBot.TransactionV146.refund_coin_output_set">refund_coin_output_set</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.required_bot_fees" href="#tfchain.types.transactions.ThreeBot.TransactionV146.required_bot_fees">required_bot_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.sender_botid" href="#tfchain.types.transactions.ThreeBot.TransactionV146.sender_botid">sender_botid</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.sender_parent_public_key" href="#tfchain.types.transactions.ThreeBot.TransactionV146.sender_parent_public_key">sender_parent_public_key</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.sender_signature" href="#tfchain.types.transactions.ThreeBot.TransactionV146.sender_signature">sender_signature</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.signature_add" href="#tfchain.types.transactions.ThreeBot.TransactionV146.signature_add">signature_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ThreeBot.TransactionV146.transaction_fee" href="#tfchain.types.transactions.ThreeBot.TransactionV146.transaction_fee">transaction_fee</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

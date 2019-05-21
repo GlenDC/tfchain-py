@@ -1,0 +1,1490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.errors API documentation</title>
+<meta name="description" content="Public TFChain Errors" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.errors</code></h1>
+</header>
+<section id="section-intro">
+<p>Public TFChain Errors</p>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Public TFChain Errors
+&#34;&#34;&#34;
+
+from tfchain.internal.jsutils import epoch2HRDateTime
+
+class InvalidPublicKeySpecifier(Exception):
+    &#34;&#34;&#34;
+    InvalidPublicKeySpecifier error
+    &#34;&#34;&#34;
+
+
+class UnknownTransansactionVersion(Exception):
+    &#34;&#34;&#34;
+    UnknownTransansactionVersion error
+    &#34;&#34;&#34;
+
+
+class InsufficientFunds(Exception):
+    &#34;&#34;&#34;
+    InsufficientFunds error
+    &#34;&#34;&#34;
+
+
+class CurrencyPrecisionOverflow(Exception):
+    &#34;&#34;&#34;
+    CurrencyPrecisionOverflow error, caused when the value is too precise
+    &#34;&#34;&#34;
+    def __init__(self, value):
+        super().__init__(&#34;value {} is too precise to be a value, can have only 9 numbers after the decimal point&#34;.format(str(value)))
+        self._value = value
+
+    @property
+    def precision(self):
+        &#34;&#34;&#34;
+        The precision of the value that caused the overflow.
+        &#34;&#34;&#34;
+        _, _, exp = self.value
+        return abs(exp)
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The value that caused the overflow.
+        &#34;&#34;&#34;
+        return self._value
+
+class CurrencyNegativeValue(Exception):
+    &#34;&#34;&#34;
+    CurrencyNegativeValue error, caused when the value is negative
+    &#34;&#34;&#34;
+    def __init__(self, value):
+        super().__init__(&#34;currency has to be at least 0, while value {} is negative&#34;.format(str(value)))
+        self._value = value
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The value that caused the overflow.
+        &#34;&#34;&#34;
+        return self._value
+
+
+class ExplorerError(Exception):
+    &#34;&#34;&#34;
+    Generic Explorer error
+    &#34;&#34;&#34;
+    def __init__(self, message, endpoint):
+        super().__init__(&#34;{}: {}&#34;.format(endpoint, message))
+        if not isinstance(endpoint, str):
+            raise TypeError(&#34;invalid endpoint, expected it to be of type str not {}&#34;.format(type(endpoint)))
+        self._endpoint = endpoint
+    
+    @property
+    def endpoint(self):
+        &#34;&#34;&#34;
+        The endpoint that was called.
+        &#34;&#34;&#34;
+        return self._endpoint
+
+
+class ExplorerNoContent(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerNoContent error
+    &#34;&#34;&#34;
+
+class ExplorerServerError(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerServerError error
+    &#34;&#34;&#34;
+
+class ExplorerServerPostError(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerServerPostError error
+    &#34;&#34;&#34;
+    def __init__(self, message, endpoint, data):
+        super().__init__(message, endpoint)
+        self._data = data
+    
+    @property
+    def data(self):
+        &#34;&#34;&#34;
+        The data that could not be posted.
+        &#34;&#34;&#34;
+        return self._data
+
+class ExplorerNotAvailable(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerNotAvailable error
+    &#34;&#34;&#34;
+    def __init__(self, message, endpoint, addresses):
+        super().__init__(message, endpoint)
+        if not isinstance(addresses, list):
+            raise TypeError(&#34;invalid addresses, expected it to be of type list not {}&#34;.format(type(addresses)))
+        self._addresses = addresses
+
+    @property
+    def addresses(self):
+        &#34;&#34;&#34;
+        The addresses that were used to try to reach an explorer.
+        &#34;&#34;&#34;
+        return self._addresses
+
+class ExplorerInvalidResponse(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerInvalidResponse error
+    &#34;&#34;&#34;
+    def __init__(self, message, endpoint, response):
+        super().__init__(message, endpoint)
+        if not isinstance(response, dict):
+            raise TypeError(&#34;invalid response, expected it to be of type dict not {}&#34;.format(type(response)))
+        self._response = response
+
+    @property
+    def response(self):
+        &#34;&#34;&#34;
+        The invalid response
+        &#34;&#34;&#34;
+        return self._response
+
+
+class DoubleSignError(Exception):
+    &#34;&#34;&#34;
+    DoubleSignError error
+    &#34;&#34;&#34;
+
+
+class AtomicSwapInsufficientAmountError(Exception):
+    &#34;&#34;&#34;
+    AtomicSwapInsufficientAmountError error,
+    triggered when creating a contract with an amount equal or lower than
+    minimum fee, which isn&#39;t allowed as such a contract cannot be redeemed/refunded.
+    &#34;&#34;&#34;
+    def __init__(self, amount, minimum_miner_fee):
+        super().__init__(
+            &#34;atomic swap contract requires an amount higher than the minimum miner fee ({}): {} is an invalid value&#34;.format(
+                str(minimum_miner_fee), str(amount)))
+        self._amount = amount
+        self._minimum_miner_fee = minimum_miner_fee
+
+    @property
+    def amount(self):
+        &#34;&#34;&#34;
+        The insufficient amount that was used.
+        &#34;&#34;&#34;
+        return self._amount
+
+    @property
+    def minimum_miner_fee(self):
+        &#34;&#34;&#34;
+        The minimum miner fee required on the network used.
+        &#34;&#34;&#34;
+        return self._minimum_miner_fee
+
+
+class AtomicSwapContractError(Exception):
+    &#34;&#34;&#34;
+    AtomicSwapError generic Base error,
+    containing the contract that went wrong.
+    &#34;&#34;&#34;
+    def __init__(self, message, contract):
+        super().__init__(message)
+        self._contract = contract
+
+    @property
+    def contract(self):
+        &#34;&#34;&#34;
+        The contract that was verified against.
+        &#34;&#34;&#34;
+        return self._contract
+
+class AtomicSwapForbidden(AtomicSwapContractError):
+    &#34;&#34;&#34;
+    AtomicSwapForbidden error, caused when a contract was trying
+    to be spent by an unautohorized wallet.
+    &#34;&#34;&#34;
+
+class AtomicSwapInvalidSecret(AtomicSwapContractError):
+    &#34;&#34;&#34;
+    AtomicSwapInvalidSecret error, caused when a wrong secret was used
+    as an attempt to redeem an atomic swap contract. 
+    &#34;&#34;&#34;
+    def __init__(self, contract):
+        super().__init__(message=&#34;defined secret does not match the atomic swap&#39;s contract secret hash&#34;, contract=contract)
+
+class AtomicSwapContractInvalid(AtomicSwapContractError):
+    &#34;&#34;&#34;
+    AtomicSwapContractInvalid error, caused when a contract was deemed
+    invalid during verification.
+    &#34;&#34;&#34;
+
+class AtomicSwapContractSpent(AtomicSwapContractError):
+    &#34;&#34;&#34;
+    AtomicSwapContractSpent error, caused when
+    a callee tried to spend a contract that was already spent.
+    &#34;&#34;&#34;
+    def __init__(self, contract, transaction):
+        txid = getattr(transaction, &#39;id&#39;, &#39;&#39;)
+        super().__init__(message=&#34;atomic swap contract has already been spent in transaction {}&#34;.format(str(txid)), contract=contract)
+        self._transaction = transaction
+
+    @property
+    def transaction(self):
+        &#34;&#34;&#34;
+        The transaction in which the contract was spent.
+        &#34;&#34;&#34;
+        return self._transaction
+
+class AtomicSwapContractNotFound(Exception):
+    &#34;&#34;&#34;
+    AtomicSwapContractNotFound error, caused when
+    a callee tried to get an atomic swap contract that could not be found.
+    &#34;&#34;&#34;
+    def __init__(self, outputid):
+        super().__init__(&#34;atomic swap contract {} could not be found&#34;.format(str(outputid)))
+        self._outputid = outputid
+
+    @property
+    def outputid(self):
+        &#34;&#34;&#34;
+        The outputid that was used to look up the contract that could not be found.
+        &#34;&#34;&#34;
+        return self._outputid
+
+
+class ThreeBotNotFound(Exception):
+    &#34;&#34;&#34;
+    ThreeBotNotFound error, triggered when a 3Bot was not found.
+    &#34;&#34;&#34;
+    def __init__(self, identifier):
+        super().__init__(&#34;3Bot {} could not be found&#34;.format(identifier))
+        self._identifier = identifier
+
+    @property
+    def identifier(self):
+        &#34;&#34;&#34;
+        The (unique) identifier of the 3Bot that could not be found.
+        &#34;&#34;&#34;
+        return self._identifier
+
+
+class ThreeBotInactive(Exception):
+    &#34;&#34;&#34;
+    ThreeBotInactive error, triggered when a 3Bot is an active,
+    and the operation to be applied to the 3Bot would not change that fact.
+    &#34;&#34;&#34;
+    def __init__(self, identifier, expiration):
+        super().__init__(&#34;3Bot {} is inactive since {}&#34;.format(str(identifier), epoch2HRDateTime(expiration)))
+        self._identifier = identifier
+        self._expiration = expiration
+
+    @property
+    def identifier(self):
+        &#34;&#34;&#34;
+        The (unique) identifier of the 3Bot that could not be found.
+        &#34;&#34;&#34;
+        return self._identifier
+
+    @property
+    def expiration(self):
+        &#34;&#34;&#34;
+        The timestamp on which the 3Bot became inactive.
+        &#34;&#34;&#34;
+        return self._expiration
+
+
+class AddressNotInWallet(Exception):
+    &#34;&#34;&#34;
+    AddressNotInWallet error, triggered
+    when trying to use an address on a wallet that does not own it
+    &#34;&#34;&#34;
+    def __init__(self, address):
+        super().__init__(&#34;address {} is not owned by the used wallet&#34;.format(str(address)))
+        self._address = address
+
+    @property
+    def address(self):
+        &#34;&#34;&#34;
+        The address attempted to be used.
+        &#34;&#34;&#34;
+        return self._address
+
+
+class ERC20RegistrationForbidden(Exception):
+    &#34;&#34;&#34;
+    ERC20RegistrationForbidden error, triggered
+    when trying to register an ERC20 address not owned by the used wallet.
+    &#34;&#34;&#34;
+    def __init__(self, address):
+        super().__init__(&#34;address {} is not owned by the used wallet&#34;.format(str(address)))
+        self._address = address
+
+    @property
+    def address(self):
+        &#34;&#34;&#34;
+        The address attempted to be registered.
+        &#34;&#34;&#34;
+        return self._address</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.errors.AddressNotInWallet"><code class="flex name class">
+<span>class <span class="ident">AddressNotInWallet</span></span>
+<span>(</span><span>address)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AddressNotInWallet error, triggered
+when trying to use an address on a wallet that does not own it</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AddressNotInWallet(Exception):
+    &#34;&#34;&#34;
+    AddressNotInWallet error, triggered
+    when trying to use an address on a wallet that does not own it
+    &#34;&#34;&#34;
+    def __init__(self, address):
+        super().__init__(&#34;address {} is not owned by the used wallet&#34;.format(str(address)))
+        self._address = address
+
+    @property
+    def address(self):
+        &#34;&#34;&#34;
+        The address attempted to be used.
+        &#34;&#34;&#34;
+        return self._address</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.AddressNotInWallet.address"><code class="name">var <span class="ident">address</span></code></dt>
+<dd>
+<section class="desc"><p>The address attempted to be used.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def address(self):
+    &#34;&#34;&#34;
+    The address attempted to be used.
+    &#34;&#34;&#34;
+    return self._address</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.AtomicSwapContractError"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapContractError</span></span>
+<span>(</span><span>message, contract)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AtomicSwapError generic Base error,
+containing the contract that went wrong.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapContractError(Exception):
+    &#34;&#34;&#34;
+    AtomicSwapError generic Base error,
+    containing the contract that went wrong.
+    &#34;&#34;&#34;
+    def __init__(self, message, contract):
+        super().__init__(message)
+        self._contract = contract
+
+    @property
+    def contract(self):
+        &#34;&#34;&#34;
+        The contract that was verified against.
+        &#34;&#34;&#34;
+        return self._contract</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.AtomicSwapForbidden" href="#tfchain.errors.AtomicSwapForbidden">AtomicSwapForbidden</a></li>
+<li><a title="tfchain.errors.AtomicSwapInvalidSecret" href="#tfchain.errors.AtomicSwapInvalidSecret">AtomicSwapInvalidSecret</a></li>
+<li><a title="tfchain.errors.AtomicSwapContractInvalid" href="#tfchain.errors.AtomicSwapContractInvalid">AtomicSwapContractInvalid</a></li>
+<li><a title="tfchain.errors.AtomicSwapContractSpent" href="#tfchain.errors.AtomicSwapContractSpent">AtomicSwapContractSpent</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.AtomicSwapContractError.contract"><code class="name">var <span class="ident">contract</span></code></dt>
+<dd>
+<section class="desc"><p>The contract that was verified against.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def contract(self):
+    &#34;&#34;&#34;
+    The contract that was verified against.
+    &#34;&#34;&#34;
+    return self._contract</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.AtomicSwapContractInvalid"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapContractInvalid</span></span>
+<span>(</span><span>message, contract)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AtomicSwapContractInvalid error, caused when a contract was deemed
+invalid during verification.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapContractInvalid(AtomicSwapContractError):
+    &#34;&#34;&#34;
+    AtomicSwapContractInvalid error, caused when a contract was deemed
+    invalid during verification.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.AtomicSwapContractError.contract" href="#tfchain.errors.AtomicSwapContractError.contract">contract</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.AtomicSwapContractNotFound"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapContractNotFound</span></span>
+<span>(</span><span>outputid)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AtomicSwapContractNotFound error, caused when
+a callee tried to get an atomic swap contract that could not be found.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapContractNotFound(Exception):
+    &#34;&#34;&#34;
+    AtomicSwapContractNotFound error, caused when
+    a callee tried to get an atomic swap contract that could not be found.
+    &#34;&#34;&#34;
+    def __init__(self, outputid):
+        super().__init__(&#34;atomic swap contract {} could not be found&#34;.format(str(outputid)))
+        self._outputid = outputid
+
+    @property
+    def outputid(self):
+        &#34;&#34;&#34;
+        The outputid that was used to look up the contract that could not be found.
+        &#34;&#34;&#34;
+        return self._outputid</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.AtomicSwapContractNotFound.outputid"><code class="name">var <span class="ident">outputid</span></code></dt>
+<dd>
+<section class="desc"><p>The outputid that was used to look up the contract that could not be found.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def outputid(self):
+    &#34;&#34;&#34;
+    The outputid that was used to look up the contract that could not be found.
+    &#34;&#34;&#34;
+    return self._outputid</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.AtomicSwapContractSpent"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapContractSpent</span></span>
+<span>(</span><span>contract, transaction)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AtomicSwapContractSpent error, caused when
+a callee tried to spend a contract that was already spent.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapContractSpent(AtomicSwapContractError):
+    &#34;&#34;&#34;
+    AtomicSwapContractSpent error, caused when
+    a callee tried to spend a contract that was already spent.
+    &#34;&#34;&#34;
+    def __init__(self, contract, transaction):
+        txid = getattr(transaction, &#39;id&#39;, &#39;&#39;)
+        super().__init__(message=&#34;atomic swap contract has already been spent in transaction {}&#34;.format(str(txid)), contract=contract)
+        self._transaction = transaction
+
+    @property
+    def transaction(self):
+        &#34;&#34;&#34;
+        The transaction in which the contract was spent.
+        &#34;&#34;&#34;
+        return self._transaction</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.AtomicSwapContractSpent.transaction"><code class="name">var <span class="ident">transaction</span></code></dt>
+<dd>
+<section class="desc"><p>The transaction in which the contract was spent.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def transaction(self):
+    &#34;&#34;&#34;
+    The transaction in which the contract was spent.
+    &#34;&#34;&#34;
+    return self._transaction</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.AtomicSwapContractError.contract" href="#tfchain.errors.AtomicSwapContractError.contract">contract</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.AtomicSwapForbidden"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapForbidden</span></span>
+<span>(</span><span>message, contract)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AtomicSwapForbidden error, caused when a contract was trying
+to be spent by an unautohorized wallet.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapForbidden(AtomicSwapContractError):
+    &#34;&#34;&#34;
+    AtomicSwapForbidden error, caused when a contract was trying
+    to be spent by an unautohorized wallet.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.AtomicSwapContractError.contract" href="#tfchain.errors.AtomicSwapContractError.contract">contract</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.AtomicSwapInsufficientAmountError"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapInsufficientAmountError</span></span>
+<span>(</span><span>amount, minimum_miner_fee)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AtomicSwapInsufficientAmountError error,
+triggered when creating a contract with an amount equal or lower than
+minimum fee, which isn't allowed as such a contract cannot be redeemed/refunded.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapInsufficientAmountError(Exception):
+    &#34;&#34;&#34;
+    AtomicSwapInsufficientAmountError error,
+    triggered when creating a contract with an amount equal or lower than
+    minimum fee, which isn&#39;t allowed as such a contract cannot be redeemed/refunded.
+    &#34;&#34;&#34;
+    def __init__(self, amount, minimum_miner_fee):
+        super().__init__(
+            &#34;atomic swap contract requires an amount higher than the minimum miner fee ({}): {} is an invalid value&#34;.format(
+                str(minimum_miner_fee), str(amount)))
+        self._amount = amount
+        self._minimum_miner_fee = minimum_miner_fee
+
+    @property
+    def amount(self):
+        &#34;&#34;&#34;
+        The insufficient amount that was used.
+        &#34;&#34;&#34;
+        return self._amount
+
+    @property
+    def minimum_miner_fee(self):
+        &#34;&#34;&#34;
+        The minimum miner fee required on the network used.
+        &#34;&#34;&#34;
+        return self._minimum_miner_fee</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.AtomicSwapInsufficientAmountError.amount"><code class="name">var <span class="ident">amount</span></code></dt>
+<dd>
+<section class="desc"><p>The insufficient amount that was used.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def amount(self):
+    &#34;&#34;&#34;
+    The insufficient amount that was used.
+    &#34;&#34;&#34;
+    return self._amount</code></pre>
+</details>
+</dd>
+<dt id="tfchain.errors.AtomicSwapInsufficientAmountError.minimum_miner_fee"><code class="name">var <span class="ident">minimum_miner_fee</span></code></dt>
+<dd>
+<section class="desc"><p>The minimum miner fee required on the network used.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def minimum_miner_fee(self):
+    &#34;&#34;&#34;
+    The minimum miner fee required on the network used.
+    &#34;&#34;&#34;
+    return self._minimum_miner_fee</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.AtomicSwapInvalidSecret"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapInvalidSecret</span></span>
+<span>(</span><span>contract)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AtomicSwapInvalidSecret error, caused when a wrong secret was used
+as an attempt to redeem an atomic swap contract.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapInvalidSecret(AtomicSwapContractError):
+    &#34;&#34;&#34;
+    AtomicSwapInvalidSecret error, caused when a wrong secret was used
+    as an attempt to redeem an atomic swap contract. 
+    &#34;&#34;&#34;
+    def __init__(self, contract):
+        super().__init__(message=&#34;defined secret does not match the atomic swap&#39;s contract secret hash&#34;, contract=contract)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.AtomicSwapContractError.contract" href="#tfchain.errors.AtomicSwapContractError.contract">contract</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.CurrencyNegativeValue"><code class="flex name class">
+<span>class <span class="ident">CurrencyNegativeValue</span></span>
+<span>(</span><span>value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>CurrencyNegativeValue error, caused when the value is negative</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class CurrencyNegativeValue(Exception):
+    &#34;&#34;&#34;
+    CurrencyNegativeValue error, caused when the value is negative
+    &#34;&#34;&#34;
+    def __init__(self, value):
+        super().__init__(&#34;currency has to be at least 0, while value {} is negative&#34;.format(str(value)))
+        self._value = value
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The value that caused the overflow.
+        &#34;&#34;&#34;
+        return self._value</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.CurrencyNegativeValue.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"><p>The value that caused the overflow.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    &#34;&#34;&#34;
+    The value that caused the overflow.
+    &#34;&#34;&#34;
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.CurrencyPrecisionOverflow"><code class="flex name class">
+<span>class <span class="ident">CurrencyPrecisionOverflow</span></span>
+<span>(</span><span>value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>CurrencyPrecisionOverflow error, caused when the value is too precise</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class CurrencyPrecisionOverflow(Exception):
+    &#34;&#34;&#34;
+    CurrencyPrecisionOverflow error, caused when the value is too precise
+    &#34;&#34;&#34;
+    def __init__(self, value):
+        super().__init__(&#34;value {} is too precise to be a value, can have only 9 numbers after the decimal point&#34;.format(str(value)))
+        self._value = value
+
+    @property
+    def precision(self):
+        &#34;&#34;&#34;
+        The precision of the value that caused the overflow.
+        &#34;&#34;&#34;
+        _, _, exp = self.value
+        return abs(exp)
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The value that caused the overflow.
+        &#34;&#34;&#34;
+        return self._value</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.CurrencyPrecisionOverflow.precision"><code class="name">var <span class="ident">precision</span></code></dt>
+<dd>
+<section class="desc"><p>The precision of the value that caused the overflow.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def precision(self):
+    &#34;&#34;&#34;
+    The precision of the value that caused the overflow.
+    &#34;&#34;&#34;
+    _, _, exp = self.value
+    return abs(exp)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.errors.CurrencyPrecisionOverflow.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"><p>The value that caused the overflow.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    &#34;&#34;&#34;
+    The value that caused the overflow.
+    &#34;&#34;&#34;
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.DoubleSignError"><code class="flex name class">
+<span>class <span class="ident">DoubleSignError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>DoubleSignError error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class DoubleSignError(Exception):
+    &#34;&#34;&#34;
+    DoubleSignError error
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.ERC20RegistrationForbidden"><code class="flex name class">
+<span>class <span class="ident">ERC20RegistrationForbidden</span></span>
+<span>(</span><span>address)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ERC20RegistrationForbidden error, triggered
+when trying to register an ERC20 address not owned by the used wallet.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ERC20RegistrationForbidden(Exception):
+    &#34;&#34;&#34;
+    ERC20RegistrationForbidden error, triggered
+    when trying to register an ERC20 address not owned by the used wallet.
+    &#34;&#34;&#34;
+    def __init__(self, address):
+        super().__init__(&#34;address {} is not owned by the used wallet&#34;.format(str(address)))
+        self._address = address
+
+    @property
+    def address(self):
+        &#34;&#34;&#34;
+        The address attempted to be registered.
+        &#34;&#34;&#34;
+        return self._address</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.ERC20RegistrationForbidden.address"><code class="name">var <span class="ident">address</span></code></dt>
+<dd>
+<section class="desc"><p>The address attempted to be registered.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def address(self):
+    &#34;&#34;&#34;
+    The address attempted to be registered.
+    &#34;&#34;&#34;
+    return self._address</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.ExplorerError"><code class="flex name class">
+<span>class <span class="ident">ExplorerError</span></span>
+<span>(</span><span>message, endpoint)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Generic Explorer error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ExplorerError(Exception):
+    &#34;&#34;&#34;
+    Generic Explorer error
+    &#34;&#34;&#34;
+    def __init__(self, message, endpoint):
+        super().__init__(&#34;{}: {}&#34;.format(endpoint, message))
+        if not isinstance(endpoint, str):
+            raise TypeError(&#34;invalid endpoint, expected it to be of type str not {}&#34;.format(type(endpoint)))
+        self._endpoint = endpoint
+    
+    @property
+    def endpoint(self):
+        &#34;&#34;&#34;
+        The endpoint that was called.
+        &#34;&#34;&#34;
+        return self._endpoint</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.ExplorerNoContent" href="#tfchain.errors.ExplorerNoContent">ExplorerNoContent</a></li>
+<li><a title="tfchain.errors.ExplorerServerError" href="#tfchain.errors.ExplorerServerError">ExplorerServerError</a></li>
+<li><a title="tfchain.errors.ExplorerServerPostError" href="#tfchain.errors.ExplorerServerPostError">ExplorerServerPostError</a></li>
+<li><a title="tfchain.errors.ExplorerNotAvailable" href="#tfchain.errors.ExplorerNotAvailable">ExplorerNotAvailable</a></li>
+<li><a title="tfchain.errors.ExplorerInvalidResponse" href="#tfchain.errors.ExplorerInvalidResponse">ExplorerInvalidResponse</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.ExplorerError.endpoint"><code class="name">var <span class="ident">endpoint</span></code></dt>
+<dd>
+<section class="desc"><p>The endpoint that was called.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def endpoint(self):
+    &#34;&#34;&#34;
+    The endpoint that was called.
+    &#34;&#34;&#34;
+    return self._endpoint</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.ExplorerInvalidResponse"><code class="flex name class">
+<span>class <span class="ident">ExplorerInvalidResponse</span></span>
+<span>(</span><span>message, endpoint, response)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ExplorerInvalidResponse error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ExplorerInvalidResponse(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerInvalidResponse error
+    &#34;&#34;&#34;
+    def __init__(self, message, endpoint, response):
+        super().__init__(message, endpoint)
+        if not isinstance(response, dict):
+            raise TypeError(&#34;invalid response, expected it to be of type dict not {}&#34;.format(type(response)))
+        self._response = response
+
+    @property
+    def response(self):
+        &#34;&#34;&#34;
+        The invalid response
+        &#34;&#34;&#34;
+        return self._response</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.ExplorerInvalidResponse.response"><code class="name">var <span class="ident">response</span></code></dt>
+<dd>
+<section class="desc"><p>The invalid response</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def response(self):
+    &#34;&#34;&#34;
+    The invalid response
+    &#34;&#34;&#34;
+    return self._response</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.ExplorerError.endpoint" href="#tfchain.errors.ExplorerError.endpoint">endpoint</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.ExplorerNoContent"><code class="flex name class">
+<span>class <span class="ident">ExplorerNoContent</span></span>
+<span>(</span><span>message, endpoint)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ExplorerNoContent error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ExplorerNoContent(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerNoContent error
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.ExplorerError.endpoint" href="#tfchain.errors.ExplorerError.endpoint">endpoint</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.ExplorerNotAvailable"><code class="flex name class">
+<span>class <span class="ident">ExplorerNotAvailable</span></span>
+<span>(</span><span>message, endpoint, addresses)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ExplorerNotAvailable error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ExplorerNotAvailable(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerNotAvailable error
+    &#34;&#34;&#34;
+    def __init__(self, message, endpoint, addresses):
+        super().__init__(message, endpoint)
+        if not isinstance(addresses, list):
+            raise TypeError(&#34;invalid addresses, expected it to be of type list not {}&#34;.format(type(addresses)))
+        self._addresses = addresses
+
+    @property
+    def addresses(self):
+        &#34;&#34;&#34;
+        The addresses that were used to try to reach an explorer.
+        &#34;&#34;&#34;
+        return self._addresses</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.ExplorerNotAvailable.addresses"><code class="name">var <span class="ident">addresses</span></code></dt>
+<dd>
+<section class="desc"><p>The addresses that were used to try to reach an explorer.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def addresses(self):
+    &#34;&#34;&#34;
+    The addresses that were used to try to reach an explorer.
+    &#34;&#34;&#34;
+    return self._addresses</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.ExplorerError.endpoint" href="#tfchain.errors.ExplorerError.endpoint">endpoint</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.ExplorerServerError"><code class="flex name class">
+<span>class <span class="ident">ExplorerServerError</span></span>
+<span>(</span><span>message, endpoint)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ExplorerServerError error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ExplorerServerError(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerServerError error
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.ExplorerError.endpoint" href="#tfchain.errors.ExplorerError.endpoint">endpoint</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.ExplorerServerPostError"><code class="flex name class">
+<span>class <span class="ident">ExplorerServerPostError</span></span>
+<span>(</span><span>message, endpoint, data)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ExplorerServerPostError error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ExplorerServerPostError(ExplorerError):
+    &#34;&#34;&#34;
+    ExplorerServerPostError error
+    &#34;&#34;&#34;
+    def __init__(self, message, endpoint, data):
+        super().__init__(message, endpoint)
+        self._data = data
+    
+    @property
+    def data(self):
+        &#34;&#34;&#34;
+        The data that could not be posted.
+        &#34;&#34;&#34;
+        return self._data</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.ExplorerServerPostError.data"><code class="name">var <span class="ident">data</span></code></dt>
+<dd>
+<section class="desc"><p>The data that could not be posted.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def data(self):
+    &#34;&#34;&#34;
+    The data that could not be posted.
+    &#34;&#34;&#34;
+    return self._data</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.errors.ExplorerError.endpoint" href="#tfchain.errors.ExplorerError.endpoint">endpoint</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.InsufficientFunds"><code class="flex name class">
+<span>class <span class="ident">InsufficientFunds</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>InsufficientFunds error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class InsufficientFunds(Exception):
+    &#34;&#34;&#34;
+    InsufficientFunds error
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.InvalidPublicKeySpecifier"><code class="flex name class">
+<span>class <span class="ident">InvalidPublicKeySpecifier</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>InvalidPublicKeySpecifier error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class InvalidPublicKeySpecifier(Exception):
+    &#34;&#34;&#34;
+    InvalidPublicKeySpecifier error
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="tfchain.errors.ThreeBotInactive"><code class="flex name class">
+<span>class <span class="ident">ThreeBotInactive</span></span>
+<span>(</span><span>identifier, expiration)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ThreeBotInactive error, triggered when a 3Bot is an active,
+and the operation to be applied to the 3Bot would not change that fact.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ThreeBotInactive(Exception):
+    &#34;&#34;&#34;
+    ThreeBotInactive error, triggered when a 3Bot is an active,
+    and the operation to be applied to the 3Bot would not change that fact.
+    &#34;&#34;&#34;
+    def __init__(self, identifier, expiration):
+        super().__init__(&#34;3Bot {} is inactive since {}&#34;.format(str(identifier), epoch2HRDateTime(expiration)))
+        self._identifier = identifier
+        self._expiration = expiration
+
+    @property
+    def identifier(self):
+        &#34;&#34;&#34;
+        The (unique) identifier of the 3Bot that could not be found.
+        &#34;&#34;&#34;
+        return self._identifier
+
+    @property
+    def expiration(self):
+        &#34;&#34;&#34;
+        The timestamp on which the 3Bot became inactive.
+        &#34;&#34;&#34;
+        return self._expiration</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.ThreeBotInactive.expiration"><code class="name">var <span class="ident">expiration</span></code></dt>
+<dd>
+<section class="desc"><p>The timestamp on which the 3Bot became inactive.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def expiration(self):
+    &#34;&#34;&#34;
+    The timestamp on which the 3Bot became inactive.
+    &#34;&#34;&#34;
+    return self._expiration</code></pre>
+</details>
+</dd>
+<dt id="tfchain.errors.ThreeBotInactive.identifier"><code class="name">var <span class="ident">identifier</span></code></dt>
+<dd>
+<section class="desc"><p>The (unique) identifier of the 3Bot that could not be found.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def identifier(self):
+    &#34;&#34;&#34;
+    The (unique) identifier of the 3Bot that could not be found.
+    &#34;&#34;&#34;
+    return self._identifier</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.ThreeBotNotFound"><code class="flex name class">
+<span>class <span class="ident">ThreeBotNotFound</span></span>
+<span>(</span><span>identifier)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ThreeBotNotFound error, triggered when a 3Bot was not found.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ThreeBotNotFound(Exception):
+    &#34;&#34;&#34;
+    ThreeBotNotFound error, triggered when a 3Bot was not found.
+    &#34;&#34;&#34;
+    def __init__(self, identifier):
+        super().__init__(&#34;3Bot {} could not be found&#34;.format(identifier))
+        self._identifier = identifier
+
+    @property
+    def identifier(self):
+        &#34;&#34;&#34;
+        The (unique) identifier of the 3Bot that could not be found.
+        &#34;&#34;&#34;
+        return self._identifier</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.errors.ThreeBotNotFound.identifier"><code class="name">var <span class="ident">identifier</span></code></dt>
+<dd>
+<section class="desc"><p>The (unique) identifier of the 3Bot that could not be found.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def identifier(self):
+    &#34;&#34;&#34;
+    The (unique) identifier of the 3Bot that could not be found.
+    &#34;&#34;&#34;
+    return self._identifier</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.errors.UnknownTransansactionVersion"><code class="flex name class">
+<span>class <span class="ident">UnknownTransansactionVersion</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>UnknownTransansactionVersion error</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class UnknownTransansactionVersion(Exception):
+    &#34;&#34;&#34;
+    UnknownTransansactionVersion error
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain" href="index.html">tfchain</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.errors.AddressNotInWallet" href="#tfchain.errors.AddressNotInWallet">AddressNotInWallet</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.AddressNotInWallet.address" href="#tfchain.errors.AddressNotInWallet.address">address</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.AtomicSwapContractError" href="#tfchain.errors.AtomicSwapContractError">AtomicSwapContractError</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.AtomicSwapContractError.contract" href="#tfchain.errors.AtomicSwapContractError.contract">contract</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.AtomicSwapContractInvalid" href="#tfchain.errors.AtomicSwapContractInvalid">AtomicSwapContractInvalid</a></code></h4>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.AtomicSwapContractNotFound" href="#tfchain.errors.AtomicSwapContractNotFound">AtomicSwapContractNotFound</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.AtomicSwapContractNotFound.outputid" href="#tfchain.errors.AtomicSwapContractNotFound.outputid">outputid</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.AtomicSwapContractSpent" href="#tfchain.errors.AtomicSwapContractSpent">AtomicSwapContractSpent</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.AtomicSwapContractSpent.transaction" href="#tfchain.errors.AtomicSwapContractSpent.transaction">transaction</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.AtomicSwapForbidden" href="#tfchain.errors.AtomicSwapForbidden">AtomicSwapForbidden</a></code></h4>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.AtomicSwapInsufficientAmountError" href="#tfchain.errors.AtomicSwapInsufficientAmountError">AtomicSwapInsufficientAmountError</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.AtomicSwapInsufficientAmountError.amount" href="#tfchain.errors.AtomicSwapInsufficientAmountError.amount">amount</a></code></li>
+<li><code><a title="tfchain.errors.AtomicSwapInsufficientAmountError.minimum_miner_fee" href="#tfchain.errors.AtomicSwapInsufficientAmountError.minimum_miner_fee">minimum_miner_fee</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.AtomicSwapInvalidSecret" href="#tfchain.errors.AtomicSwapInvalidSecret">AtomicSwapInvalidSecret</a></code></h4>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.CurrencyNegativeValue" href="#tfchain.errors.CurrencyNegativeValue">CurrencyNegativeValue</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.CurrencyNegativeValue.value" href="#tfchain.errors.CurrencyNegativeValue.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.CurrencyPrecisionOverflow" href="#tfchain.errors.CurrencyPrecisionOverflow">CurrencyPrecisionOverflow</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.CurrencyPrecisionOverflow.precision" href="#tfchain.errors.CurrencyPrecisionOverflow.precision">precision</a></code></li>
+<li><code><a title="tfchain.errors.CurrencyPrecisionOverflow.value" href="#tfchain.errors.CurrencyPrecisionOverflow.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.DoubleSignError" href="#tfchain.errors.DoubleSignError">DoubleSignError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ERC20RegistrationForbidden" href="#tfchain.errors.ERC20RegistrationForbidden">ERC20RegistrationForbidden</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.ERC20RegistrationForbidden.address" href="#tfchain.errors.ERC20RegistrationForbidden.address">address</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ExplorerError" href="#tfchain.errors.ExplorerError">ExplorerError</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.ExplorerError.endpoint" href="#tfchain.errors.ExplorerError.endpoint">endpoint</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ExplorerInvalidResponse" href="#tfchain.errors.ExplorerInvalidResponse">ExplorerInvalidResponse</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.ExplorerInvalidResponse.response" href="#tfchain.errors.ExplorerInvalidResponse.response">response</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ExplorerNoContent" href="#tfchain.errors.ExplorerNoContent">ExplorerNoContent</a></code></h4>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ExplorerNotAvailable" href="#tfchain.errors.ExplorerNotAvailable">ExplorerNotAvailable</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.ExplorerNotAvailable.addresses" href="#tfchain.errors.ExplorerNotAvailable.addresses">addresses</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ExplorerServerError" href="#tfchain.errors.ExplorerServerError">ExplorerServerError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ExplorerServerPostError" href="#tfchain.errors.ExplorerServerPostError">ExplorerServerPostError</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.ExplorerServerPostError.data" href="#tfchain.errors.ExplorerServerPostError.data">data</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.InsufficientFunds" href="#tfchain.errors.InsufficientFunds">InsufficientFunds</a></code></h4>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.InvalidPublicKeySpecifier" href="#tfchain.errors.InvalidPublicKeySpecifier">InvalidPublicKeySpecifier</a></code></h4>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ThreeBotInactive" href="#tfchain.errors.ThreeBotInactive">ThreeBotInactive</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.ThreeBotInactive.expiration" href="#tfchain.errors.ThreeBotInactive.expiration">expiration</a></code></li>
+<li><code><a title="tfchain.errors.ThreeBotInactive.identifier" href="#tfchain.errors.ThreeBotInactive.identifier">identifier</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.ThreeBotNotFound" href="#tfchain.errors.ThreeBotNotFound">ThreeBotNotFound</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.errors.ThreeBotNotFound.identifier" href="#tfchain.errors.ThreeBotNotFound.identifier">identifier</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.errors.UnknownTransansactionVersion" href="#tfchain.errors.UnknownTransansactionVersion">UnknownTransansactionVersion</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.types.transactions.Minting API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.types.transactions.Minting</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">from tfchain.types.transactions.Base import TransactionBaseClass, TransactionVersion
+
+from tfchain.types import FulfillmentTypes, ConditionTypes
+from tfchain.types.FulfillmentTypes import FulfillmentBaseClass, FulfillmentSingleSignature
+from tfchain.types.ConditionTypes import ConditionBaseClass, ConditionNil
+from tfchain.types.PrimitiveTypes import BinaryData, Currency
+from tfchain.types.IO import CoinInput, CoinOutput
+from tfchain.internal.jsutils import generateXByteID
+from tfchain.encoders import encoder_sia_get
+
+class TransactionV128(TransactionBaseClass):
+    _SPECIFIER = b&#39;minter defin tx\0&#39;
+
+    def __init__(self):
+        self._mint_fulfillment = None
+        self._mint_condition = None
+        self._miner_fees = []
+        self._data = None
+        self._nonce = BinaryData(generateXByteID(8), strencoding=&#39;base64&#39;)
+
+        # current mint condition
+        self._parent_mint_condition = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.MINTER_DEFINITION
+
+    @property
+    def miner_fees(self):
+        &#34;&#34;&#34;
+        Miner fees, paid to the block creator of this Transaction,
+        funded by this Transaction&#39;s coin inputs.
+        &#34;&#34;&#34;
+        return self._miner_fees
+
+    @property
+    def data(self):
+        &#34;&#34;&#34;
+        Optional binary data attached to this Transaction,
+        with a max length of 83 bytes.
+        &#34;&#34;&#34;
+        if self._data is None:
+            return BinaryData(strencoding=&#39;base64&#39;)
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        if value is None:
+            self._data = None
+            return
+        if isinstance(value, BinaryData):
+            value = value.value
+        elif isinstance(value, str):
+            value = value.encode(&#39;utf-8&#39;)
+        if len(value) &gt; 83:
+            raise ValueError(
+                &#34;arbitrary data can have a maximum bytes length of 83, {} exceeds this limit&#34;.format(len(value)))
+        self._data = BinaryData(value=value, strencoding=&#39;base64&#39;)
+
+    @property
+    def mint_condition(self):
+        &#34;&#34;&#34;
+        Retrieve the new mint condition which will be set
+        &#34;&#34;&#34;
+        if self._mint_condition is None:
+            return ConditionNil()
+        return self._mint_condition
+
+    @mint_condition.setter
+    def mint_condition(self, value):
+        if value is None:
+            self._mint_condition = None
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;MintDefinition (v128) Transaction&#39;s mint condition has to be a subtype of ConditionBaseClass, not {}&#34;.format(type(value)))
+        self._mint_condition = value
+
+    @property
+    def parent_mint_condition(self):
+        &#34;&#34;&#34;
+        Retrieve the parent mint condition which will be set
+        &#34;&#34;&#34;
+        if self._parent_mint_condition is None:
+            return ConditionNil()
+        return self._parent_mint_condition
+
+    @parent_mint_condition.setter
+    def parent_mint_condition(self, value):
+        if value is None:
+            self._parent_mint_condition = None
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;MintDefinition (v128) Transaction&#39;s parent mint condition has to be a subtype of ConditionBaseClass, not {}&#34;.format(type(value)))
+        self._parent_mint_condition = value
+
+    def mint_fulfillment_defined(self):
+        return self._mint_fulfillment is not None
+
+    @property
+    def mint_fulfillment(self):
+        &#34;&#34;&#34;
+        Retrieve the current mint fulfillment
+        &#34;&#34;&#34;
+        if self._mint_fulfillment is None:
+            return FulfillmentSingleSignature()
+        return self._mint_fulfillment
+
+    @mint_fulfillment.setter
+    def mint_fulfillment(self, value):
+        if value is None:
+            self._mint_fulfillment = None
+            return
+        if not isinstance(value, FulfillmentBaseClass):
+            raise TypeError(
+                &#34;MintDefinition (v128) Transaction&#39;s mint fulfillment has to be a subtype of FulfillmentBaseClass, not {}&#34;.format(type(value)))
+        self._mint_fulfillment = value
+
+    def miner_fee_add(self, value):
+        self._miner_fees.append(Currency(value=value))
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_sia_get()
+
+        # encode the transaction version
+        e.add_byte(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV128._SPECIFIER)
+
+        # encode nonce
+        e.add_array(self._nonce.value)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode new mint condition
+        e.add(self.mint_condition)
+
+        # encode miner fees
+        e.add_slice(self.miner_fees)
+
+        # encode custom data
+        e.add(self.data)
+
+        # return the encoded data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV128._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        encoder = encoder_sia_get()
+        encoder.add_array(self._nonce.value)
+        encoder.add_all(
+            self.mint_fulfillment,
+            self.mint_condition,
+            self.miner_fees,
+            self.data,
+        )
+        return encoder.data
+
+    def _from_json_data_object(self, data):
+        self._nonce = BinaryData.from_json(
+            data.get(&#39;nonce&#39;, &#39;&#39;), strencoding=&#39;base64&#39;)
+        self._mint_condition = ConditionTypes.from_json(
+            data.get(&#39;mintcondition&#39;, {}))
+        self._mint_fulfillment = FulfillmentTypes.from_json(
+            data.get(&#39;mintfulfillment&#39;, {}))
+        self._miner_fees = [Currency.from_json(
+            fee) for fee in data.get(&#39;minerfees&#39;, []) or []]
+        self._data = BinaryData.from_json(
+            data.get(&#39;arbitrarydata&#39;, None) or &#39;&#39;, strencoding=&#39;base64&#39;)
+
+    def _json_data_object(self):
+        return {
+            &#39;nonce&#39;: self._nonce.json(),
+            &#39;mintfulfillment&#39;: self.mint_fulfillment.json(),
+            &#39;mintcondition&#39;: self.mint_condition.json(),
+            &#39;minerfees&#39;: [fee.json() for fee in self._miner_fees],
+            &#39;arbitrarydata&#39;: self.data.json(),
+        }
+
+    def _extra_signature_requests_new(self):
+        if self._parent_mint_condition is None:
+            return []  # nothing to be signed
+        return self._mint_fulfillment.signature_requests_new(
+            # no extra objects are to be included within txn scope
+            input_hash_func=self.signature_hash_get,
+            parent_condition=self._parent_mint_condition,
+        )
+
+    def _extra_is_fulfilled(self):
+        if self._parent_mint_condition is None:
+            return False
+        return self.mint_fulfillment.is_fulfilled(parent_condition=self._parent_mint_condition)
+
+
+class TransactionV129(TransactionBaseClass):
+    _SPECIFIER = b&#39;coin mint tx\0\0\0\0&#39;
+
+    def __init__(self):
+        self._mint_fulfillment = None
+        self._coin_outputs = []
+        self._miner_fees = []
+        self._data = None
+        self._nonce = BinaryData(generateXByteID(8), strencoding=&#39;base64&#39;)
+
+        # current mint condition
+        self._parent_mint_condition = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.MINTER_COIN_CREATION
+
+    @property
+    def miner_fees(self):
+        &#34;&#34;&#34;
+        Miner fees, paid to the block creator of this Transaction,
+        funded by this Transaction&#39;s coin inputs.
+        &#34;&#34;&#34;
+        return self._miner_fees
+
+    @property
+    def data(self):
+        &#34;&#34;&#34;
+        Optional binary data attached to this Transaction,
+        with a max length of 83 bytes.
+        &#34;&#34;&#34;
+        if self._data is None:
+            return BinaryData(strencoding=&#39;base64&#39;)
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        if value is None:
+            self._data = None
+            return
+        if isinstance(value, BinaryData):
+            value = value.value
+        elif isinstance(value, str):
+            value = value.encode(&#39;utf-8&#39;)
+        if len(value) &gt; 83:
+            raise ValueError(
+                &#34;arbitrary data can have a maximum bytes length of 83, {} exceeds this limit&#34;.format(len(value)))
+        self._data = BinaryData(value=value, strencoding=&#39;base64&#39;)
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Coin outputs of this Transaction,
+        funded by the Transaction&#39;s coin inputs.
+        &#34;&#34;&#34;
+        return self._coin_outputs
+
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        self._coin_outputs = []
+        if not value:
+            return
+        for co in value:
+            self.coin_output_add(co.value, co.condition, id=co.id)
+
+    def coin_output_add(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._coin_outputs.append(co)
+
+    def miner_fee_add(self, value):
+        self._miner_fees.append(Currency(value=value))
+
+    def mint_fulfillment_defined(self):
+        return self._mint_fulfillment is not None
+
+    @property
+    def mint_fulfillment(self):
+        &#34;&#34;&#34;
+        Retrieve the current mint fulfillment
+        &#34;&#34;&#34;
+        if self._mint_fulfillment is None:
+            return FulfillmentSingleSignature()
+        return self._mint_fulfillment
+
+    @mint_fulfillment.setter
+    def mint_fulfillment(self, value):
+        if value is None:
+            self._mint_fulfillment = None
+            return
+        if not isinstance(value, FulfillmentBaseClass):
+            raise TypeError(
+                &#34;CoinCreation (v129) Transaction&#39;s mint fulfillment has to be a subtype of FulfillmentBaseClass, not {}&#34;.format(type(value)))
+        self._mint_fulfillment = value
+
+    @property
+    def parent_mint_condition(self):
+        &#34;&#34;&#34;
+        Retrieve the parent mint condition which will be set
+        &#34;&#34;&#34;
+        if self._parent_mint_condition is None:
+            return ConditionNil()
+        return self._parent_mint_condition
+
+    @parent_mint_condition.setter
+    def parent_mint_condition(self, value):
+        if value is None:
+            self._parent_mint_condition = None
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;CoinCreation (v129) Transaction&#39;s parent mint condition has to be a subtype of ConditionBaseClass, not {}&#34;.format(type(value)))
+        self._parent_mint_condition = value
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_sia_get()
+
+        # encode the transaction version
+        e.add_byte(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV129._SPECIFIER)
+
+        # encode nonce
+        e.add_array(self._nonce.value)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode coin outputs
+        e.add_slice(self.coin_outputs)
+
+        # encode miner fees
+        e.add_slice(self.miner_fees)
+
+        # encode custom data
+        e.add(self.data)
+
+        # return the encoded data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV129._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        encoder = encoder_sia_get()
+        encoder.add_array(self._nonce.value)
+        encoder.add_all(
+            self.mint_fulfillment,
+            self.coin_outputs,
+            self.miner_fees,
+            self.data,
+        )
+        return encoder.data
+
+    def _from_json_data_object(self, data):
+        self._nonce = BinaryData.from_json(
+            data.get(&#39;nonce&#39;, &#39;&#39;), strencoding=&#39;base64&#39;)
+        self._mint_fulfillment = FulfillmentTypes.from_json(
+            data.get(&#39;mintfulfillment&#39;, {}))
+        self._coin_outputs = [CoinOutput.from_json(
+            co) for co in data.get(&#39;coinoutputs&#39;, []) or []]
+        self._miner_fees = [Currency.from_json(
+            fee) for fee in data.get(&#39;minerfees&#39;, []) or []]
+        self._data = BinaryData.from_json(
+            data.get(&#39;arbitrarydata&#39;, None) or &#39;&#39;, strencoding=&#39;base64&#39;)
+
+    def _json_data_object(self):
+        return {
+            &#39;nonce&#39;: self._nonce.json(),
+            &#39;mintfulfillment&#39;: self.mint_fulfillment.json(),
+            &#39;coinoutputs&#39;: [co.json() for co in self.coin_outputs],
+            &#39;minerfees&#39;: [fee.json() for fee in self.miner_fees],
+            &#39;arbitrarydata&#39;: self.data.json(),
+        }
+
+    def _extra_signature_requests_new(self):
+        if self._parent_mint_condition is None:
+            return []  # nothing to be signed
+        return self._mint_fulfillment.signature_requests_new(
+            # no extra objects are to be included within txn scope
+            input_hash_func=self.signature_hash_get,
+            parent_condition=self._parent_mint_condition,
+        )
+
+    def _extra_is_fulfilled(self):
+        if self._parent_mint_condition is None:
+            return False
+        return self.mint_fulfillment.is_fulfilled(parent_condition=self._parent_mint_condition)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.types.transactions.Minting.TransactionV128"><code class="flex name class">
+<span>class <span class="ident">TransactionV128</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TransactionV128(TransactionBaseClass):
+    _SPECIFIER = b&#39;minter defin tx\0&#39;
+
+    def __init__(self):
+        self._mint_fulfillment = None
+        self._mint_condition = None
+        self._miner_fees = []
+        self._data = None
+        self._nonce = BinaryData(generateXByteID(8), strencoding=&#39;base64&#39;)
+
+        # current mint condition
+        self._parent_mint_condition = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.MINTER_DEFINITION
+
+    @property
+    def miner_fees(self):
+        &#34;&#34;&#34;
+        Miner fees, paid to the block creator of this Transaction,
+        funded by this Transaction&#39;s coin inputs.
+        &#34;&#34;&#34;
+        return self._miner_fees
+
+    @property
+    def data(self):
+        &#34;&#34;&#34;
+        Optional binary data attached to this Transaction,
+        with a max length of 83 bytes.
+        &#34;&#34;&#34;
+        if self._data is None:
+            return BinaryData(strencoding=&#39;base64&#39;)
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        if value is None:
+            self._data = None
+            return
+        if isinstance(value, BinaryData):
+            value = value.value
+        elif isinstance(value, str):
+            value = value.encode(&#39;utf-8&#39;)
+        if len(value) &gt; 83:
+            raise ValueError(
+                &#34;arbitrary data can have a maximum bytes length of 83, {} exceeds this limit&#34;.format(len(value)))
+        self._data = BinaryData(value=value, strencoding=&#39;base64&#39;)
+
+    @property
+    def mint_condition(self):
+        &#34;&#34;&#34;
+        Retrieve the new mint condition which will be set
+        &#34;&#34;&#34;
+        if self._mint_condition is None:
+            return ConditionNil()
+        return self._mint_condition
+
+    @mint_condition.setter
+    def mint_condition(self, value):
+        if value is None:
+            self._mint_condition = None
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;MintDefinition (v128) Transaction&#39;s mint condition has to be a subtype of ConditionBaseClass, not {}&#34;.format(type(value)))
+        self._mint_condition = value
+
+    @property
+    def parent_mint_condition(self):
+        &#34;&#34;&#34;
+        Retrieve the parent mint condition which will be set
+        &#34;&#34;&#34;
+        if self._parent_mint_condition is None:
+            return ConditionNil()
+        return self._parent_mint_condition
+
+    @parent_mint_condition.setter
+    def parent_mint_condition(self, value):
+        if value is None:
+            self._parent_mint_condition = None
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;MintDefinition (v128) Transaction&#39;s parent mint condition has to be a subtype of ConditionBaseClass, not {}&#34;.format(type(value)))
+        self._parent_mint_condition = value
+
+    def mint_fulfillment_defined(self):
+        return self._mint_fulfillment is not None
+
+    @property
+    def mint_fulfillment(self):
+        &#34;&#34;&#34;
+        Retrieve the current mint fulfillment
+        &#34;&#34;&#34;
+        if self._mint_fulfillment is None:
+            return FulfillmentSingleSignature()
+        return self._mint_fulfillment
+
+    @mint_fulfillment.setter
+    def mint_fulfillment(self, value):
+        if value is None:
+            self._mint_fulfillment = None
+            return
+        if not isinstance(value, FulfillmentBaseClass):
+            raise TypeError(
+                &#34;MintDefinition (v128) Transaction&#39;s mint fulfillment has to be a subtype of FulfillmentBaseClass, not {}&#34;.format(type(value)))
+        self._mint_fulfillment = value
+
+    def miner_fee_add(self, value):
+        self._miner_fees.append(Currency(value=value))
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_sia_get()
+
+        # encode the transaction version
+        e.add_byte(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV128._SPECIFIER)
+
+        # encode nonce
+        e.add_array(self._nonce.value)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode new mint condition
+        e.add(self.mint_condition)
+
+        # encode miner fees
+        e.add_slice(self.miner_fees)
+
+        # encode custom data
+        e.add(self.data)
+
+        # return the encoded data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV128._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        encoder = encoder_sia_get()
+        encoder.add_array(self._nonce.value)
+        encoder.add_all(
+            self.mint_fulfillment,
+            self.mint_condition,
+            self.miner_fees,
+            self.data,
+        )
+        return encoder.data
+
+    def _from_json_data_object(self, data):
+        self._nonce = BinaryData.from_json(
+            data.get(&#39;nonce&#39;, &#39;&#39;), strencoding=&#39;base64&#39;)
+        self._mint_condition = ConditionTypes.from_json(
+            data.get(&#39;mintcondition&#39;, {}))
+        self._mint_fulfillment = FulfillmentTypes.from_json(
+            data.get(&#39;mintfulfillment&#39;, {}))
+        self._miner_fees = [Currency.from_json(
+            fee) for fee in data.get(&#39;minerfees&#39;, []) or []]
+        self._data = BinaryData.from_json(
+            data.get(&#39;arbitrarydata&#39;, None) or &#39;&#39;, strencoding=&#39;base64&#39;)
+
+    def _json_data_object(self):
+        return {
+            &#39;nonce&#39;: self._nonce.json(),
+            &#39;mintfulfillment&#39;: self.mint_fulfillment.json(),
+            &#39;mintcondition&#39;: self.mint_condition.json(),
+            &#39;minerfees&#39;: [fee.json() for fee in self._miner_fees],
+            &#39;arbitrarydata&#39;: self.data.json(),
+        }
+
+    def _extra_signature_requests_new(self):
+        if self._parent_mint_condition is None:
+            return []  # nothing to be signed
+        return self._mint_fulfillment.signature_requests_new(
+            # no extra objects are to be included within txn scope
+            input_hash_func=self.signature_hash_get,
+            parent_condition=self._parent_mint_condition,
+        )
+
+    def _extra_is_fulfilled(self):
+        if self._parent_mint_condition is None:
+            return False
+        return self.mint_fulfillment.is_fulfilled(parent_condition=self._parent_mint_condition)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.Minting.TransactionV128.mint_condition"><code class="name">var <span class="ident">mint_condition</span></code></dt>
+<dd>
+<section class="desc"><p>Retrieve the new mint condition which will be set</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def mint_condition(self):
+    &#34;&#34;&#34;
+    Retrieve the new mint condition which will be set
+    &#34;&#34;&#34;
+    if self._mint_condition is None:
+        return ConditionNil()
+    return self._mint_condition</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.Minting.TransactionV128.mint_fulfillment"><code class="name">var <span class="ident">mint_fulfillment</span></code></dt>
+<dd>
+<section class="desc"><p>Retrieve the current mint fulfillment</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def mint_fulfillment(self):
+    &#34;&#34;&#34;
+    Retrieve the current mint fulfillment
+    &#34;&#34;&#34;
+    if self._mint_fulfillment is None:
+        return FulfillmentSingleSignature()
+    return self._mint_fulfillment</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.Minting.TransactionV128.parent_mint_condition"><code class="name">var <span class="ident">parent_mint_condition</span></code></dt>
+<dd>
+<section class="desc"><p>Retrieve the parent mint condition which will be set</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def parent_mint_condition(self):
+    &#34;&#34;&#34;
+    Retrieve the parent mint condition which will be set
+    &#34;&#34;&#34;
+    if self._parent_mint_condition is None:
+        return ConditionNil()
+    return self._parent_mint_condition</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.Minting.TransactionV128.miner_fee_add"><code class="name flex">
+<span>def <span class="ident">miner_fee_add</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def miner_fee_add(self, value):
+    self._miner_fees.append(Currency(value=value))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.Minting.TransactionV128.mint_fulfillment_defined"><code class="name flex">
+<span>def <span class="ident">mint_fulfillment_defined</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def mint_fulfillment_defined(self):
+    return self._mint_fulfillment is not None</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.transactions.Minting.TransactionV129"><code class="flex name class">
+<span>class <span class="ident">TransactionV129</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TransactionV129(TransactionBaseClass):
+    _SPECIFIER = b&#39;coin mint tx\0\0\0\0&#39;
+
+    def __init__(self):
+        self._mint_fulfillment = None
+        self._coin_outputs = []
+        self._miner_fees = []
+        self._data = None
+        self._nonce = BinaryData(generateXByteID(8), strencoding=&#39;base64&#39;)
+
+        # current mint condition
+        self._parent_mint_condition = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.MINTER_COIN_CREATION
+
+    @property
+    def miner_fees(self):
+        &#34;&#34;&#34;
+        Miner fees, paid to the block creator of this Transaction,
+        funded by this Transaction&#39;s coin inputs.
+        &#34;&#34;&#34;
+        return self._miner_fees
+
+    @property
+    def data(self):
+        &#34;&#34;&#34;
+        Optional binary data attached to this Transaction,
+        with a max length of 83 bytes.
+        &#34;&#34;&#34;
+        if self._data is None:
+            return BinaryData(strencoding=&#39;base64&#39;)
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        if value is None:
+            self._data = None
+            return
+        if isinstance(value, BinaryData):
+            value = value.value
+        elif isinstance(value, str):
+            value = value.encode(&#39;utf-8&#39;)
+        if len(value) &gt; 83:
+            raise ValueError(
+                &#34;arbitrary data can have a maximum bytes length of 83, {} exceeds this limit&#34;.format(len(value)))
+        self._data = BinaryData(value=value, strencoding=&#39;base64&#39;)
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Coin outputs of this Transaction,
+        funded by the Transaction&#39;s coin inputs.
+        &#34;&#34;&#34;
+        return self._coin_outputs
+
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        self._coin_outputs = []
+        if not value:
+            return
+        for co in value:
+            self.coin_output_add(co.value, co.condition, id=co.id)
+
+    def coin_output_add(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._coin_outputs.append(co)
+
+    def miner_fee_add(self, value):
+        self._miner_fees.append(Currency(value=value))
+
+    def mint_fulfillment_defined(self):
+        return self._mint_fulfillment is not None
+
+    @property
+    def mint_fulfillment(self):
+        &#34;&#34;&#34;
+        Retrieve the current mint fulfillment
+        &#34;&#34;&#34;
+        if self._mint_fulfillment is None:
+            return FulfillmentSingleSignature()
+        return self._mint_fulfillment
+
+    @mint_fulfillment.setter
+    def mint_fulfillment(self, value):
+        if value is None:
+            self._mint_fulfillment = None
+            return
+        if not isinstance(value, FulfillmentBaseClass):
+            raise TypeError(
+                &#34;CoinCreation (v129) Transaction&#39;s mint fulfillment has to be a subtype of FulfillmentBaseClass, not {}&#34;.format(type(value)))
+        self._mint_fulfillment = value
+
+    @property
+    def parent_mint_condition(self):
+        &#34;&#34;&#34;
+        Retrieve the parent mint condition which will be set
+        &#34;&#34;&#34;
+        if self._parent_mint_condition is None:
+            return ConditionNil()
+        return self._parent_mint_condition
+
+    @parent_mint_condition.setter
+    def parent_mint_condition(self, value):
+        if value is None:
+            self._parent_mint_condition = None
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;CoinCreation (v129) Transaction&#39;s parent mint condition has to be a subtype of ConditionBaseClass, not {}&#34;.format(type(value)))
+        self._parent_mint_condition = value
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_sia_get()
+
+        # encode the transaction version
+        e.add_byte(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV129._SPECIFIER)
+
+        # encode nonce
+        e.add_array(self._nonce.value)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode coin outputs
+        e.add_slice(self.coin_outputs)
+
+        # encode miner fees
+        e.add_slice(self.miner_fees)
+
+        # encode custom data
+        e.add(self.data)
+
+        # return the encoded data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV129._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        encoder = encoder_sia_get()
+        encoder.add_array(self._nonce.value)
+        encoder.add_all(
+            self.mint_fulfillment,
+            self.coin_outputs,
+            self.miner_fees,
+            self.data,
+        )
+        return encoder.data
+
+    def _from_json_data_object(self, data):
+        self._nonce = BinaryData.from_json(
+            data.get(&#39;nonce&#39;, &#39;&#39;), strencoding=&#39;base64&#39;)
+        self._mint_fulfillment = FulfillmentTypes.from_json(
+            data.get(&#39;mintfulfillment&#39;, {}))
+        self._coin_outputs = [CoinOutput.from_json(
+            co) for co in data.get(&#39;coinoutputs&#39;, []) or []]
+        self._miner_fees = [Currency.from_json(
+            fee) for fee in data.get(&#39;minerfees&#39;, []) or []]
+        self._data = BinaryData.from_json(
+            data.get(&#39;arbitrarydata&#39;, None) or &#39;&#39;, strencoding=&#39;base64&#39;)
+
+    def _json_data_object(self):
+        return {
+            &#39;nonce&#39;: self._nonce.json(),
+            &#39;mintfulfillment&#39;: self.mint_fulfillment.json(),
+            &#39;coinoutputs&#39;: [co.json() for co in self.coin_outputs],
+            &#39;minerfees&#39;: [fee.json() for fee in self.miner_fees],
+            &#39;arbitrarydata&#39;: self.data.json(),
+        }
+
+    def _extra_signature_requests_new(self):
+        if self._parent_mint_condition is None:
+            return []  # nothing to be signed
+        return self._mint_fulfillment.signature_requests_new(
+            # no extra objects are to be included within txn scope
+            input_hash_func=self.signature_hash_get,
+            parent_condition=self._parent_mint_condition,
+        )
+
+    def _extra_is_fulfilled(self):
+        if self._parent_mint_condition is None:
+            return False
+        return self.mint_fulfillment.is_fulfilled(parent_condition=self._parent_mint_condition)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.Minting.TransactionV129.mint_fulfillment"><code class="name">var <span class="ident">mint_fulfillment</span></code></dt>
+<dd>
+<section class="desc"><p>Retrieve the current mint fulfillment</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def mint_fulfillment(self):
+    &#34;&#34;&#34;
+    Retrieve the current mint fulfillment
+    &#34;&#34;&#34;
+    if self._mint_fulfillment is None:
+        return FulfillmentSingleSignature()
+    return self._mint_fulfillment</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.Minting.TransactionV129.parent_mint_condition"><code class="name">var <span class="ident">parent_mint_condition</span></code></dt>
+<dd>
+<section class="desc"><p>Retrieve the parent mint condition which will be set</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def parent_mint_condition(self):
+    &#34;&#34;&#34;
+    Retrieve the parent mint condition which will be set
+    &#34;&#34;&#34;
+    if self._parent_mint_condition is None:
+        return ConditionNil()
+    return self._parent_mint_condition</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.Minting.TransactionV129.coin_output_add"><code class="name flex">
+<span>def <span class="ident">coin_output_add</span></span>(<span>self, value, condition, id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def coin_output_add(self, value, condition, id=None):
+    co = CoinOutput(value=value, condition=condition)
+    co.id = id
+    self._coin_outputs.append(co)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.Minting.TransactionV129.miner_fee_add"><code class="name flex">
+<span>def <span class="ident">miner_fee_add</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def miner_fee_add(self, value):
+    self._miner_fees.append(Currency(value=value))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.Minting.TransactionV129.mint_fulfillment_defined"><code class="name flex">
+<span>def <span class="ident">mint_fulfillment_defined</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def mint_fulfillment_defined(self):
+    return self._mint_fulfillment is not None</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.types.transactions" href="index.html">tfchain.types.transactions</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.types.transactions.Minting.TransactionV128" href="#tfchain.types.transactions.Minting.TransactionV128">TransactionV128</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV128.miner_fee_add" href="#tfchain.types.transactions.Minting.TransactionV128.miner_fee_add">miner_fee_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV128.mint_condition" href="#tfchain.types.transactions.Minting.TransactionV128.mint_condition">mint_condition</a></code></li>
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV128.mint_fulfillment" href="#tfchain.types.transactions.Minting.TransactionV128.mint_fulfillment">mint_fulfillment</a></code></li>
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV128.mint_fulfillment_defined" href="#tfchain.types.transactions.Minting.TransactionV128.mint_fulfillment_defined">mint_fulfillment_defined</a></code></li>
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV128.parent_mint_condition" href="#tfchain.types.transactions.Minting.TransactionV128.parent_mint_condition">parent_mint_condition</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.transactions.Minting.TransactionV129" href="#tfchain.types.transactions.Minting.TransactionV129">TransactionV129</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV129.coin_output_add" href="#tfchain.types.transactions.Minting.TransactionV129.coin_output_add">coin_output_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV129.miner_fee_add" href="#tfchain.types.transactions.Minting.TransactionV129.miner_fee_add">miner_fee_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV129.mint_fulfillment" href="#tfchain.types.transactions.Minting.TransactionV129.mint_fulfillment">mint_fulfillment</a></code></li>
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV129.mint_fulfillment_defined" href="#tfchain.types.transactions.Minting.TransactionV129.mint_fulfillment_defined">mint_fulfillment_defined</a></code></li>
+<li><code><a title="tfchain.types.transactions.Minting.TransactionV129.parent_mint_condition" href="#tfchain.types.transactions.Minting.TransactionV129.parent_mint_condition">parent_mint_condition</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

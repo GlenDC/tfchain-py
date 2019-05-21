@@ -1,0 +1,1331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.types.PrimitiveTypes API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.types.PrimitiveTypes</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import base64
+
+import tfchain.errors
+from tfchain.types.BaseDataType import BaseDataTypeClass
+
+
+class BinaryData(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    BinaryData is the data type used for any binary data used in tfchain.
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None, fixed_size=None, strencoding=None):
+        # define string encoding
+        if strencoding is not None and not isinstance(strencoding, str):
+            raise TypeError(
+                &#34;strencoding should be None or a str, not be of type {}&#34;.format(strencoding))
+        if strencoding is None or strencoding.lower().strip() == &#39;hex&#39;:
+            self._from_str = lambda s: bytearray.fromhex(s)
+            self._to_str = lambda value: value.hex()
+        elif strencoding.lower().strip() == &#39;base64&#39;:
+            self._from_str = lambda s: bytearray(base64.b64decode(s))
+            self._to_str = lambda value: base64.b64encode(value).decode()
+        elif strencoding.lower().strip() == &#39;hexprefix&#39;:
+            self._from_str = lambda s: bytearray.fromhex(
+                s[2:] if (s.startswith(&#34;0x&#34;) or s.startswith(&#34;0X&#34;)) else s)
+            self._to_str = lambda value: &#39;0x&#39; + value.hex()
+        else:
+            raise TypeError(
+                &#34;{} is not a valid string encoding&#34;.format(strencoding))
+        self._strencoding = strencoding
+
+        # define fixed size
+        if fixed_size is not None:
+            if not isinstance(fixed_size, int):
+                raise TypeError(
+                    &#34;fixed size should be None or int, not be of type {}&#34;.format(type(fixed_size)))
+            if fixed_size &lt; 0:
+                raise TypeError(
+                    &#34;fixed size should be at least 0, {} is not allowed&#34;.format(fixed_size))
+        if fixed_size != 0:
+            self._fixed_size = fixed_size
+        else:
+            self._fixed_size = None  # for now use no fixed size
+
+        # define the value (finally)
+        self._value = None
+        self.value = value
+
+        if fixed_size == 0:
+            # define the fixed size now, if the fixed_size was 0
+            # based on the binary length of the value
+            self._fixed_size = len(self.value)
+
+    @classmethod
+    def from_json(cls, obj, fixed_size=None, strencoding=None):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;binary data is expected to be an encoded string when part of a JSON object&#34;)
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj, fixed_size=fixed_size, strencoding=strencoding)
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        # normalize the value
+        if isinstance(value, BinaryData):
+            value = value.value
+        elif value is None:
+            value = bytearray()
+        elif isinstance(value, str):
+            value = self._from_str(value)
+        elif isinstance(value, bytes):
+            value = bytearray(value)
+        elif not isinstance(value, bytearray):
+            raise TypeError(
+                &#34;binary data can only be set to a BinaryData, str, bytes or bytearray, not {}&#34;.format(type(value)))
+        # if fixed size, check this now
+        lvalue = len(value)
+        if self._fixed_size is not None and lvalue != 0 and lvalue != self._fixed_size:
+            raise ValueError(
+                &#34;binary data was expected to be of fixed size {}, length {} is not allowed&#34;.format(
+                    self._fixed_size, len(value)))
+        # all good, assign the bytearray value
+        self._value = value
+
+    def __len__(self):
+        return len(self.value)
+
+    def __str__(self):
+        return self._to_str(self._value)
+
+    def __repr__(self):
+        return self.__str__()
+
+    def json(self):
+        return self.__str__()
+
+    def __eq__(self, other):
+        other = self._op_other_as_binary_data(other)
+        return self.value == other.value
+
+    def __ne__(self, other):
+        other = self._op_other_as_binary_data(other)
+        return self.value != other.value
+
+    def _op_other_as_binary_data(self, other):
+        if isinstance(other, (str, bytes, bytearray)):
+            other = BinaryData(
+                value=other, fixed_size=self._fixed_size, strencoding=self._strencoding)
+        elif not isinstance(other, BinaryData):
+            raise TypeError(
+                &#34;Binary data of type {} is not supported&#34;.format(type(other)))
+        if self._fixed_size != other._fixed_size:
+            raise TypeError(
+                &#34;Cannot compare binary data with different fixed size: self({}) != other({})&#34;.format(
+                    self._fixed_size, other._fixed_size))
+        if self._strencoding != other._strencoding:
+            raise TypeError(
+                &#34;Cannot compare binary data with different strencoding: self({}) != other({})&#34;.format(
+                    self._strencoding, other._strencoding))
+        return other
+
+    def __hash__(self):
+        return hash(str(self))
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this binary data according to the Sia Binary Encoding format.
+        Either encoded as a slice or an array, depending on whether or not it is fixed sized.
+        &#34;&#34;&#34;
+        if self._fixed_size is None:
+            encoder.add_slice(self._value)
+        else:
+            encoder.add_array(self._value)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this binary data according to the Rivine Binary Encoding format.
+        Either encoded as a slice or an array, depending on whether or not it is fixed sized.
+        &#34;&#34;&#34;
+        if self._fixed_size is None:
+            encoder.add_slice(self._value)
+        else:
+            encoder.add_array(self._value)
+
+
+class Hash(BinaryData):
+    SIZE = 32
+
+    &#34;&#34;&#34;
+    TFChain Hash Object, a special type of BinaryData
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None):
+        super().__init__(value, fixed_size=Hash.SIZE, strencoding=&#39;hex&#39;)
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;hash is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj)
+
+    def __str__(self):
+        s = super().__str__()
+        if not s:
+            return &#39;0&#39;*(Hash.SIZE*2)
+        return s
+
+
+from math import floor
+from decimal import Decimal
+
+
+class Currency(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    TFChain Currency Object.
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None):
+        self._value = None
+        self.value = value
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;currency is expected to be a string when part of a JSON object, not type {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        c = cls()
+        c.value = Decimal(obj) * Decimal(&#39;0.000000001&#39;)
+        return c
+
+    @property
+    def value(self):
+        if self._value is None:
+            return Decimal()
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is None:
+            self._value = None
+            return
+        if isinstance(value, Currency):
+            self._value = value.value
+            return
+        if isinstance(value, (int, str, Decimal)):
+            if isinstance(value, str):
+                value = value.upper().strip()
+                if len(value) &gt;= 4 and value[-3:] == &#39;TFT&#39;:
+                    value = value[:-3].rstrip()
+            d = Decimal(value)
+            sign, _, exp = d.as_tuple()
+            if exp &lt; -9:
+                raise errors.CurrencyPrecisionOverflow(d)
+            if sign != 0:
+                raise errors.CurrencyNegativeValue(d)
+            self._value = d
+            return
+        raise TypeError(
+            &#34;cannot set value of type {} as Currency (invalid type)&#34;.format(type(value)))
+
+    # operator overloading to allow currencies to be summed
+    def __add__(self, other):
+        other = Currency._op_other_as_currency(other)
+        value = self.value + other.value
+        return Currency(value=value)
+    __radd__ = __add__
+
+    def __iadd__(self, other):
+        other = Currency._op_other_as_currency(other)
+        self.value += other.value
+        return self
+
+    # operator overloading to allow currencies to be multiplied
+    def __mul__(self, other):
+        other = Currency._op_other_as_currency(other)
+        value = self.value * other.value
+        return Currency(value=value)
+    __rmul__ = __mul__
+
+    def __imul__(self, other):
+        other = Currency._op_other_as_currency(other)
+        self.value *= other.value
+        return self
+
+    # operator overloading to allow currencies to be subtracted
+    def __sub__(self, other):
+        other = Currency._op_other_as_currency(other)
+        value = self.value - other.value
+        return Currency(value=value)
+    __rsub__ = __sub__
+
+    def __isub__(self, other):
+        other = Currency._op_other_as_currency(other)
+        self.value -= other.value
+        return self
+
+    # operator overloading to allow currencies to be compared
+    def __lt__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value &lt; other.value
+
+    def __le__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value &lt;= other.value
+
+    def __eq__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value == other.value
+
+    def __ne__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value != other.value
+
+    def __gt__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value &gt; other.value
+
+    def __ge__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value &gt;= other.value
+
+    @staticmethod
+    def _op_other_as_currency(other):
+        if isinstance(other, (int, str)):
+            other = Currency(value=other)
+        elif isinstance(other, float):
+            other = Currency(value=Decimal(str(other)))
+        elif not isinstance(other, Currency):
+            raise TypeError(
+                &#34;currency of type {} is not supported&#34;.format(type(other)))
+        return other
+
+    # allow our currency to be turned into an int
+    def __int__(self):
+        s = &#34;{:.9f}&#34;.format(self.value).replace(&#34;.&#34;, &#34;&#34;)
+        return int(s)
+
+    def __str__(self):
+        return self.str()
+
+    def str(self, with_unit=False):
+        &#34;&#34;&#34;
+        Turn this Currency value into a str TFT unit-based value,
+        optionally with the currency notation.
+
+        @param with_unit: include the TFT currency suffix unit with the str
+        &#34;&#34;&#34;
+        s = &#34;{:.9f}&#34;.format(self.value)
+        s = s.rstrip(&#34;0 &#34;)
+        if s[-1] == &#39;.&#39;:
+            s = s[:-1]
+        if len(s) == 0:
+            s = &#34;0&#34;
+        if with_unit:
+            s += &#34; TFT&#34;
+        return s
+
+    def __repr__(self):
+        return self.str(with_unit=True)
+
+    def json(self):
+        return str(int(self))
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this currency according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        value = int(self)
+        nbytes, rem = divmod(value.bit_length(), 8)
+        if rem:
+            nbytes += 1
+        encoder.add_int(nbytes)
+        encoder.add_array(value.to_bytes(nbytes, byteorder=&#39;big&#39;))
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this currency according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        value = int(self)
+        nbytes, rem = divmod(value.bit_length(), 8)
+        if rem:
+            nbytes += 1
+        encoder.add_slice(value.to_bytes(nbytes, byteorder=&#39;big&#39;))
+
+
+class Blockstake(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    TFChain Blockstake Object.
+    &#34;&#34;&#34;
+
+    def __init__(self, value=0):
+        self._value = 0
+        self.value = value
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;block stake is expected to be a string when part of a JSON object, not type {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj)
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is None:
+            self._value = 0
+            return
+        if isinstance(value, Currency):
+            self._value = value.value
+            return
+        if isinstance(value, str):
+            value = int(value)
+        elif not isinstance(value, int):
+            # float values are not allowed as our precision is high enough that
+            # rounding errors can occur
+            raise TypeError(
+                &#39;block stake can only be set to a str or int value, not type {}&#39;.format(type(value)))
+        else:
+            value = int(value)
+        if value &lt; 0:
+            raise TypeError(&#39;block stake cannot have a negative value&#39;)
+        self._value = value
+
+    # allow our block stake to be turned into an int
+    def __int__(self):
+        return self.value
+
+    def __str__(self):
+        return str(self._value)
+    __repr__ = __str__
+    json = __str__
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this block stake (==Currency) according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        nbytes, rem = divmod(self._value.bit_length(), 8)
+        if rem:
+            nbytes += 1
+        encoder.add_int(nbytes)
+        encoder.add_array(self._value.to_bytes(nbytes, byteorder=&#39;big&#39;))
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this block stake (==Currency) according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        nbytes, rem = divmod(self._value.bit_length(), 8)
+        if rem:
+            nbytes += 1
+        encoder.add_slice(self._value.to_bytes(nbytes, byteorder=&#39;big&#39;))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.BinaryData"><code class="flex name class">
+<span>class <span class="ident">BinaryData</span></span>
+<span>(</span><span>value=None, fixed_size=None, strencoding=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>BinaryData is the data type used for any binary data used in tfchain.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class BinaryData(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    BinaryData is the data type used for any binary data used in tfchain.
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None, fixed_size=None, strencoding=None):
+        # define string encoding
+        if strencoding is not None and not isinstance(strencoding, str):
+            raise TypeError(
+                &#34;strencoding should be None or a str, not be of type {}&#34;.format(strencoding))
+        if strencoding is None or strencoding.lower().strip() == &#39;hex&#39;:
+            self._from_str = lambda s: bytearray.fromhex(s)
+            self._to_str = lambda value: value.hex()
+        elif strencoding.lower().strip() == &#39;base64&#39;:
+            self._from_str = lambda s: bytearray(base64.b64decode(s))
+            self._to_str = lambda value: base64.b64encode(value).decode()
+        elif strencoding.lower().strip() == &#39;hexprefix&#39;:
+            self._from_str = lambda s: bytearray.fromhex(
+                s[2:] if (s.startswith(&#34;0x&#34;) or s.startswith(&#34;0X&#34;)) else s)
+            self._to_str = lambda value: &#39;0x&#39; + value.hex()
+        else:
+            raise TypeError(
+                &#34;{} is not a valid string encoding&#34;.format(strencoding))
+        self._strencoding = strencoding
+
+        # define fixed size
+        if fixed_size is not None:
+            if not isinstance(fixed_size, int):
+                raise TypeError(
+                    &#34;fixed size should be None or int, not be of type {}&#34;.format(type(fixed_size)))
+            if fixed_size &lt; 0:
+                raise TypeError(
+                    &#34;fixed size should be at least 0, {} is not allowed&#34;.format(fixed_size))
+        if fixed_size != 0:
+            self._fixed_size = fixed_size
+        else:
+            self._fixed_size = None  # for now use no fixed size
+
+        # define the value (finally)
+        self._value = None
+        self.value = value
+
+        if fixed_size == 0:
+            # define the fixed size now, if the fixed_size was 0
+            # based on the binary length of the value
+            self._fixed_size = len(self.value)
+
+    @classmethod
+    def from_json(cls, obj, fixed_size=None, strencoding=None):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;binary data is expected to be an encoded string when part of a JSON object&#34;)
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj, fixed_size=fixed_size, strencoding=strencoding)
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        # normalize the value
+        if isinstance(value, BinaryData):
+            value = value.value
+        elif value is None:
+            value = bytearray()
+        elif isinstance(value, str):
+            value = self._from_str(value)
+        elif isinstance(value, bytes):
+            value = bytearray(value)
+        elif not isinstance(value, bytearray):
+            raise TypeError(
+                &#34;binary data can only be set to a BinaryData, str, bytes or bytearray, not {}&#34;.format(type(value)))
+        # if fixed size, check this now
+        lvalue = len(value)
+        if self._fixed_size is not None and lvalue != 0 and lvalue != self._fixed_size:
+            raise ValueError(
+                &#34;binary data was expected to be of fixed size {}, length {} is not allowed&#34;.format(
+                    self._fixed_size, len(value)))
+        # all good, assign the bytearray value
+        self._value = value
+
+    def __len__(self):
+        return len(self.value)
+
+    def __str__(self):
+        return self._to_str(self._value)
+
+    def __repr__(self):
+        return self.__str__()
+
+    def json(self):
+        return self.__str__()
+
+    def __eq__(self, other):
+        other = self._op_other_as_binary_data(other)
+        return self.value == other.value
+
+    def __ne__(self, other):
+        other = self._op_other_as_binary_data(other)
+        return self.value != other.value
+
+    def _op_other_as_binary_data(self, other):
+        if isinstance(other, (str, bytes, bytearray)):
+            other = BinaryData(
+                value=other, fixed_size=self._fixed_size, strencoding=self._strencoding)
+        elif not isinstance(other, BinaryData):
+            raise TypeError(
+                &#34;Binary data of type {} is not supported&#34;.format(type(other)))
+        if self._fixed_size != other._fixed_size:
+            raise TypeError(
+                &#34;Cannot compare binary data with different fixed size: self({}) != other({})&#34;.format(
+                    self._fixed_size, other._fixed_size))
+        if self._strencoding != other._strencoding:
+            raise TypeError(
+                &#34;Cannot compare binary data with different strencoding: self({}) != other({})&#34;.format(
+                    self._strencoding, other._strencoding))
+        return other
+
+    def __hash__(self):
+        return hash(str(self))
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this binary data according to the Sia Binary Encoding format.
+        Either encoded as a slice or an array, depending on whether or not it is fixed sized.
+        &#34;&#34;&#34;
+        if self._fixed_size is None:
+            encoder.add_slice(self._value)
+        else:
+            encoder.add_array(self._value)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this binary data according to the Rivine Binary Encoding format.
+        Either encoded as a slice or an array, depending on whether or not it is fixed sized.
+        &#34;&#34;&#34;
+        if self._fixed_size is None:
+            encoder.add_slice(self._value)
+        else:
+            encoder.add_array(self._value)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.PrimitiveTypes.Hash" href="#tfchain.types.PrimitiveTypes.Hash">Hash</a></li>
+<li><a title="tfchain.types.ConditionTypes.AtomicSwapSecret" href="ConditionTypes.html#tfchain.types.ConditionTypes.AtomicSwapSecret">AtomicSwapSecret</a></li>
+<li><a title="tfchain.types.ConditionTypes.AtomicSwapSecretHash" href="ConditionTypes.html#tfchain.types.ConditionTypes.AtomicSwapSecretHash">AtomicSwapSecretHash</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.ED25519Signature" href="FulfillmentTypes.html#tfchain.types.FulfillmentTypes.ED25519Signature">ED25519Signature</a></li>
+<li><a title="tfchain.types.ERC20.ERC20Address" href="ERC20.html#tfchain.types.ERC20.ERC20Address">ERC20Address</a></li>
+<li><a title="tfchain.types.ERC20.ERC20Hash" href="ERC20.html#tfchain.types.ERC20.ERC20Hash">ERC20Hash</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.BinaryData.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj, fixed_size=None, strencoding=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj, fixed_size=None, strencoding=None):
+    if obj is not None and not isinstance(obj, str):
+        raise TypeError(
+            &#34;binary data is expected to be an encoded string when part of a JSON object&#34;)
+    if obj == &#39;&#39;:
+        obj = None
+    return cls(value=obj, fixed_size=fixed_size, strencoding=strencoding)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.BinaryData.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.BinaryData.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return self.__str__()</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this binary data according to the Rivine Binary Encoding format.
+Either encoded as a slice or an array, depending on whether or not it is fixed sized.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this binary data according to the Rivine Binary Encoding format.
+    Either encoded as a slice or an array, depending on whether or not it is fixed sized.
+    &#34;&#34;&#34;
+    if self._fixed_size is None:
+        encoder.add_slice(self._value)
+    else:
+        encoder.add_array(self._value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this binary data according to the Sia Binary Encoding format.
+Either encoded as a slice or an array, depending on whether or not it is fixed sized.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this binary data according to the Sia Binary Encoding format.
+    Either encoded as a slice or an array, depending on whether or not it is fixed sized.
+    &#34;&#34;&#34;
+    if self._fixed_size is None:
+        encoder.add_slice(self._value)
+    else:
+        encoder.add_array(self._value)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.Blockstake"><code class="flex name class">
+<span>class <span class="ident">Blockstake</span></span>
+<span>(</span><span>value=0)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>TFChain Blockstake Object.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Blockstake(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    TFChain Blockstake Object.
+    &#34;&#34;&#34;
+
+    def __init__(self, value=0):
+        self._value = 0
+        self.value = value
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;block stake is expected to be a string when part of a JSON object, not type {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj)
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is None:
+            self._value = 0
+            return
+        if isinstance(value, Currency):
+            self._value = value.value
+            return
+        if isinstance(value, str):
+            value = int(value)
+        elif not isinstance(value, int):
+            # float values are not allowed as our precision is high enough that
+            # rounding errors can occur
+            raise TypeError(
+                &#39;block stake can only be set to a str or int value, not type {}&#39;.format(type(value)))
+        else:
+            value = int(value)
+        if value &lt; 0:
+            raise TypeError(&#39;block stake cannot have a negative value&#39;)
+        self._value = value
+
+    # allow our block stake to be turned into an int
+    def __int__(self):
+        return self.value
+
+    def __str__(self):
+        return str(self._value)
+    __repr__ = __str__
+    json = __str__
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this block stake (==Currency) according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        nbytes, rem = divmod(self._value.bit_length(), 8)
+        if rem:
+            nbytes += 1
+        encoder.add_int(nbytes)
+        encoder.add_array(self._value.to_bytes(nbytes, byteorder=&#39;big&#39;))
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this block stake (==Currency) according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        nbytes, rem = divmod(self._value.bit_length(), 8)
+        if rem:
+            nbytes += 1
+        encoder.add_slice(self._value.to_bytes(nbytes, byteorder=&#39;big&#39;))</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.Blockstake.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if obj is not None and not isinstance(obj, str):
+        raise TypeError(
+            &#34;block stake is expected to be a string when part of a JSON object, not type {}&#34;.format(type(obj)))
+    if obj == &#39;&#39;:
+        obj = None
+    return cls(value=obj)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.Blockstake.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.Blockstake.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Return str(self).</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def __str__(self):
+    return str(self._value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.Blockstake.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this block stake (==Currency) according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this block stake (==Currency) according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    nbytes, rem = divmod(self._value.bit_length(), 8)
+    if rem:
+        nbytes += 1
+    encoder.add_slice(self._value.to_bytes(nbytes, byteorder=&#39;big&#39;))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.Blockstake.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this block stake (==Currency) according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this block stake (==Currency) according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    nbytes, rem = divmod(self._value.bit_length(), 8)
+    if rem:
+        nbytes += 1
+    encoder.add_int(nbytes)
+    encoder.add_array(self._value.to_bytes(nbytes, byteorder=&#39;big&#39;))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.Currency"><code class="flex name class">
+<span>class <span class="ident">Currency</span></span>
+<span>(</span><span>value=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>TFChain Currency Object.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Currency(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    TFChain Currency Object.
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None):
+        self._value = None
+        self.value = value
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;currency is expected to be a string when part of a JSON object, not type {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        c = cls()
+        c.value = Decimal(obj) * Decimal(&#39;0.000000001&#39;)
+        return c
+
+    @property
+    def value(self):
+        if self._value is None:
+            return Decimal()
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is None:
+            self._value = None
+            return
+        if isinstance(value, Currency):
+            self._value = value.value
+            return
+        if isinstance(value, (int, str, Decimal)):
+            if isinstance(value, str):
+                value = value.upper().strip()
+                if len(value) &gt;= 4 and value[-3:] == &#39;TFT&#39;:
+                    value = value[:-3].rstrip()
+            d = Decimal(value)
+            sign, _, exp = d.as_tuple()
+            if exp &lt; -9:
+                raise errors.CurrencyPrecisionOverflow(d)
+            if sign != 0:
+                raise errors.CurrencyNegativeValue(d)
+            self._value = d
+            return
+        raise TypeError(
+            &#34;cannot set value of type {} as Currency (invalid type)&#34;.format(type(value)))
+
+    # operator overloading to allow currencies to be summed
+    def __add__(self, other):
+        other = Currency._op_other_as_currency(other)
+        value = self.value + other.value
+        return Currency(value=value)
+    __radd__ = __add__
+
+    def __iadd__(self, other):
+        other = Currency._op_other_as_currency(other)
+        self.value += other.value
+        return self
+
+    # operator overloading to allow currencies to be multiplied
+    def __mul__(self, other):
+        other = Currency._op_other_as_currency(other)
+        value = self.value * other.value
+        return Currency(value=value)
+    __rmul__ = __mul__
+
+    def __imul__(self, other):
+        other = Currency._op_other_as_currency(other)
+        self.value *= other.value
+        return self
+
+    # operator overloading to allow currencies to be subtracted
+    def __sub__(self, other):
+        other = Currency._op_other_as_currency(other)
+        value = self.value - other.value
+        return Currency(value=value)
+    __rsub__ = __sub__
+
+    def __isub__(self, other):
+        other = Currency._op_other_as_currency(other)
+        self.value -= other.value
+        return self
+
+    # operator overloading to allow currencies to be compared
+    def __lt__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value &lt; other.value
+
+    def __le__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value &lt;= other.value
+
+    def __eq__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value == other.value
+
+    def __ne__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value != other.value
+
+    def __gt__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value &gt; other.value
+
+    def __ge__(self, other):
+        other = Currency._op_other_as_currency(other)
+        return self.value &gt;= other.value
+
+    @staticmethod
+    def _op_other_as_currency(other):
+        if isinstance(other, (int, str)):
+            other = Currency(value=other)
+        elif isinstance(other, float):
+            other = Currency(value=Decimal(str(other)))
+        elif not isinstance(other, Currency):
+            raise TypeError(
+                &#34;currency of type {} is not supported&#34;.format(type(other)))
+        return other
+
+    # allow our currency to be turned into an int
+    def __int__(self):
+        s = &#34;{:.9f}&#34;.format(self.value).replace(&#34;.&#34;, &#34;&#34;)
+        return int(s)
+
+    def __str__(self):
+        return self.str()
+
+    def str(self, with_unit=False):
+        &#34;&#34;&#34;
+        Turn this Currency value into a str TFT unit-based value,
+        optionally with the currency notation.
+
+        @param with_unit: include the TFT currency suffix unit with the str
+        &#34;&#34;&#34;
+        s = &#34;{:.9f}&#34;.format(self.value)
+        s = s.rstrip(&#34;0 &#34;)
+        if s[-1] == &#39;.&#39;:
+            s = s[:-1]
+        if len(s) == 0:
+            s = &#34;0&#34;
+        if with_unit:
+            s += &#34; TFT&#34;
+        return s
+
+    def __repr__(self):
+        return self.str(with_unit=True)
+
+    def json(self):
+        return str(int(self))
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this currency according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        value = int(self)
+        nbytes, rem = divmod(value.bit_length(), 8)
+        if rem:
+            nbytes += 1
+        encoder.add_int(nbytes)
+        encoder.add_array(value.to_bytes(nbytes, byteorder=&#39;big&#39;))
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this currency according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        value = int(self)
+        nbytes, rem = divmod(value.bit_length(), 8)
+        if rem:
+            nbytes += 1
+        encoder.add_slice(value.to_bytes(nbytes, byteorder=&#39;big&#39;))</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.Currency.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if obj is not None and not isinstance(obj, str):
+        raise TypeError(
+            &#34;currency is expected to be a string when part of a JSON object, not type {}&#34;.format(type(obj)))
+    if obj == &#39;&#39;:
+        obj = None
+    c = cls()
+    c.value = Decimal(obj) * Decimal(&#39;0.000000001&#39;)
+    return c</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.Currency.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    if self._value is None:
+        return Decimal()
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.Currency.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return str(int(self))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.Currency.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this currency according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this currency according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    value = int(self)
+    nbytes, rem = divmod(value.bit_length(), 8)
+    if rem:
+        nbytes += 1
+    encoder.add_slice(value.to_bytes(nbytes, byteorder=&#39;big&#39;))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.Currency.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this currency according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this currency according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    value = int(self)
+    nbytes, rem = divmod(value.bit_length(), 8)
+    if rem:
+        nbytes += 1
+    encoder.add_int(nbytes)
+    encoder.add_array(value.to_bytes(nbytes, byteorder=&#39;big&#39;))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.Currency.str"><code class="name flex">
+<span>def <span class="ident">str</span></span>(<span>self, with_unit=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Turn this Currency value into a str TFT unit-based value,
+optionally with the currency notation.</p>
+<p>@param with_unit: include the TFT currency suffix unit with the str</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def str(self, with_unit=False):
+    &#34;&#34;&#34;
+    Turn this Currency value into a str TFT unit-based value,
+    optionally with the currency notation.
+
+    @param with_unit: include the TFT currency suffix unit with the str
+    &#34;&#34;&#34;
+    s = &#34;{:.9f}&#34;.format(self.value)
+    s = s.rstrip(&#34;0 &#34;)
+    if s[-1] == &#39;.&#39;:
+        s = s[:-1]
+    if len(s) == 0:
+        s = &#34;0&#34;
+    if with_unit:
+        s += &#34; TFT&#34;
+    return s</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.PrimitiveTypes.Hash"><code class="flex name class">
+<span>class <span class="ident">Hash</span></span>
+<span>(</span><span>value=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>BinaryData is the data type used for any binary data used in tfchain.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Hash(BinaryData):
+    SIZE = 32
+
+    &#34;&#34;&#34;
+    TFChain Hash Object, a special type of BinaryData
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None):
+        super().__init__(value, fixed_size=Hash.SIZE, strencoding=&#39;hex&#39;)
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;hash is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj)
+
+    def __str__(self):
+        s = super().__str__()
+        if not s:
+            return &#39;0&#39;*(Hash.SIZE*2)
+        return s</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.PrimitiveTypes.BinaryData" href="#tfchain.types.PrimitiveTypes.BinaryData">BinaryData</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.Hash.SIZE"><code class="name">var <span class="ident">SIZE</span></code></dt>
+<dd>
+<section class="desc"><p>TFChain Hash Object, a special type of BinaryData</p></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.PrimitiveTypes.Hash.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if obj is not None and not isinstance(obj, str):
+        raise TypeError(
+            &#34;hash is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+    if obj == &#39;&#39;:
+        obj = None
+    return cls(value=obj)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.PrimitiveTypes.BinaryData" href="#tfchain.types.PrimitiveTypes.BinaryData">BinaryData</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode" href="#tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode" href="#tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode">sia_binary_encode</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.types" href="index.html">tfchain.types</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.types.PrimitiveTypes.BinaryData" href="#tfchain.types.PrimitiveTypes.BinaryData">BinaryData</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.from_json" href="#tfchain.types.PrimitiveTypes.BinaryData.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.json" href="#tfchain.types.PrimitiveTypes.BinaryData.json">json</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode" href="#tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode" href="#tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.value" href="#tfchain.types.PrimitiveTypes.BinaryData.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.PrimitiveTypes.Blockstake" href="#tfchain.types.PrimitiveTypes.Blockstake">Blockstake</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.PrimitiveTypes.Blockstake.from_json" href="#tfchain.types.PrimitiveTypes.Blockstake.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Blockstake.json" href="#tfchain.types.PrimitiveTypes.Blockstake.json">json</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Blockstake.rivine_binary_encode" href="#tfchain.types.PrimitiveTypes.Blockstake.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Blockstake.sia_binary_encode" href="#tfchain.types.PrimitiveTypes.Blockstake.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Blockstake.value" href="#tfchain.types.PrimitiveTypes.Blockstake.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.PrimitiveTypes.Currency" href="#tfchain.types.PrimitiveTypes.Currency">Currency</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.PrimitiveTypes.Currency.from_json" href="#tfchain.types.PrimitiveTypes.Currency.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Currency.json" href="#tfchain.types.PrimitiveTypes.Currency.json">json</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Currency.rivine_binary_encode" href="#tfchain.types.PrimitiveTypes.Currency.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Currency.sia_binary_encode" href="#tfchain.types.PrimitiveTypes.Currency.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Currency.str" href="#tfchain.types.PrimitiveTypes.Currency.str">str</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Currency.value" href="#tfchain.types.PrimitiveTypes.Currency.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.PrimitiveTypes.Hash" href="#tfchain.types.PrimitiveTypes.Hash">Hash</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.PrimitiveTypes.Hash.SIZE" href="#tfchain.types.PrimitiveTypes.Hash.SIZE">SIZE</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.Hash.from_json" href="#tfchain.types.PrimitiveTypes.Hash.from_json">from_json</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -1,8 +1,5 @@
-try:
-    from setuptools import setup
-except ImportError:
-    # can't have the entry_points option here.
-    from distutils.core import setup
+from setuptools import setup
+from setuptools import setup, find_packages
 
 required = []
 with open('requirements.txt') as f:
@@ -14,7 +11,7 @@ setup(name='tfchain',
     author_email="glen@threefold.tech",
     description='pythonic tfchain client',
     long_description='pythonic tfchain client',
-    packages=['tfchain'],
+    packages=find_packages(),
     url="https://github.com/glendc/tfchain-py",
     license='MIT License',
     install_requires=required,
