@@ -4,8 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pdoc3 = "*"
 
 [packages]
+ed25519 = "==1.4"
+mnemonic = "==0.18"
+pytest = "==4.5.0"
 
 [requires]
 python_version = "3.6"
