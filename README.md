@@ -13,7 +13,7 @@ NOTE that this library and its API is not finished. Changes can be expected unti
 Documentation available [API reference](GlenDC.github.io/ttfchain-py/api/tfchain/)
 
 
-## installation
+## Installation
 
 `pip install tfchain` 
 
@@ -34,6 +34,10 @@ pipenv shell
 
 use `make gendocs` to generate documentation
 
+## Running tests
+
+use `make test` to run tests.
+
 ## Publishing flow
 
 - Make sure credentials in ~/.pypirc
@@ -47,4 +51,4 @@ index-servers =
 username: PYPI_USERNAME
 password: PYPI_PASSWORD
 ```
-use `upload` task in Makefile `make upload`
+- use `upload` task in Makefile `make upload`
