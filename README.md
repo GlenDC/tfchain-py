@@ -9,6 +9,8 @@ as to be able to use it in environments that require a Python3 client decoupled 
 
 NOTE that this library and its API is not finished. Changes can be expected until we reach `v1.0.0`.
 
+Documentation available [API reference](GlenDC.github.io/ttfchain-py/api/tfchain/)
+
 
 ## installation
 
