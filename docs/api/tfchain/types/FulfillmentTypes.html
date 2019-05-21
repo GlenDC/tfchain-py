@@ -1,0 +1,2370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.types.FulfillmentTypes API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.types.FulfillmentTypes</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">from tfchain.types.BaseDataType import BaseDataTypeClass
+from tfchain.types.CryptoTypes import PublicKey
+from tfchain.types.PrimitiveTypes import BinaryData, Hash
+from tfchain.types.ConditionTypes import UnlockHash, UnlockHashType, ConditionNil, \
+    ConditionUnlockHash, ConditionAtomicSwap, ConditionMultiSignature, AtomicSwapSecret
+from tfchain.encoders import encoder_rivine_get, encoder_sia_get
+
+import tfchain
+
+def from_json(obj):
+    ft = obj.get(&#39;type&#39;, 0)
+    if ft == _FULFULLMENT_TYPE_SINGLE_SIG:
+        return FulfillmentSingleSignature.from_json(obj)
+    if ft == _FULFILLMENT_TYPE_MULTI_SIG:
+        return FulfillmentMultiSignature.from_json(obj)
+    if ft == _FULFILLMENT_TYPE_ATOMIC_SWAP:
+        return FulfillmentAtomicSwap.from_json(obj)
+    raise ValueError(&#34;unsupport fulfillment type {}&#34;.format(ft))
+
+def from_condition(condition):
+    &#34;&#34;&#34;
+    Create a fresh fulfillment from its parent condition.
+    &#34;&#34;&#34;
+    if condition is None:
+        return FulfillmentSingleSignature()
+    if isinstance(condition, ConditionAtomicSwap):
+        return FulfillmentAtomicSwap()
+    icondition = condition.unwrap()
+    if isinstance(icondition, (ConditionUnlockHash, ConditionNil)):
+        return FulfillmentSingleSignature()
+    if isinstance(icondition, ConditionMultiSignature):
+        return FulfillmentMultiSignature()
+    raise TypeError(&#34;invalid condition type {} cannot be used to create a fulfillment&#34;.format(type(condition)))
+
+def single_signature_new(pub_key=None, signature=None):
+    &#34;&#34;&#34;
+    Create a new single signature fulfillment,
+    used to unlock an UnlockHash Condition of type 1.
+    &#34;&#34;&#34;
+    return FulfillmentSingleSignature(pub_key=pub_key, signature=signature)
+
+def atomic_swap_new(pub_key=None, signature=None, secret=None):
+    &#34;&#34;&#34;
+    Create a new atomic swap fulfillment,
+    used to unlock an atomic swap condition.
+    &#34;&#34;&#34;
+    return FulfillmentAtomicSwap(pub_key=pub_key, signature=signature, secret=secret)
+
+def multi_signature_new(pairs=None):
+    &#34;&#34;&#34;
+    Create a new multi signature fulfillment,
+    used to unlock a multi signature condition.
+    &#34;&#34;&#34;
+    return FulfillmentMultiSignature(pairs=pairs)
+
+class ED25519Signature(BinaryData):
+    SIZE = 64
+
+    &#34;&#34;&#34;
+    ED25519 Signature, used in TFChain.
+    &#34;&#34;&#34;
+    def __init__(self, value=None, as_array=False):
+        super().__init__(value, fixed_size=ED25519Signature.SIZE, strencoding=&#39;hex&#39;)
+        if not isinstance(as_array, bool):
+            raise TypeError(&#34;as_array has to be of type bool, not type {}&#34;.format(type(as_array)))
+        self._as_array = as_array
+
+    @classmethod
+    def from_json(cls, obj, as_array=False):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(&#34;ed25519 signature is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj, as_array=as_array)
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this binary data according to the Sia Binary Encoding format.
+        Always encoded as a slice.
+        &#34;&#34;&#34;
+        encoder.add_slice(self._value)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this binary data according to the Rivine Binary Encoding format.
+        Usually encoded as a slice, except when as part of a context where it is not needed.
+        &#34;&#34;&#34;
+        if self._as_array:
+            encoder.add_array(self._value)
+        else:
+            encoder.add_slice(self._value)
+
+_FULFULLMENT_TYPE_SINGLE_SIG = 1
+_FULFILLMENT_TYPE_ATOMIC_SWAP = 2
+_FULFILLMENT_TYPE_MULTI_SIG = 3
+
+from abc import ABC, abstractmethod
+
+class SignatureCallbackBase(ABC):
+    @abstractmethod
+    def signature_add(self, public_key, signature):
+        pass
+
+class SignatureRequest:
+    &#34;&#34;&#34;
+    SignatureRequest can be used to create a one-time-use individual sign request.
+    &#34;&#34;&#34;
+    def __init__(self, unlockhash, input_hash_gen, callback):
+        # set defined properties
+        if not isinstance(unlockhash, UnlockHash):
+            raise TypeError(&#34;signature request requires an unlock hash of Type UnlockHash, not: {}&#34;.format(type(unlockhash)))
+        self._unlockhash = unlockhash
+        if not callable(input_hash_gen):
+            raise TypeError(&#34;signature request requires a generator function with the signature `f(PublicKey) -&gt; Hash&#34;)
+        self._input_hash_gen = input_hash_gen
+        if not isinstance(callback, SignatureCallbackBase):
+            raise TypeError(&#34;signature request requires a callback of Type SignatureCallbackBase, not: {}&#34;.format(type(unlockhash)))
+        self._callback = callback
+        # property to ensure this request is only fulfilled once
+        self._signed = False
+
+    @property
+    def fulfilled(self):
+        &#34;&#34;&#34;
+        Returns True if this request was already fulfilled,
+        False otherwise.
+        &#34;&#34;&#34;
+        return self._signed
+
+    @property
+    def wallet_address(self):
+        &#34;&#34;&#34;
+        Returns the wallet address of the owner who requested the signature.
+        &#34;&#34;&#34;
+        return str(self._unlockhash)
+
+    def input_hash_new(self, public_key):
+        &#34;&#34;&#34;
+        Create an input hash for the public key of the fulfiller.
+        &#34;&#34;&#34;
+        input_hash = self._input_hash_gen(public_key)
+        if isinstance(input_hash, (str, bytearray, bytes)):
+            input_hash = Hash(value=input_hash)
+        elif not isinstance(input_hash, Hash):
+            raise TypeError(&#34;signature request requires an input hash of Type Hash, not: {}&#34;.format(type(input_hash)))
+        return input_hash
+
+    def signature_fulfill(self, public_key, signature):
+        &#34;&#34;&#34;
+        Fulfill the signature, once and once only.
+        &#34;&#34;&#34;
+        # guarantee base conditions
+        if self.fulfilled:
+            raise tfchain.errors.DoubleSignError(&#34;SignatureRequest is already fulfilled for address {}&#34;.format(self.wallet_address))
+
+        # ensure public key is the key of the wallet who owns this request
+        if not isinstance(public_key, PublicKey):
+            raise TypeError(&#34;public key is expected to be of type PublicKey, not {}&#34;.format(type(public_key)))
+        address = str(public_key.unlockhash)
+        if self._unlockhash.type != UnlockHashType.NIL and self.wallet_address != address: # only check if the request is not using a NIL Condition
+            raise ValueError(&#34;signature request cannot be fulfilled using address {}, expected address {}&#34;.format(address, self.wallet_address))
+
+        # add the signature to the callback
+        self._callback.signature_add(public_key=public_key, signature=signature)
+        # ensure this was the one and only time we signed
+        self._signed = True
+
+class FulfillmentBaseClass(SignatureCallbackBase, BaseDataTypeClass):
+    @classmethod
+    def from_json(cls, obj):
+        ff = cls()
+        t = obj.get(&#39;type&#39;, 0)
+        if ff.type != t:
+            raise ValueError(&#34;invalid fulfillment type {}, expected it to be of type {}&#34;.format(t, ff.type))
+        ff.from_json_data_object(obj.get(&#39;data&#39;, {}))
+        return ff
+
+    @property
+    @abstractmethod
+    def type(self):
+        pass
+
+    @abstractmethod
+    def from_json_data_object(self, data):
+        pass
+
+    @abstractmethod
+    def json_data_object(self):
+        pass
+
+    def json(self):
+        return {
+            &#39;type&#39;: self.type,
+            &#39;data&#39;: self.json_data_object(),
+        }
+
+    @abstractmethod
+    def sia_binary_encode_data(self, encoder):
+        pass
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this Fulfillment according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_array(bytearray([int(self.type)]))
+        data_enc = encoder_sia_get()
+        self.sia_binary_encode_data(data_enc)
+        encoder.add_slice(data_enc.data)
+
+    @abstractmethod
+    def rivine_binary_encode_data(self, encoder):
+        pass
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this Fulfillment according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_int8(int(self.type))
+        data_enc = encoder_rivine_get()
+        self.rivine_binary_encode_data(data_enc)
+        encoder.add_slice(data_enc.data)
+
+    @abstractmethod
+    def signature_requests_new(self, input_hash_func, parent_condition):
+        pass
+
+    @abstractmethod
+    def is_fulfilled(self, parent_condition):
+        pass
+
+class FulfillmentSingleSignature(FulfillmentBaseClass):
+    &#34;&#34;&#34;
+    SingleSignature Fulfillment, used to unlock
+    an UnlockHash Condition of type 1.
+    &#34;&#34;&#34;
+
+    def __init__(self, pub_key=None, signature=None):
+        self._pub_key = None
+        self.public_key = pub_key
+        self._signature = None
+        self.signature = signature
+
+
+    @property
+    def type(self):
+        return _FULFULLMENT_TYPE_SINGLE_SIG
+
+    @property
+    def fulfilled(self):
+        return self._signature is not None
+
+    @property
+    def public_key(self):
+        if self._pub_key is None:
+            return PublicKey()
+        return self._pub_key
+    @public_key.setter
+    def public_key(self, value):
+        if value is None:
+            self._pub_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as FulfillmentSingleSignature&#39;s public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._pub_key = PublicKey(specifier=value.specifier, hash=value.hash)
+    
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature()
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+        else:
+            self._signature = ED25519Signature(value=value)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        self.public_key = public_key
+        self.signature = signature
+    
+    def from_json_data_object(self, data):
+        self._pub_key = PublicKey.from_json(data[&#39;publickey&#39;])
+        self._signature = ED25519Signature.from_json(data[&#39;signature&#39;])
+
+    def json_data_object(self):
+        return {
+            &#39;publickey&#39;: self.public_key.json(),
+            &#39;signature&#39;: self.signature.json()
+        }
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add_all(self.public_key, self.signature)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add_all(self.public_key, self.signature)
+
+    def signature_requests_new(self, input_hash_func, parent_condition):
+        if not callable(input_hash_func):
+            raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+        parent_condition = parent_condition.unwrap()
+        if not isinstance(parent_condition, (ConditionNil, ConditionUnlockHash)):
+            raise TypeError(&#34;parent condition of FulfillmentSingleSignature cannot be of type {}&#34;.format(type(parent_condition)))
+        unlockhash = parent_condition.unlockhash
+        if str(unlockhash) == str(self.public_key.unlockhash):
+            return [] # nothing to do
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        def input_hash_gen(public_key):
+            return input_hash_func()
+        # create the only signature request
+        return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]
+
+    def is_fulfilled(self, parent_condition):
+        parent_condition = parent_condition.unwrap()
+        if not isinstance(parent_condition, (ConditionNil, ConditionUnlockHash)):
+            raise TypeError(&#34;parent condition of FulfillmentSingleSignature cannot be of type {}&#34;.format(type(parent_condition)))
+        return self._signature is not None
+
+
+class FulfillmentMultiSignature(FulfillmentBaseClass):
+    &#34;&#34;&#34;
+    MultiSignature Fulfillment, used to unlock
+    a MultiSignature Condition.
+    &#34;&#34;&#34;
+
+    def __init__(self, pairs=None):
+        self._pairs = []
+        if pairs:
+            for public_key, signature in pairs:
+                self.add_pair(public_key, signature)
+
+    @property
+    def type(self):
+        return _FULFILLMENT_TYPE_MULTI_SIG
+
+    @property
+    def pairs(self):
+        return self._pairs
+    @pairs.setter
+    def pairs(self, value):
+        self._pairs = []
+        if not value:
+            return
+        for pair in value:
+            self.add_pair(pair.public_key, pair.signature)
+
+    def add_pair(self, public_key, signature):
+        spk = str(public_key)
+        for pair in self._pairs:
+            if str(pair.public_key) == spk:
+                raise ValueError(&#34;cannot add public_key {} as it already exists within a pair of this MultiSignature Fulfillment&#34;.format(spk))
+        self._pairs.append(PublicKeySignaturePair(public_key=public_key, signature=signature))
+
+    # Implements SignatureCallbackBase.
+    signature_add = add_pair
+
+    def from_json_data_object(self, data):
+        self._pairs = []
+        for pair in data[&#39;pairs&#39;]:
+            self._pairs.append(PublicKeySignaturePair.from_json(pair))
+
+    def json_data_object(self):
+        return {
+            &#39;pairs&#39;: [pair.json() for pair in self._pairs],
+        }
+    
+    def sia_binary_encode_data(self, encoder):
+        encoder.add(self._pairs)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add(self._pairs)
+
+    def signature_requests_new(self, input_hash_func, parent_condition):
+        if not callable(input_hash_func):
+            raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+        parent_condition = parent_condition.unwrap()
+        if not isinstance(parent_condition, ConditionMultiSignature):
+            raise TypeError(&#34;parent condition of FulfillmentMultiSignature cannot be of type {}&#34;.format(type(parent_condition)))
+        requests = []
+        signed = [str(pair.public_key.unlockhash) for pair in self._pairs]
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        def input_hash_gen(public_key):
+            return input_hash_func(public_key)
+        # create a signature hash for all signees that haven&#39;t signed yet
+        for unlockhash in parent_condition.unlockhashes:
+            if str(unlockhash) not in signed:
+                requests.append(SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self))
+        return requests
+
+    def is_fulfilled(self, parent_condition):
+        parent_condition = parent_condition.unwrap()
+        if not isinstance(parent_condition, ConditionMultiSignature):
+            raise TypeError(&#34;parent condition of FulfillmentMultiSignature cannot be of type {}&#34;.format(type(parent_condition)))
+        return len(self._pairs) &gt;= parent_condition.required_signatures
+
+
+class PublicKeySignaturePair(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    PublicKeySignaturePair class
+    &#34;&#34;&#34;
+    def __init__(self, public_key=None, signature=None):
+        self._public_key = None
+        self.public_key = public_key
+        self._signature = None
+        self.signature = signature
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            public_key=PublicKey.from_json(obj[&#39;publickey&#39;]),
+            signature=ED25519Signature.from_json(obj[&#39;signature&#39;]))
+
+    @property
+    def public_key(self):
+        if self._public_key is None:
+            return PublicKey()
+        return self._public_key
+    @public_key.setter
+    def public_key(self, pk):
+        if pk is None:
+            self._public_key = None
+            return
+        if not isinstance(pk, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as PublicKeySignaturePair&#39;s public key (expected type: PublicKey)&#34;.format(type(pk)))
+        self._public_key = PublicKey(specifier=pk.specifier, hash=pk.hash)
+
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature()
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+        else:
+            self._signature = ED25519Signature(value=value)
+
+    def json(self):
+        return {
+            &#39;publickey&#39;: self.public_key.json(),
+            &#39;signature&#39;: self.signature.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this PublicKeySignature Pair according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self.public_key, self.signature)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this PublicKeySignature Pair according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self.public_key, self.signature)
+
+
+# Legacy AtomicSwap Fulfillments are not supported,
+# as these are not used on any active TFChain network
+
+class FulfillmentAtomicSwap(FulfillmentBaseClass):
+    &#34;&#34;&#34;
+    AtomicSwap Fulfillment, used to unlock an AtomicSwap Condition.
+    &#34;&#34;&#34;
+
+    def __init__(self, pub_key=None, signature=None, secret=None):
+        self._pub_key = None
+        self.public_key = pub_key
+        self._signature = None
+        self.signature = signature
+        self._secret = None
+        self.secret = secret
+
+    @property
+    def type(self):
+        return _FULFILLMENT_TYPE_ATOMIC_SWAP
+
+    @property
+    def public_key(self):
+        if self._pub_key is None:
+            return PublicKey()
+        return self._pub_key
+    @public_key.setter
+    def public_key(self, value):
+        if value is None:
+            self._pub_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as FulfillmentAtomicSwap&#39;s public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._pub_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature()
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+        else:
+            self._signature = ED25519Signature(value=value)
+
+    @property
+    def secret(self):
+        if self._secret is None:
+            return AtomicSwapSecret()
+        return self._secret
+    @secret.setter
+    def secret(self, value):
+        if value is None:
+            self._secret = None
+        else:
+            self._secret = AtomicSwapSecret(value=value)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        self.public_key = public_key
+        self.signature = signature
+
+    def from_json_data_object(self, data):
+        self._pub_key = PublicKey.from_json(data[&#39;publickey&#39;])
+        self._signature = ED25519Signature.from_json(data[&#39;signature&#39;])
+        self._secret = None
+        if &#39;secret&#39; in data:
+            self._secret = AtomicSwapSecret.from_json(data[&#39;secret&#39;])
+
+    def json_data_object(self):
+        obj = {
+            &#39;publickey&#39;: self.public_key.json(),
+            &#39;signature&#39;: self.signature.json(),
+        }
+        if self._secret is not None:
+            obj[&#39;secret&#39;] = self.secret.json()
+        return obj
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add_all(self.public_key, self.signature, self.secret)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add_all(self.public_key, self.signature, self.secret)
+
+    def signature_requests_new(self, input_hash_func, parent_condition):
+        if not callable(input_hash_func):
+            raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+        if not isinstance(parent_condition, ConditionAtomicSwap):
+            raise TypeError(&#34;parent condition of FulfillmentAtomicSwap cannot be of type {}&#34;.format(type(parent_condition)))
+        requests = []
+        signee = str(self.public_key.unlockhash)
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        def input_hash_gen(public_key):
+            if self._secret is not None:
+                return input_hash_func(public_key, self.secret)
+            return input_hash_func(public_key)
+        # create a signature hash for all signees that haven&#39;t signed yet
+        for unlockhash in [parent_condition.sender, parent_condition.receiver]:
+            if str(unlockhash) != signee:
+                requests.append(SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self))
+        return requests
+
+    def is_fulfilled(self, parent_condition):
+        if not isinstance(parent_condition, ConditionAtomicSwap):
+            raise TypeError(&#34;parent condition of FulfillmentAtomicSwap cannot be of type {}&#34;.format(type(parent_condition)))
+        return self._signature is not None</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.atomic_swap_new"><code class="name flex">
+<span>def <span class="ident">atomic_swap_new</span></span>(<span>pub_key=None, signature=None, secret=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new atomic swap fulfillment,
+used to unlock an atomic swap condition.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def atomic_swap_new(pub_key=None, signature=None, secret=None):
+    &#34;&#34;&#34;
+    Create a new atomic swap fulfillment,
+    used to unlock an atomic swap condition.
+    &#34;&#34;&#34;
+    return FulfillmentAtomicSwap(pub_key=pub_key, signature=signature, secret=secret)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.from_condition"><code class="name flex">
+<span>def <span class="ident">from_condition</span></span>(<span>condition)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a fresh fulfillment from its parent condition.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_condition(condition):
+    &#34;&#34;&#34;
+    Create a fresh fulfillment from its parent condition.
+    &#34;&#34;&#34;
+    if condition is None:
+        return FulfillmentSingleSignature()
+    if isinstance(condition, ConditionAtomicSwap):
+        return FulfillmentAtomicSwap()
+    icondition = condition.unwrap()
+    if isinstance(icondition, (ConditionUnlockHash, ConditionNil)):
+        return FulfillmentSingleSignature()
+    if isinstance(icondition, ConditionMultiSignature):
+        return FulfillmentMultiSignature()
+    raise TypeError(&#34;invalid condition type {} cannot be used to create a fulfillment&#34;.format(type(condition)))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json(obj):
+    ft = obj.get(&#39;type&#39;, 0)
+    if ft == _FULFULLMENT_TYPE_SINGLE_SIG:
+        return FulfillmentSingleSignature.from_json(obj)
+    if ft == _FULFILLMENT_TYPE_MULTI_SIG:
+        return FulfillmentMultiSignature.from_json(obj)
+    if ft == _FULFILLMENT_TYPE_ATOMIC_SWAP:
+        return FulfillmentAtomicSwap.from_json(obj)
+    raise ValueError(&#34;unsupport fulfillment type {}&#34;.format(ft))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.multi_signature_new"><code class="name flex">
+<span>def <span class="ident">multi_signature_new</span></span>(<span>pairs=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new multi signature fulfillment,
+used to unlock a multi signature condition.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def multi_signature_new(pairs=None):
+    &#34;&#34;&#34;
+    Create a new multi signature fulfillment,
+    used to unlock a multi signature condition.
+    &#34;&#34;&#34;
+    return FulfillmentMultiSignature(pairs=pairs)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.single_signature_new"><code class="name flex">
+<span>def <span class="ident">single_signature_new</span></span>(<span>pub_key=None, signature=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new single signature fulfillment,
+used to unlock an UnlockHash Condition of type 1.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def single_signature_new(pub_key=None, signature=None):
+    &#34;&#34;&#34;
+    Create a new single signature fulfillment,
+    used to unlock an UnlockHash Condition of type 1.
+    &#34;&#34;&#34;
+    return FulfillmentSingleSignature(pub_key=pub_key, signature=signature)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.ED25519Signature"><code class="flex name class">
+<span>class <span class="ident">ED25519Signature</span></span>
+<span>(</span><span>value=None, as_array=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>BinaryData is the data type used for any binary data used in tfchain.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ED25519Signature(BinaryData):
+    SIZE = 64
+
+    &#34;&#34;&#34;
+    ED25519 Signature, used in TFChain.
+    &#34;&#34;&#34;
+    def __init__(self, value=None, as_array=False):
+        super().__init__(value, fixed_size=ED25519Signature.SIZE, strencoding=&#39;hex&#39;)
+        if not isinstance(as_array, bool):
+            raise TypeError(&#34;as_array has to be of type bool, not type {}&#34;.format(type(as_array)))
+        self._as_array = as_array
+
+    @classmethod
+    def from_json(cls, obj, as_array=False):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(&#34;ed25519 signature is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj, as_array=as_array)
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this binary data according to the Sia Binary Encoding format.
+        Always encoded as a slice.
+        &#34;&#34;&#34;
+        encoder.add_slice(self._value)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this binary data according to the Rivine Binary Encoding format.
+        Usually encoded as a slice, except when as part of a context where it is not needed.
+        &#34;&#34;&#34;
+        if self._as_array:
+            encoder.add_array(self._value)
+        else:
+            encoder.add_slice(self._value)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.PrimitiveTypes.BinaryData" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData">BinaryData</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.ED25519Signature.SIZE"><code class="name">var <span class="ident">SIZE</span></code></dt>
+<dd>
+<section class="desc"><p>ED25519 Signature, used in TFChain.</p></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.ED25519Signature.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj, as_array=False)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj, as_array=False):
+    if obj is not None and not isinstance(obj, str):
+        raise TypeError(&#34;ed25519 signature is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+    if obj == &#39;&#39;:
+        obj = None
+    return cls(value=obj, as_array=as_array)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.ED25519Signature.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this binary data according to the Rivine Binary Encoding format.
+Usually encoded as a slice, except when as part of a context where it is not needed.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this binary data according to the Rivine Binary Encoding format.
+    Usually encoded as a slice, except when as part of a context where it is not needed.
+    &#34;&#34;&#34;
+    if self._as_array:
+        encoder.add_array(self._value)
+    else:
+        encoder.add_slice(self._value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.ED25519Signature.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this binary data according to the Sia Binary Encoding format.
+Always encoded as a slice.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this binary data according to the Sia Binary Encoding format.
+    Always encoded as a slice.
+    &#34;&#34;&#34;
+    encoder.add_slice(self._value)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap"><code class="flex name class">
+<span>class <span class="ident">FulfillmentAtomicSwap</span></span>
+<span>(</span><span>pub_key=None, signature=None, secret=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>AtomicSwap Fulfillment, used to unlock an AtomicSwap Condition.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class FulfillmentAtomicSwap(FulfillmentBaseClass):
+    &#34;&#34;&#34;
+    AtomicSwap Fulfillment, used to unlock an AtomicSwap Condition.
+    &#34;&#34;&#34;
+
+    def __init__(self, pub_key=None, signature=None, secret=None):
+        self._pub_key = None
+        self.public_key = pub_key
+        self._signature = None
+        self.signature = signature
+        self._secret = None
+        self.secret = secret
+
+    @property
+    def type(self):
+        return _FULFILLMENT_TYPE_ATOMIC_SWAP
+
+    @property
+    def public_key(self):
+        if self._pub_key is None:
+            return PublicKey()
+        return self._pub_key
+    @public_key.setter
+    def public_key(self, value):
+        if value is None:
+            self._pub_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as FulfillmentAtomicSwap&#39;s public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._pub_key = PublicKey(specifier=value.specifier, hash=value.hash)
+
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature()
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+        else:
+            self._signature = ED25519Signature(value=value)
+
+    @property
+    def secret(self):
+        if self._secret is None:
+            return AtomicSwapSecret()
+        return self._secret
+    @secret.setter
+    def secret(self, value):
+        if value is None:
+            self._secret = None
+        else:
+            self._secret = AtomicSwapSecret(value=value)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        self.public_key = public_key
+        self.signature = signature
+
+    def from_json_data_object(self, data):
+        self._pub_key = PublicKey.from_json(data[&#39;publickey&#39;])
+        self._signature = ED25519Signature.from_json(data[&#39;signature&#39;])
+        self._secret = None
+        if &#39;secret&#39; in data:
+            self._secret = AtomicSwapSecret.from_json(data[&#39;secret&#39;])
+
+    def json_data_object(self):
+        obj = {
+            &#39;publickey&#39;: self.public_key.json(),
+            &#39;signature&#39;: self.signature.json(),
+        }
+        if self._secret is not None:
+            obj[&#39;secret&#39;] = self.secret.json()
+        return obj
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add_all(self.public_key, self.signature, self.secret)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add_all(self.public_key, self.signature, self.secret)
+
+    def signature_requests_new(self, input_hash_func, parent_condition):
+        if not callable(input_hash_func):
+            raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+        if not isinstance(parent_condition, ConditionAtomicSwap):
+            raise TypeError(&#34;parent condition of FulfillmentAtomicSwap cannot be of type {}&#34;.format(type(parent_condition)))
+        requests = []
+        signee = str(self.public_key.unlockhash)
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        def input_hash_gen(public_key):
+            if self._secret is not None:
+                return input_hash_func(public_key, self.secret)
+            return input_hash_func(public_key)
+        # create a signature hash for all signees that haven&#39;t signed yet
+        for unlockhash in [parent_condition.sender, parent_condition.receiver]:
+            if str(unlockhash) != signee:
+                requests.append(SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self))
+        return requests
+
+    def is_fulfilled(self, parent_condition):
+        if not isinstance(parent_condition, ConditionAtomicSwap):
+            raise TypeError(&#34;parent condition of FulfillmentAtomicSwap cannot be of type {}&#34;.format(type(parent_condition)))
+        return self._signature is not None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass">FulfillmentBaseClass</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.public_key"><code class="name">var <span class="ident">public_key</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def public_key(self):
+    if self._pub_key is None:
+        return PublicKey()
+    return self._pub_key</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.secret"><code class="name">var <span class="ident">secret</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def secret(self):
+    if self._secret is None:
+        return AtomicSwapSecret()
+    return self._secret</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature"><code class="name">var <span class="ident">signature</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def signature(self):
+    if self._signature is None:
+        return ED25519Signature()
+    return self._signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return _FULFILLMENT_TYPE_ATOMIC_SWAP</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json_data_object(self, data):
+    self._pub_key = PublicKey.from_json(data[&#39;publickey&#39;])
+    self._signature = ED25519Signature.from_json(data[&#39;signature&#39;])
+    self._secret = None
+    if &#39;secret&#39; in data:
+        self._secret = AtomicSwapSecret.from_json(data[&#39;secret&#39;])</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.is_fulfilled"><code class="name flex">
+<span>def <span class="ident">is_fulfilled</span></span>(<span>self, parent_condition)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def is_fulfilled(self, parent_condition):
+    if not isinstance(parent_condition, ConditionAtomicSwap):
+        raise TypeError(&#34;parent condition of FulfillmentAtomicSwap cannot be of type {}&#34;.format(type(parent_condition)))
+    return self._signature is not None</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_data_object(self):
+    obj = {
+        &#39;publickey&#39;: self.public_key.json(),
+        &#39;signature&#39;: self.signature.json(),
+    }
+    if self._secret is not None:
+        obj[&#39;secret&#39;] = self.secret.json()
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode_data(self, encoder):
+    encoder.add_all(self.public_key, self.signature, self.secret)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode_data(self, encoder):
+    encoder.add_all(self.public_key, self.signature, self.secret)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature_add"><code class="name flex">
+<span>def <span class="ident">signature_add</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Implements SignatureCallbackBase.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_add(self, public_key, signature):
+    &#34;&#34;&#34;
+    Implements SignatureCallbackBase.
+    &#34;&#34;&#34;
+    self.public_key = public_key
+    self.signature = signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature_requests_new"><code class="name flex">
+<span>def <span class="ident">signature_requests_new</span></span>(<span>self, input_hash_func, parent_condition)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_requests_new(self, input_hash_func, parent_condition):
+    if not callable(input_hash_func):
+        raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+    if not isinstance(parent_condition, ConditionAtomicSwap):
+        raise TypeError(&#34;parent condition of FulfillmentAtomicSwap cannot be of type {}&#34;.format(type(parent_condition)))
+    requests = []
+    signee = str(self.public_key.unlockhash)
+    # define the input_hash_new generator function,
+    # used to create the input hash for creating the signature
+    def input_hash_gen(public_key):
+        if self._secret is not None:
+            return input_hash_func(public_key, self.secret)
+        return input_hash_func(public_key)
+    # create a signature hash for all signees that haven&#39;t signed yet
+    for unlockhash in [parent_condition.sender, parent_condition.receiver]:
+        if str(unlockhash) != signee:
+            requests.append(SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self))
+    return requests</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass">FulfillmentBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass"><code class="flex name class">
+<span>class <span class="ident">FulfillmentBaseClass</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Base type defines the type all TFChain data types inheret from.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class FulfillmentBaseClass(SignatureCallbackBase, BaseDataTypeClass):
+    @classmethod
+    def from_json(cls, obj):
+        ff = cls()
+        t = obj.get(&#39;type&#39;, 0)
+        if ff.type != t:
+            raise ValueError(&#34;invalid fulfillment type {}, expected it to be of type {}&#34;.format(t, ff.type))
+        ff.from_json_data_object(obj.get(&#39;data&#39;, {}))
+        return ff
+
+    @property
+    @abstractmethod
+    def type(self):
+        pass
+
+    @abstractmethod
+    def from_json_data_object(self, data):
+        pass
+
+    @abstractmethod
+    def json_data_object(self):
+        pass
+
+    def json(self):
+        return {
+            &#39;type&#39;: self.type,
+            &#39;data&#39;: self.json_data_object(),
+        }
+
+    @abstractmethod
+    def sia_binary_encode_data(self, encoder):
+        pass
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this Fulfillment according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_array(bytearray([int(self.type)]))
+        data_enc = encoder_sia_get()
+        self.sia_binary_encode_data(data_enc)
+        encoder.add_slice(data_enc.data)
+
+    @abstractmethod
+    def rivine_binary_encode_data(self, encoder):
+        pass
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this Fulfillment according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_int8(int(self.type))
+        data_enc = encoder_rivine_get()
+        self.rivine_binary_encode_data(data_enc)
+        encoder.add_slice(data_enc.data)
+
+    @abstractmethod
+    def signature_requests_new(self, input_hash_func, parent_condition):
+        pass
+
+    @abstractmethod
+    def is_fulfilled(self, parent_condition):
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature">FulfillmentSingleSignature</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature">FulfillmentMultiSignature</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap">FulfillmentAtomicSwap</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    ff = cls()
+    t = obj.get(&#39;type&#39;, 0)
+    if ff.type != t:
+        raise ValueError(&#34;invalid fulfillment type {}, expected it to be of type {}&#34;.format(t, ff.type))
+    ff.from_json_data_object(obj.get(&#39;data&#39;, {}))
+    return ff</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+@abstractmethod
+def type(self):
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def from_json_data_object(self, data):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.is_fulfilled"><code class="name flex">
+<span>def <span class="ident">is_fulfilled</span></span>(<span>self, parent_condition)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def is_fulfilled(self, parent_condition):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return {
+        &#39;type&#39;: self.type,
+        &#39;data&#39;: self.json_data_object(),
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def json_data_object(self):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this Fulfillment according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this Fulfillment according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_int8(int(self.type))
+    data_enc = encoder_rivine_get()
+    self.rivine_binary_encode_data(data_enc)
+    encoder.add_slice(data_enc.data)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def rivine_binary_encode_data(self, encoder):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this Fulfillment according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this Fulfillment according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_array(bytearray([int(self.type)]))
+    data_enc = encoder_sia_get()
+    self.sia_binary_encode_data(data_enc)
+    encoder.add_slice(data_enc.data)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def sia_binary_encode_data(self, encoder):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.signature_requests_new"><code class="name flex">
+<span>def <span class="ident">signature_requests_new</span></span>(<span>self, input_hash_func, parent_condition)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def signature_requests_new(self, input_hash_func, parent_condition):
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature"><code class="flex name class">
+<span>class <span class="ident">FulfillmentMultiSignature</span></span>
+<span>(</span><span>pairs=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>MultiSignature Fulfillment, used to unlock
+a MultiSignature Condition.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class FulfillmentMultiSignature(FulfillmentBaseClass):
+    &#34;&#34;&#34;
+    MultiSignature Fulfillment, used to unlock
+    a MultiSignature Condition.
+    &#34;&#34;&#34;
+
+    def __init__(self, pairs=None):
+        self._pairs = []
+        if pairs:
+            for public_key, signature in pairs:
+                self.add_pair(public_key, signature)
+
+    @property
+    def type(self):
+        return _FULFILLMENT_TYPE_MULTI_SIG
+
+    @property
+    def pairs(self):
+        return self._pairs
+    @pairs.setter
+    def pairs(self, value):
+        self._pairs = []
+        if not value:
+            return
+        for pair in value:
+            self.add_pair(pair.public_key, pair.signature)
+
+    def add_pair(self, public_key, signature):
+        spk = str(public_key)
+        for pair in self._pairs:
+            if str(pair.public_key) == spk:
+                raise ValueError(&#34;cannot add public_key {} as it already exists within a pair of this MultiSignature Fulfillment&#34;.format(spk))
+        self._pairs.append(PublicKeySignaturePair(public_key=public_key, signature=signature))
+
+    # Implements SignatureCallbackBase.
+    signature_add = add_pair
+
+    def from_json_data_object(self, data):
+        self._pairs = []
+        for pair in data[&#39;pairs&#39;]:
+            self._pairs.append(PublicKeySignaturePair.from_json(pair))
+
+    def json_data_object(self):
+        return {
+            &#39;pairs&#39;: [pair.json() for pair in self._pairs],
+        }
+    
+    def sia_binary_encode_data(self, encoder):
+        encoder.add(self._pairs)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add(self._pairs)
+
+    def signature_requests_new(self, input_hash_func, parent_condition):
+        if not callable(input_hash_func):
+            raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+        parent_condition = parent_condition.unwrap()
+        if not isinstance(parent_condition, ConditionMultiSignature):
+            raise TypeError(&#34;parent condition of FulfillmentMultiSignature cannot be of type {}&#34;.format(type(parent_condition)))
+        requests = []
+        signed = [str(pair.public_key.unlockhash) for pair in self._pairs]
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        def input_hash_gen(public_key):
+            return input_hash_func(public_key)
+        # create a signature hash for all signees that haven&#39;t signed yet
+        for unlockhash in parent_condition.unlockhashes:
+            if str(unlockhash) not in signed:
+                requests.append(SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self))
+        return requests
+
+    def is_fulfilled(self, parent_condition):
+        parent_condition = parent_condition.unwrap()
+        if not isinstance(parent_condition, ConditionMultiSignature):
+            raise TypeError(&#34;parent condition of FulfillmentMultiSignature cannot be of type {}&#34;.format(type(parent_condition)))
+        return len(self._pairs) &gt;= parent_condition.required_signatures</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass">FulfillmentBaseClass</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.pairs"><code class="name">var <span class="ident">pairs</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def pairs(self):
+    return self._pairs</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return _FULFILLMENT_TYPE_MULTI_SIG</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.add_pair"><code class="name flex">
+<span>def <span class="ident">add_pair</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_pair(self, public_key, signature):
+    spk = str(public_key)
+    for pair in self._pairs:
+        if str(pair.public_key) == spk:
+            raise ValueError(&#34;cannot add public_key {} as it already exists within a pair of this MultiSignature Fulfillment&#34;.format(spk))
+    self._pairs.append(PublicKeySignaturePair(public_key=public_key, signature=signature))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json_data_object(self, data):
+    self._pairs = []
+    for pair in data[&#39;pairs&#39;]:
+        self._pairs.append(PublicKeySignaturePair.from_json(pair))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.is_fulfilled"><code class="name flex">
+<span>def <span class="ident">is_fulfilled</span></span>(<span>self, parent_condition)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def is_fulfilled(self, parent_condition):
+    parent_condition = parent_condition.unwrap()
+    if not isinstance(parent_condition, ConditionMultiSignature):
+        raise TypeError(&#34;parent condition of FulfillmentMultiSignature cannot be of type {}&#34;.format(type(parent_condition)))
+    return len(self._pairs) &gt;= parent_condition.required_signatures</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_data_object(self):
+    return {
+        &#39;pairs&#39;: [pair.json() for pair in self._pairs],
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode_data(self, encoder):
+    encoder.add(self._pairs)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode_data(self, encoder):
+    encoder.add(self._pairs)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.signature_add"><code class="name flex">
+<span>def <span class="ident">signature_add</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_pair(self, public_key, signature):
+    spk = str(public_key)
+    for pair in self._pairs:
+        if str(pair.public_key) == spk:
+            raise ValueError(&#34;cannot add public_key {} as it already exists within a pair of this MultiSignature Fulfillment&#34;.format(spk))
+    self._pairs.append(PublicKeySignaturePair(public_key=public_key, signature=signature))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.signature_requests_new"><code class="name flex">
+<span>def <span class="ident">signature_requests_new</span></span>(<span>self, input_hash_func, parent_condition)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_requests_new(self, input_hash_func, parent_condition):
+    if not callable(input_hash_func):
+        raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+    parent_condition = parent_condition.unwrap()
+    if not isinstance(parent_condition, ConditionMultiSignature):
+        raise TypeError(&#34;parent condition of FulfillmentMultiSignature cannot be of type {}&#34;.format(type(parent_condition)))
+    requests = []
+    signed = [str(pair.public_key.unlockhash) for pair in self._pairs]
+    # define the input_hash_new generator function,
+    # used to create the input hash for creating the signature
+    def input_hash_gen(public_key):
+        return input_hash_func(public_key)
+    # create a signature hash for all signees that haven&#39;t signed yet
+    for unlockhash in parent_condition.unlockhashes:
+        if str(unlockhash) not in signed:
+            requests.append(SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self))
+    return requests</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass">FulfillmentBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature"><code class="flex name class">
+<span>class <span class="ident">FulfillmentSingleSignature</span></span>
+<span>(</span><span>pub_key=None, signature=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>SingleSignature Fulfillment, used to unlock
+an UnlockHash Condition of type 1.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class FulfillmentSingleSignature(FulfillmentBaseClass):
+    &#34;&#34;&#34;
+    SingleSignature Fulfillment, used to unlock
+    an UnlockHash Condition of type 1.
+    &#34;&#34;&#34;
+
+    def __init__(self, pub_key=None, signature=None):
+        self._pub_key = None
+        self.public_key = pub_key
+        self._signature = None
+        self.signature = signature
+
+
+    @property
+    def type(self):
+        return _FULFULLMENT_TYPE_SINGLE_SIG
+
+    @property
+    def fulfilled(self):
+        return self._signature is not None
+
+    @property
+    def public_key(self):
+        if self._pub_key is None:
+            return PublicKey()
+        return self._pub_key
+    @public_key.setter
+    def public_key(self, value):
+        if value is None:
+            self._pub_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as FulfillmentSingleSignature&#39;s public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._pub_key = PublicKey(specifier=value.specifier, hash=value.hash)
+    
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature()
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+        else:
+            self._signature = ED25519Signature(value=value)
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        self.public_key = public_key
+        self.signature = signature
+    
+    def from_json_data_object(self, data):
+        self._pub_key = PublicKey.from_json(data[&#39;publickey&#39;])
+        self._signature = ED25519Signature.from_json(data[&#39;signature&#39;])
+
+    def json_data_object(self):
+        return {
+            &#39;publickey&#39;: self.public_key.json(),
+            &#39;signature&#39;: self.signature.json()
+        }
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add_all(self.public_key, self.signature)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add_all(self.public_key, self.signature)
+
+    def signature_requests_new(self, input_hash_func, parent_condition):
+        if not callable(input_hash_func):
+            raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+        parent_condition = parent_condition.unwrap()
+        if not isinstance(parent_condition, (ConditionNil, ConditionUnlockHash)):
+            raise TypeError(&#34;parent condition of FulfillmentSingleSignature cannot be of type {}&#34;.format(type(parent_condition)))
+        unlockhash = parent_condition.unlockhash
+        if str(unlockhash) == str(self.public_key.unlockhash):
+            return [] # nothing to do
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        def input_hash_gen(public_key):
+            return input_hash_func()
+        # create the only signature request
+        return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]
+
+    def is_fulfilled(self, parent_condition):
+        parent_condition = parent_condition.unwrap()
+        if not isinstance(parent_condition, (ConditionNil, ConditionUnlockHash)):
+            raise TypeError(&#34;parent condition of FulfillmentSingleSignature cannot be of type {}&#34;.format(type(parent_condition)))
+        return self._signature is not None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass">FulfillmentBaseClass</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.fulfilled"><code class="name">var <span class="ident">fulfilled</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def fulfilled(self):
+    return self._signature is not None</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.public_key"><code class="name">var <span class="ident">public_key</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def public_key(self):
+    if self._pub_key is None:
+        return PublicKey()
+    return self._pub_key</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature"><code class="name">var <span class="ident">signature</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def signature(self):
+    if self._signature is None:
+        return ED25519Signature()
+    return self._signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return _FULFULLMENT_TYPE_SINGLE_SIG</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json_data_object(self, data):
+    self._pub_key = PublicKey.from_json(data[&#39;publickey&#39;])
+    self._signature = ED25519Signature.from_json(data[&#39;signature&#39;])</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.is_fulfilled"><code class="name flex">
+<span>def <span class="ident">is_fulfilled</span></span>(<span>self, parent_condition)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def is_fulfilled(self, parent_condition):
+    parent_condition = parent_condition.unwrap()
+    if not isinstance(parent_condition, (ConditionNil, ConditionUnlockHash)):
+        raise TypeError(&#34;parent condition of FulfillmentSingleSignature cannot be of type {}&#34;.format(type(parent_condition)))
+    return self._signature is not None</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_data_object(self):
+    return {
+        &#39;publickey&#39;: self.public_key.json(),
+        &#39;signature&#39;: self.signature.json()
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode_data(self, encoder):
+    encoder.add_all(self.public_key, self.signature)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode_data(self, encoder):
+    encoder.add_all(self.public_key, self.signature)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature_add"><code class="name flex">
+<span>def <span class="ident">signature_add</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Implements SignatureCallbackBase.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_add(self, public_key, signature):
+    &#34;&#34;&#34;
+    Implements SignatureCallbackBase.
+    &#34;&#34;&#34;
+    self.public_key = public_key
+    self.signature = signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature_requests_new"><code class="name flex">
+<span>def <span class="ident">signature_requests_new</span></span>(<span>self, input_hash_func, parent_condition)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_requests_new(self, input_hash_func, parent_condition):
+    if not callable(input_hash_func):
+        raise TypeError(&#34;expected input hash generator func with signature `f(*extra_objects) -&gt; Hash`, not {}&#34;.format(type(input_hash_func)))
+    parent_condition = parent_condition.unwrap()
+    if not isinstance(parent_condition, (ConditionNil, ConditionUnlockHash)):
+        raise TypeError(&#34;parent condition of FulfillmentSingleSignature cannot be of type {}&#34;.format(type(parent_condition)))
+    unlockhash = parent_condition.unlockhash
+    if str(unlockhash) == str(self.public_key.unlockhash):
+        return [] # nothing to do
+    # define the input_hash_new generator function,
+    # used to create the input hash for creating the signature
+    def input_hash_gen(public_key):
+        return input_hash_func()
+    # create the only signature request
+    return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass">FulfillmentBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.PublicKeySignaturePair"><code class="flex name class">
+<span>class <span class="ident">PublicKeySignaturePair</span></span>
+<span>(</span><span>public_key=None, signature=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>PublicKeySignaturePair class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class PublicKeySignaturePair(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    PublicKeySignaturePair class
+    &#34;&#34;&#34;
+    def __init__(self, public_key=None, signature=None):
+        self._public_key = None
+        self.public_key = public_key
+        self._signature = None
+        self.signature = signature
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            public_key=PublicKey.from_json(obj[&#39;publickey&#39;]),
+            signature=ED25519Signature.from_json(obj[&#39;signature&#39;]))
+
+    @property
+    def public_key(self):
+        if self._public_key is None:
+            return PublicKey()
+        return self._public_key
+    @public_key.setter
+    def public_key(self, pk):
+        if pk is None:
+            self._public_key = None
+            return
+        if not isinstance(pk, PublicKey):
+            raise TypeError(&#34;cannot assign value of type {} as PublicKeySignaturePair&#39;s public key (expected type: PublicKey)&#34;.format(type(pk)))
+        self._public_key = PublicKey(specifier=pk.specifier, hash=pk.hash)
+
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature()
+        return self._signature
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+        else:
+            self._signature = ED25519Signature(value=value)
+
+    def json(self):
+        return {
+            &#39;publickey&#39;: self.public_key.json(),
+            &#39;signature&#39;: self.signature.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this PublicKeySignature Pair according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self.public_key, self.signature)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this PublicKeySignature Pair according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self.public_key, self.signature)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    return cls(
+        public_key=PublicKey.from_json(obj[&#39;publickey&#39;]),
+        signature=ED25519Signature.from_json(obj[&#39;signature&#39;]))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.public_key"><code class="name">var <span class="ident">public_key</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def public_key(self):
+    if self._public_key is None:
+        return PublicKey()
+    return self._public_key</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.signature"><code class="name">var <span class="ident">signature</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def signature(self):
+    if self._signature is None:
+        return ED25519Signature()
+    return self._signature</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return {
+        &#39;publickey&#39;: self.public_key.json(),
+        &#39;signature&#39;: self.signature.json()
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this PublicKeySignature Pair according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this PublicKeySignature Pair according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self.public_key, self.signature)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this PublicKeySignature Pair according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this PublicKeySignature Pair according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self.public_key, self.signature)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.SignatureCallbackBase"><code class="flex name class">
+<span>class <span class="ident">SignatureCallbackBase</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class SignatureCallbackBase(ABC):
+    @abstractmethod
+    def signature_add(self, public_key, signature):
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass">FulfillmentBaseClass</a></li>
+<li><a title="tfchain.types.transactions.ThreeBot.BotTransactionBaseClass" href="transactions/ThreeBot.html#tfchain.types.transactions.ThreeBot.BotTransactionBaseClass">BotTransactionBaseClass</a></li>
+<li><a title="tfchain.types.transactions.ERC20.TransactionV210" href="transactions/ERC20.html#tfchain.types.transactions.ERC20.TransactionV210">TransactionV210</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.SignatureCallbackBase.signature_add"><code class="name flex">
+<span>def <span class="ident">signature_add</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def signature_add(self, public_key, signature):
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.SignatureRequest"><code class="flex name class">
+<span>class <span class="ident">SignatureRequest</span></span>
+<span>(</span><span>unlockhash, input_hash_gen, callback)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>SignatureRequest can be used to create a one-time-use individual sign request.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class SignatureRequest:
+    &#34;&#34;&#34;
+    SignatureRequest can be used to create a one-time-use individual sign request.
+    &#34;&#34;&#34;
+    def __init__(self, unlockhash, input_hash_gen, callback):
+        # set defined properties
+        if not isinstance(unlockhash, UnlockHash):
+            raise TypeError(&#34;signature request requires an unlock hash of Type UnlockHash, not: {}&#34;.format(type(unlockhash)))
+        self._unlockhash = unlockhash
+        if not callable(input_hash_gen):
+            raise TypeError(&#34;signature request requires a generator function with the signature `f(PublicKey) -&gt; Hash&#34;)
+        self._input_hash_gen = input_hash_gen
+        if not isinstance(callback, SignatureCallbackBase):
+            raise TypeError(&#34;signature request requires a callback of Type SignatureCallbackBase, not: {}&#34;.format(type(unlockhash)))
+        self._callback = callback
+        # property to ensure this request is only fulfilled once
+        self._signed = False
+
+    @property
+    def fulfilled(self):
+        &#34;&#34;&#34;
+        Returns True if this request was already fulfilled,
+        False otherwise.
+        &#34;&#34;&#34;
+        return self._signed
+
+    @property
+    def wallet_address(self):
+        &#34;&#34;&#34;
+        Returns the wallet address of the owner who requested the signature.
+        &#34;&#34;&#34;
+        return str(self._unlockhash)
+
+    def input_hash_new(self, public_key):
+        &#34;&#34;&#34;
+        Create an input hash for the public key of the fulfiller.
+        &#34;&#34;&#34;
+        input_hash = self._input_hash_gen(public_key)
+        if isinstance(input_hash, (str, bytearray, bytes)):
+            input_hash = Hash(value=input_hash)
+        elif not isinstance(input_hash, Hash):
+            raise TypeError(&#34;signature request requires an input hash of Type Hash, not: {}&#34;.format(type(input_hash)))
+        return input_hash
+
+    def signature_fulfill(self, public_key, signature):
+        &#34;&#34;&#34;
+        Fulfill the signature, once and once only.
+        &#34;&#34;&#34;
+        # guarantee base conditions
+        if self.fulfilled:
+            raise tfchain.errors.DoubleSignError(&#34;SignatureRequest is already fulfilled for address {}&#34;.format(self.wallet_address))
+
+        # ensure public key is the key of the wallet who owns this request
+        if not isinstance(public_key, PublicKey):
+            raise TypeError(&#34;public key is expected to be of type PublicKey, not {}&#34;.format(type(public_key)))
+        address = str(public_key.unlockhash)
+        if self._unlockhash.type != UnlockHashType.NIL and self.wallet_address != address: # only check if the request is not using a NIL Condition
+            raise ValueError(&#34;signature request cannot be fulfilled using address {}, expected address {}&#34;.format(address, self.wallet_address))
+
+        # add the signature to the callback
+        self._callback.signature_add(public_key=public_key, signature=signature)
+        # ensure this was the one and only time we signed
+        self._signed = True</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.SignatureRequest.fulfilled"><code class="name">var <span class="ident">fulfilled</span></code></dt>
+<dd>
+<section class="desc"><p>Returns True if this request was already fulfilled,
+False otherwise.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def fulfilled(self):
+    &#34;&#34;&#34;
+    Returns True if this request was already fulfilled,
+    False otherwise.
+    &#34;&#34;&#34;
+    return self._signed</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.SignatureRequest.wallet_address"><code class="name">var <span class="ident">wallet_address</span></code></dt>
+<dd>
+<section class="desc"><p>Returns the wallet address of the owner who requested the signature.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def wallet_address(self):
+    &#34;&#34;&#34;
+    Returns the wallet address of the owner who requested the signature.
+    &#34;&#34;&#34;
+    return str(self._unlockhash)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.FulfillmentTypes.SignatureRequest.input_hash_new"><code class="name flex">
+<span>def <span class="ident">input_hash_new</span></span>(<span>self, public_key)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create an input hash for the public key of the fulfiller.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def input_hash_new(self, public_key):
+    &#34;&#34;&#34;
+    Create an input hash for the public key of the fulfiller.
+    &#34;&#34;&#34;
+    input_hash = self._input_hash_gen(public_key)
+    if isinstance(input_hash, (str, bytearray, bytes)):
+        input_hash = Hash(value=input_hash)
+    elif not isinstance(input_hash, Hash):
+        raise TypeError(&#34;signature request requires an input hash of Type Hash, not: {}&#34;.format(type(input_hash)))
+    return input_hash</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.FulfillmentTypes.SignatureRequest.signature_fulfill"><code class="name flex">
+<span>def <span class="ident">signature_fulfill</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fulfill the signature, once and once only.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_fulfill(self, public_key, signature):
+    &#34;&#34;&#34;
+    Fulfill the signature, once and once only.
+    &#34;&#34;&#34;
+    # guarantee base conditions
+    if self.fulfilled:
+        raise tfchain.errors.DoubleSignError(&#34;SignatureRequest is already fulfilled for address {}&#34;.format(self.wallet_address))
+
+    # ensure public key is the key of the wallet who owns this request
+    if not isinstance(public_key, PublicKey):
+        raise TypeError(&#34;public key is expected to be of type PublicKey, not {}&#34;.format(type(public_key)))
+    address = str(public_key.unlockhash)
+    if self._unlockhash.type != UnlockHashType.NIL and self.wallet_address != address: # only check if the request is not using a NIL Condition
+        raise ValueError(&#34;signature request cannot be fulfilled using address {}, expected address {}&#34;.format(address, self.wallet_address))
+
+    # add the signature to the callback
+    self._callback.signature_add(public_key=public_key, signature=signature)
+    # ensure this was the one and only time we signed
+    self._signed = True</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.types" href="index.html">tfchain.types</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.atomic_swap_new" href="#tfchain.types.FulfillmentTypes.atomic_swap_new">atomic_swap_new</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.from_condition" href="#tfchain.types.FulfillmentTypes.from_condition">from_condition</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.from_json" href="#tfchain.types.FulfillmentTypes.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.multi_signature_new" href="#tfchain.types.FulfillmentTypes.multi_signature_new">multi_signature_new</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.single_signature_new" href="#tfchain.types.FulfillmentTypes.single_signature_new">single_signature_new</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.types.FulfillmentTypes.ED25519Signature" href="#tfchain.types.FulfillmentTypes.ED25519Signature">ED25519Signature</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.ED25519Signature.SIZE" href="#tfchain.types.FulfillmentTypes.ED25519Signature.SIZE">SIZE</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.ED25519Signature.from_json" href="#tfchain.types.FulfillmentTypes.ED25519Signature.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.ED25519Signature.rivine_binary_encode" href="#tfchain.types.FulfillmentTypes.ED25519Signature.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.ED25519Signature.sia_binary_encode" href="#tfchain.types.FulfillmentTypes.ED25519Signature.sia_binary_encode">sia_binary_encode</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap">FulfillmentAtomicSwap</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.from_json_data_object" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.is_fulfilled" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.json_data_object" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.public_key" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.public_key">public_key</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.rivine_binary_encode_data" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.secret" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.secret">secret</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.sia_binary_encode_data" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature">signature</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature_add" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature_add">signature_add</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature_requests_new" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.type" href="#tfchain.types.FulfillmentTypes.FulfillmentAtomicSwap.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass">FulfillmentBaseClass</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.from_json" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.from_json_data_object" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.is_fulfilled" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.json" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.json">json</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.json_data_object" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode_data" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode_data" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.signature_requests_new" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentBaseClass.type" href="#tfchain.types.FulfillmentTypes.FulfillmentBaseClass.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature">FulfillmentMultiSignature</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.add_pair" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.add_pair">add_pair</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.from_json_data_object" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.is_fulfilled" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.json_data_object" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.pairs" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.pairs">pairs</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.rivine_binary_encode_data" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.sia_binary_encode_data" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.signature_add" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.signature_add">signature_add</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.signature_requests_new" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.type" href="#tfchain.types.FulfillmentTypes.FulfillmentMultiSignature.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature">FulfillmentSingleSignature</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.from_json_data_object" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.fulfilled" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.fulfilled">fulfilled</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.is_fulfilled" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.json_data_object" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.public_key" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.public_key">public_key</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.rivine_binary_encode_data" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.sia_binary_encode_data" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature">signature</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature_add" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature_add">signature_add</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature_requests_new" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.type" href="#tfchain.types.FulfillmentTypes.FulfillmentSingleSignature.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.FulfillmentTypes.PublicKeySignaturePair" href="#tfchain.types.FulfillmentTypes.PublicKeySignaturePair">PublicKeySignaturePair</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.from_json" href="#tfchain.types.FulfillmentTypes.PublicKeySignaturePair.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.json" href="#tfchain.types.FulfillmentTypes.PublicKeySignaturePair.json">json</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.public_key" href="#tfchain.types.FulfillmentTypes.PublicKeySignaturePair.public_key">public_key</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.rivine_binary_encode" href="#tfchain.types.FulfillmentTypes.PublicKeySignaturePair.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.sia_binary_encode" href="#tfchain.types.FulfillmentTypes.PublicKeySignaturePair.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.PublicKeySignaturePair.signature" href="#tfchain.types.FulfillmentTypes.PublicKeySignaturePair.signature">signature</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase.signature_add" href="#tfchain.types.FulfillmentTypes.SignatureCallbackBase.signature_add">signature_add</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.FulfillmentTypes.SignatureRequest" href="#tfchain.types.FulfillmentTypes.SignatureRequest">SignatureRequest</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.FulfillmentTypes.SignatureRequest.fulfilled" href="#tfchain.types.FulfillmentTypes.SignatureRequest.fulfilled">fulfilled</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.SignatureRequest.input_hash_new" href="#tfchain.types.FulfillmentTypes.SignatureRequest.input_hash_new">input_hash_new</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.SignatureRequest.signature_fulfill" href="#tfchain.types.FulfillmentTypes.SignatureRequest.signature_fulfill">signature_fulfill</a></code></li>
+<li><code><a title="tfchain.types.FulfillmentTypes.SignatureRequest.wallet_address" href="#tfchain.types.FulfillmentTypes.SignatureRequest.wallet_address">wallet_address</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

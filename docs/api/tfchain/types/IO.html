@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.types.IO API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.types.IO</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">from tfchain.types.BaseDataType import BaseDataTypeClass
+
+from tfchain.types.PrimitiveTypes import BinaryData, Hash, Currency, Blockstake
+from tfchain.types import FulfillmentTypes, ConditionTypes
+from tfchain.types.FulfillmentTypes import FulfillmentBaseClass, FulfillmentSingleSignature
+from tfchain.types.ConditionTypes import ConditionBaseClass, ConditionNil
+
+class CoinInput(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    CoinIput class
+    &#34;&#34;&#34;
+
+    def __init__(self, parentid=None, fulfillment=None, parent_output=None):
+        self._parent_id = None
+        self.parentid = parentid
+        self._fulfillment = None
+        self.fulfillment = fulfillment
+        # property that can be set if known, but which is not part of the actual CoinInput
+        self._parent_output = None
+        self.parent_output = parent_output
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            parentid=Hash.from_json(obj[&#39;parentid&#39;]),
+            fulfillment=FulfillmentTypes.from_json(obj[&#39;fulfillment&#39;]))
+
+    @classmethod
+    def from_coin_output(cls, co):
+        if not isinstance(co, CoinOutput):
+            raise TypeError(
+                &#34;invalid co parameter, expected value of type CoinOutput, not {}&#34;.format(type(co)))
+        ci = cls(
+            parentid=co.id,
+            fulfillment=FulfillmentTypes.from_condition(co.condition))
+        ci.parent_output = co
+        return ci
+
+    @property
+    def parentid(self):
+        return self._parent_id
+
+    @parentid.setter
+    def parentid(self, value):
+        if isinstance(value, Hash):
+            self._parent_id = Hash(value=value.value)
+            return
+        self._parent_id = Hash(value=value)
+
+    @property
+    def fulfillment(self):
+        return self._fulfillment
+
+    @fulfillment.setter
+    def fulfillment(self, value):
+        if value is None:
+            self._fulfillment = FulfillmentSingleSignature()
+            return
+        if not isinstance(value, FulfillmentBaseClass):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a  CoinInput&#39;s fulfillment (expected: FulfillmentBaseClass)&#34;.format(type(value)))
+        self._fulfillment = value
+
+    @property
+    def parent_output(self):
+        return self._parent_output or CoinOutput()
+
+    @parent_output.setter
+    def parent_output(self, value):
+        if value is None:
+            self._parent_output = None
+            return
+        if not isinstance(value, CoinOutput):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a CoinInput&#39;s parent output (expected: CoinOutput)&#34;.format(type(value)))
+        self._parent_output = value
+
+    def json(self):
+        return {
+            &#39;parentid&#39;: self._parent_id.json(),
+            &#39;fulfillment&#39;: self._fulfillment.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this CoinInput according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._parent_id, self._fulfillment)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this CoinInput according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._parent_id, self._fulfillment)
+
+    def signature_requests_new(self, input_hash_func):
+        &#34;&#34;&#34;
+        Returns all signature requests that can be generated for this Coin Inputs,
+        only possible if the parent (coin) output is defined and when there
+        are still signatures required.
+        &#34;&#34;&#34;
+        if self._parent_output is None:
+            # no requestsd get created if the parent output is not set,
+            # this allows for partial Tx signings
+            return []
+        return self._fulfillment.signature_requests_new(
+            input_hash_func=input_hash_func,
+            parent_condition=self._parent_output.condition,
+        )
+
+    def is_fulfilled(self):
+        &#34;&#34;&#34;
+        Returns true if this CoinInput is fulfilled.
+        &#34;&#34;&#34;
+        if self._parent_output is None:
+            return False
+        return self._fulfillment.is_fulfilled(self._parent_output.condition)
+
+
+class CoinOutput(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    CoinOutput class
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None, condition=None, id=None):
+        self._value = None
+        self.value = value
+        self._condition = None
+        self.condition = condition
+        # property that can be set if known, but which is not part of the actual CoinOutput
+        self._id = None
+        self.id = id
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            value=Currency.from_json(obj[&#39;value&#39;]),
+            condition=ConditionTypes.from_json(obj[&#39;condition&#39;]))
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if isinstance(value, Currency):
+            self._value = value
+            return
+        self._value = Currency(value=value)
+
+    @property
+    def condition(self):
+        return self._condition
+
+    @condition.setter
+    def condition(self, value):
+        if value is None:
+            self._condition = ConditionNil()
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a CoinOutput&#39;s condition (expected: ConditionBaseClass subtype)&#34;.format(type(value)))
+        self._condition = value
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        if isinstance(value, Hash):
+            self._id = Hash(value=value.value)
+            return
+        self._id = Hash(value=value)
+
+    def json(self):
+        return {
+            &#39;value&#39;: self._value.json(),
+            &#39;condition&#39;: self._condition.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this CoinOutput according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._value, self._condition)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this CoinOutput according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._value, self._condition)
+
+
+class BlockstakeInput(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    BlockstakeInput class
+    &#34;&#34;&#34;
+
+    def __init__(self, parentid=None, fulfillment=None, parent_output=None):
+        self._parent_id = None
+        self.parentid = parentid
+        self._fulfillment = None
+        self.fulfillment = fulfillment
+        # property that can be set if known, but which is not part of the actual BlockstakeInput
+        self._parent_output = None
+        self.parent_output = parent_output
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            parentid=Hash.from_json(obj[&#39;parentid&#39;]),
+            fulfillment=FulfillmentTypes.from_json(obj[&#39;fulfillment&#39;]))
+
+    @classmethod
+    def from_blockstake_output(cls, bso):
+        if not isinstance(bso, BlockstakeOutput):
+            raise TypeError(
+                &#34;invalid type of bso {} (expected: BlockstakeOutput)&#34;.format(type(bso)))
+        bsi = cls(
+            parentid=bso.id,
+            fulfillment=FulfillmentTypes.from_condition(bso.condition))
+        bsi.parent_output = bso
+        return bsi
+
+    @property
+    def parentid(self):
+        return self._parent_id
+
+    @parentid.setter
+    def parentid(self, value):
+        if isinstance(value, Hash):
+            self._parent_id = Hash(value=value.value)
+            return
+        self._parent_id = Hash(value=value)
+
+    @property
+    def fulfillment(self):
+        return self._fulfillment
+
+    @fulfillment.setter
+    def fulfillment(self, value):
+        if value is None:
+            self._fulfillment = FulfillmentSingleSignature()
+            return
+        if not isinstance(value, FulfillmentBaseClass):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a BlockstakeInput&#39;s fulfillment (expected: FulfillmentBaseClass subtype)&#34;.format(type(value)))
+        self._fulfillment = value
+
+    @property
+    def parent_output(self):
+        return self._parent_output
+
+    @parent_output.setter
+    def parent_output(self, value):
+        if value is None:
+            self._parent_output = BlockstakeOutput()
+            return
+        if not isinstance(value, BlockstakeOutput):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a BlockstakeInput&#39;s parent output (expected: BlockstakeOutput)&#34;.format(type(value)))
+        self._parent_output = value
+
+    def json(self):
+        return {
+            &#39;parentid&#39;: self._parent_id.json(),
+            &#39;fulfillment&#39;: self._fulfillment.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this BlockstakeInput according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._parent_id, self._fulfillment)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this BlockstakeInput according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._parent_id, self._fulfillment)
+
+    def signature_requests_new(self, input_hash_func):
+        &#34;&#34;&#34;
+        Returns all signature requests that can be generated for this Blockstake Inputs,
+        only possible if the parent (blockstake) output is defined and when there
+        are still signatures required.
+        &#34;&#34;&#34;
+        if self._parent_output is None:
+            # no requestsd get created if the parent output is not set,
+            # this allows for partial Tx signings
+            return []
+        return self._fulfillment.signature_requests_new(
+            input_hash_func=input_hash_func,
+            parent_condition=self._parent_output.condition,
+        )
+
+    def is_fulfilled(self):
+        &#34;&#34;&#34;
+        Returns true if this BlockstakeInput is fulfilled.
+        &#34;&#34;&#34;
+        if self._parent_output is None:
+            return False
+        return self._fulfillment.is_fulfilled(self._parent_output.condition)
+
+
+class BlockstakeOutput(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    BlockstakeOutput class
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None, condition=None, id=None):
+        self._value = None
+        self.value = value
+        self._condition = None
+        self.condition = condition
+        # property that can be set if known, but which is not part of the actual BlockstakeOutput
+        self._id = None
+        self.id = id
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            value=Blockstake.from_json(obj[&#39;value&#39;]),
+            condition=ConditionTypes.from_json(obj[&#39;condition&#39;]))
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if isinstance(value, Blockstake):
+            self._value = value
+            return
+        self._value = Blockstake(value=value)
+
+    @property
+    def condition(self):
+        return self._condition
+
+    @condition.setter
+    def condition(self, value):
+        if value is None:
+            self._condition = ConditionNil()
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a BlockstakeOutput&#39;s condition (expected: ConditionBaseClass subtype)&#34;.format(type(value)))
+        self._condition = value
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        if isinstance(value, Hash):
+            self._id = Hash(value=value.value)
+            return
+        self._id = Hash(value=value)
+
+    def json(self):
+        return {
+            &#39;value&#39;: self._value.json(),
+            &#39;condition&#39;: self._condition.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this BlockstakeOutput according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._value, self._condition)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this BlockstakeOutput according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._value, self._condition)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.types.IO.BlockstakeInput"><code class="flex name class">
+<span>class <span class="ident">BlockstakeInput</span></span>
+<span>(</span><span>parentid=None, fulfillment=None, parent_output=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>BlockstakeInput class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class BlockstakeInput(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    BlockstakeInput class
+    &#34;&#34;&#34;
+
+    def __init__(self, parentid=None, fulfillment=None, parent_output=None):
+        self._parent_id = None
+        self.parentid = parentid
+        self._fulfillment = None
+        self.fulfillment = fulfillment
+        # property that can be set if known, but which is not part of the actual BlockstakeInput
+        self._parent_output = None
+        self.parent_output = parent_output
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            parentid=Hash.from_json(obj[&#39;parentid&#39;]),
+            fulfillment=FulfillmentTypes.from_json(obj[&#39;fulfillment&#39;]))
+
+    @classmethod
+    def from_blockstake_output(cls, bso):
+        if not isinstance(bso, BlockstakeOutput):
+            raise TypeError(
+                &#34;invalid type of bso {} (expected: BlockstakeOutput)&#34;.format(type(bso)))
+        bsi = cls(
+            parentid=bso.id,
+            fulfillment=FulfillmentTypes.from_condition(bso.condition))
+        bsi.parent_output = bso
+        return bsi
+
+    @property
+    def parentid(self):
+        return self._parent_id
+
+    @parentid.setter
+    def parentid(self, value):
+        if isinstance(value, Hash):
+            self._parent_id = Hash(value=value.value)
+            return
+        self._parent_id = Hash(value=value)
+
+    @property
+    def fulfillment(self):
+        return self._fulfillment
+
+    @fulfillment.setter
+    def fulfillment(self, value):
+        if value is None:
+            self._fulfillment = FulfillmentSingleSignature()
+            return
+        if not isinstance(value, FulfillmentBaseClass):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a BlockstakeInput&#39;s fulfillment (expected: FulfillmentBaseClass subtype)&#34;.format(type(value)))
+        self._fulfillment = value
+
+    @property
+    def parent_output(self):
+        return self._parent_output
+
+    @parent_output.setter
+    def parent_output(self, value):
+        if value is None:
+            self._parent_output = BlockstakeOutput()
+            return
+        if not isinstance(value, BlockstakeOutput):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a BlockstakeInput&#39;s parent output (expected: BlockstakeOutput)&#34;.format(type(value)))
+        self._parent_output = value
+
+    def json(self):
+        return {
+            &#39;parentid&#39;: self._parent_id.json(),
+            &#39;fulfillment&#39;: self._fulfillment.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this BlockstakeInput according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._parent_id, self._fulfillment)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this BlockstakeInput according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._parent_id, self._fulfillment)
+
+    def signature_requests_new(self, input_hash_func):
+        &#34;&#34;&#34;
+        Returns all signature requests that can be generated for this Blockstake Inputs,
+        only possible if the parent (blockstake) output is defined and when there
+        are still signatures required.
+        &#34;&#34;&#34;
+        if self._parent_output is None:
+            # no requestsd get created if the parent output is not set,
+            # this allows for partial Tx signings
+            return []
+        return self._fulfillment.signature_requests_new(
+            input_hash_func=input_hash_func,
+            parent_condition=self._parent_output.condition,
+        )
+
+    def is_fulfilled(self):
+        &#34;&#34;&#34;
+        Returns true if this BlockstakeInput is fulfilled.
+        &#34;&#34;&#34;
+        if self._parent_output is None:
+            return False
+        return self._fulfillment.is_fulfilled(self._parent_output.condition)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.IO.BlockstakeInput.from_blockstake_output"><code class="name flex">
+<span>def <span class="ident">from_blockstake_output</span></span>(<span>bso)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_blockstake_output(cls, bso):
+    if not isinstance(bso, BlockstakeOutput):
+        raise TypeError(
+            &#34;invalid type of bso {} (expected: BlockstakeOutput)&#34;.format(type(bso)))
+    bsi = cls(
+        parentid=bso.id,
+        fulfillment=FulfillmentTypes.from_condition(bso.condition))
+    bsi.parent_output = bso
+    return bsi</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeInput.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    return cls(
+        parentid=Hash.from_json(obj[&#39;parentid&#39;]),
+        fulfillment=FulfillmentTypes.from_json(obj[&#39;fulfillment&#39;]))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.IO.BlockstakeInput.fulfillment"><code class="name">var <span class="ident">fulfillment</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def fulfillment(self):
+    return self._fulfillment</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeInput.parent_output"><code class="name">var <span class="ident">parent_output</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def parent_output(self):
+    return self._parent_output</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeInput.parentid"><code class="name">var <span class="ident">parentid</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def parentid(self):
+    return self._parent_id</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.IO.BlockstakeInput.is_fulfilled"><code class="name flex">
+<span>def <span class="ident">is_fulfilled</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns true if this BlockstakeInput is fulfilled.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def is_fulfilled(self):
+    &#34;&#34;&#34;
+    Returns true if this BlockstakeInput is fulfilled.
+    &#34;&#34;&#34;
+    if self._parent_output is None:
+        return False
+    return self._fulfillment.is_fulfilled(self._parent_output.condition)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeInput.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return {
+        &#39;parentid&#39;: self._parent_id.json(),
+        &#39;fulfillment&#39;: self._fulfillment.json()
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeInput.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this BlockstakeInput according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this BlockstakeInput according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self._parent_id, self._fulfillment)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeInput.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this BlockstakeInput according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this BlockstakeInput according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self._parent_id, self._fulfillment)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeInput.signature_requests_new"><code class="name flex">
+<span>def <span class="ident">signature_requests_new</span></span>(<span>self, input_hash_func)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns all signature requests that can be generated for this Blockstake Inputs,
+only possible if the parent (blockstake) output is defined and when there
+are still signatures required.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_requests_new(self, input_hash_func):
+    &#34;&#34;&#34;
+    Returns all signature requests that can be generated for this Blockstake Inputs,
+    only possible if the parent (blockstake) output is defined and when there
+    are still signatures required.
+    &#34;&#34;&#34;
+    if self._parent_output is None:
+        # no requestsd get created if the parent output is not set,
+        # this allows for partial Tx signings
+        return []
+    return self._fulfillment.signature_requests_new(
+        input_hash_func=input_hash_func,
+        parent_condition=self._parent_output.condition,
+    )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeOutput"><code class="flex name class">
+<span>class <span class="ident">BlockstakeOutput</span></span>
+<span>(</span><span>value=None, condition=None, id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>BlockstakeOutput class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class BlockstakeOutput(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    BlockstakeOutput class
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None, condition=None, id=None):
+        self._value = None
+        self.value = value
+        self._condition = None
+        self.condition = condition
+        # property that can be set if known, but which is not part of the actual BlockstakeOutput
+        self._id = None
+        self.id = id
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            value=Blockstake.from_json(obj[&#39;value&#39;]),
+            condition=ConditionTypes.from_json(obj[&#39;condition&#39;]))
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if isinstance(value, Blockstake):
+            self._value = value
+            return
+        self._value = Blockstake(value=value)
+
+    @property
+    def condition(self):
+        return self._condition
+
+    @condition.setter
+    def condition(self, value):
+        if value is None:
+            self._condition = ConditionNil()
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a BlockstakeOutput&#39;s condition (expected: ConditionBaseClass subtype)&#34;.format(type(value)))
+        self._condition = value
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        if isinstance(value, Hash):
+            self._id = Hash(value=value.value)
+            return
+        self._id = Hash(value=value)
+
+    def json(self):
+        return {
+            &#39;value&#39;: self._value.json(),
+            &#39;condition&#39;: self._condition.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this BlockstakeOutput according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._value, self._condition)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this BlockstakeOutput according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._value, self._condition)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.IO.BlockstakeOutput.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    return cls(
+        value=Blockstake.from_json(obj[&#39;value&#39;]),
+        condition=ConditionTypes.from_json(obj[&#39;condition&#39;]))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.IO.BlockstakeOutput.condition"><code class="name">var <span class="ident">condition</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def condition(self):
+    return self._condition</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeOutput.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def id(self):
+    return self._id</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeOutput.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.IO.BlockstakeOutput.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return {
+        &#39;value&#39;: self._value.json(),
+        &#39;condition&#39;: self._condition.json()
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeOutput.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this BlockstakeOutput according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this BlockstakeOutput according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self._value, self._condition)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.BlockstakeOutput.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this BlockstakeOutput according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this BlockstakeOutput according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self._value, self._condition)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.IO.CoinInput"><code class="flex name class">
+<span>class <span class="ident">CoinInput</span></span>
+<span>(</span><span>parentid=None, fulfillment=None, parent_output=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>CoinIput class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class CoinInput(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    CoinIput class
+    &#34;&#34;&#34;
+
+    def __init__(self, parentid=None, fulfillment=None, parent_output=None):
+        self._parent_id = None
+        self.parentid = parentid
+        self._fulfillment = None
+        self.fulfillment = fulfillment
+        # property that can be set if known, but which is not part of the actual CoinInput
+        self._parent_output = None
+        self.parent_output = parent_output
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            parentid=Hash.from_json(obj[&#39;parentid&#39;]),
+            fulfillment=FulfillmentTypes.from_json(obj[&#39;fulfillment&#39;]))
+
+    @classmethod
+    def from_coin_output(cls, co):
+        if not isinstance(co, CoinOutput):
+            raise TypeError(
+                &#34;invalid co parameter, expected value of type CoinOutput, not {}&#34;.format(type(co)))
+        ci = cls(
+            parentid=co.id,
+            fulfillment=FulfillmentTypes.from_condition(co.condition))
+        ci.parent_output = co
+        return ci
+
+    @property
+    def parentid(self):
+        return self._parent_id
+
+    @parentid.setter
+    def parentid(self, value):
+        if isinstance(value, Hash):
+            self._parent_id = Hash(value=value.value)
+            return
+        self._parent_id = Hash(value=value)
+
+    @property
+    def fulfillment(self):
+        return self._fulfillment
+
+    @fulfillment.setter
+    def fulfillment(self, value):
+        if value is None:
+            self._fulfillment = FulfillmentSingleSignature()
+            return
+        if not isinstance(value, FulfillmentBaseClass):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a  CoinInput&#39;s fulfillment (expected: FulfillmentBaseClass)&#34;.format(type(value)))
+        self._fulfillment = value
+
+    @property
+    def parent_output(self):
+        return self._parent_output or CoinOutput()
+
+    @parent_output.setter
+    def parent_output(self, value):
+        if value is None:
+            self._parent_output = None
+            return
+        if not isinstance(value, CoinOutput):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a CoinInput&#39;s parent output (expected: CoinOutput)&#34;.format(type(value)))
+        self._parent_output = value
+
+    def json(self):
+        return {
+            &#39;parentid&#39;: self._parent_id.json(),
+            &#39;fulfillment&#39;: self._fulfillment.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this CoinInput according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._parent_id, self._fulfillment)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this CoinInput according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._parent_id, self._fulfillment)
+
+    def signature_requests_new(self, input_hash_func):
+        &#34;&#34;&#34;
+        Returns all signature requests that can be generated for this Coin Inputs,
+        only possible if the parent (coin) output is defined and when there
+        are still signatures required.
+        &#34;&#34;&#34;
+        if self._parent_output is None:
+            # no requestsd get created if the parent output is not set,
+            # this allows for partial Tx signings
+            return []
+        return self._fulfillment.signature_requests_new(
+            input_hash_func=input_hash_func,
+            parent_condition=self._parent_output.condition,
+        )
+
+    def is_fulfilled(self):
+        &#34;&#34;&#34;
+        Returns true if this CoinInput is fulfilled.
+        &#34;&#34;&#34;
+        if self._parent_output is None:
+            return False
+        return self._fulfillment.is_fulfilled(self._parent_output.condition)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.IO.CoinInput.from_coin_output"><code class="name flex">
+<span>def <span class="ident">from_coin_output</span></span>(<span>co)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_coin_output(cls, co):
+    if not isinstance(co, CoinOutput):
+        raise TypeError(
+            &#34;invalid co parameter, expected value of type CoinOutput, not {}&#34;.format(type(co)))
+    ci = cls(
+        parentid=co.id,
+        fulfillment=FulfillmentTypes.from_condition(co.condition))
+    ci.parent_output = co
+    return ci</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinInput.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    return cls(
+        parentid=Hash.from_json(obj[&#39;parentid&#39;]),
+        fulfillment=FulfillmentTypes.from_json(obj[&#39;fulfillment&#39;]))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.IO.CoinInput.fulfillment"><code class="name">var <span class="ident">fulfillment</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def fulfillment(self):
+    return self._fulfillment</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinInput.parent_output"><code class="name">var <span class="ident">parent_output</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def parent_output(self):
+    return self._parent_output or CoinOutput()</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinInput.parentid"><code class="name">var <span class="ident">parentid</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def parentid(self):
+    return self._parent_id</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.IO.CoinInput.is_fulfilled"><code class="name flex">
+<span>def <span class="ident">is_fulfilled</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns true if this CoinInput is fulfilled.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def is_fulfilled(self):
+    &#34;&#34;&#34;
+    Returns true if this CoinInput is fulfilled.
+    &#34;&#34;&#34;
+    if self._parent_output is None:
+        return False
+    return self._fulfillment.is_fulfilled(self._parent_output.condition)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinInput.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return {
+        &#39;parentid&#39;: self._parent_id.json(),
+        &#39;fulfillment&#39;: self._fulfillment.json()
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinInput.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this CoinInput according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this CoinInput according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self._parent_id, self._fulfillment)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinInput.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this CoinInput according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this CoinInput according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self._parent_id, self._fulfillment)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinInput.signature_requests_new"><code class="name flex">
+<span>def <span class="ident">signature_requests_new</span></span>(<span>self, input_hash_func)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns all signature requests that can be generated for this Coin Inputs,
+only possible if the parent (coin) output is defined and when there
+are still signatures required.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_requests_new(self, input_hash_func):
+    &#34;&#34;&#34;
+    Returns all signature requests that can be generated for this Coin Inputs,
+    only possible if the parent (coin) output is defined and when there
+    are still signatures required.
+    &#34;&#34;&#34;
+    if self._parent_output is None:
+        # no requestsd get created if the parent output is not set,
+        # this allows for partial Tx signings
+        return []
+    return self._fulfillment.signature_requests_new(
+        input_hash_func=input_hash_func,
+        parent_condition=self._parent_output.condition,
+    )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.IO.CoinOutput"><code class="flex name class">
+<span>class <span class="ident">CoinOutput</span></span>
+<span>(</span><span>value=None, condition=None, id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>CoinOutput class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class CoinOutput(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    CoinOutput class
+    &#34;&#34;&#34;
+
+    def __init__(self, value=None, condition=None, id=None):
+        self._value = None
+        self.value = value
+        self._condition = None
+        self.condition = condition
+        # property that can be set if known, but which is not part of the actual CoinOutput
+        self._id = None
+        self.id = id
+
+    @classmethod
+    def from_json(cls, obj):
+        return cls(
+            value=Currency.from_json(obj[&#39;value&#39;]),
+            condition=ConditionTypes.from_json(obj[&#39;condition&#39;]))
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if isinstance(value, Currency):
+            self._value = value
+            return
+        self._value = Currency(value=value)
+
+    @property
+    def condition(self):
+        return self._condition
+
+    @condition.setter
+    def condition(self, value):
+        if value is None:
+            self._condition = ConditionNil()
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(
+                &#34;cannot assign value of type {} as a CoinOutput&#39;s condition (expected: ConditionBaseClass subtype)&#34;.format(type(value)))
+        self._condition = value
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        if isinstance(value, Hash):
+            self._id = Hash(value=value.value)
+            return
+        self._id = Hash(value=value)
+
+    def json(self):
+        return {
+            &#39;value&#39;: self._value.json(),
+            &#39;condition&#39;: self._condition.json()
+        }
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this CoinOutput according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._value, self._condition)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this CoinOutput according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_all(self._value, self._condition)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.IO.CoinOutput.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    return cls(
+        value=Currency.from_json(obj[&#39;value&#39;]),
+        condition=ConditionTypes.from_json(obj[&#39;condition&#39;]))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.IO.CoinOutput.condition"><code class="name">var <span class="ident">condition</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def condition(self):
+    return self._condition</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinOutput.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def id(self):
+    return self._id</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinOutput.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.IO.CoinOutput.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return {
+        &#39;value&#39;: self._value.json(),
+        &#39;condition&#39;: self._condition.json()
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinOutput.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this CoinOutput according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this CoinOutput according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self._value, self._condition)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.IO.CoinOutput.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this CoinOutput according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this CoinOutput according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_all(self._value, self._condition)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.types" href="index.html">tfchain.types</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.types.IO.BlockstakeInput" href="#tfchain.types.IO.BlockstakeInput">BlockstakeInput</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.IO.BlockstakeInput.from_blockstake_output" href="#tfchain.types.IO.BlockstakeInput.from_blockstake_output">from_blockstake_output</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.from_json" href="#tfchain.types.IO.BlockstakeInput.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.fulfillment" href="#tfchain.types.IO.BlockstakeInput.fulfillment">fulfillment</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.is_fulfilled" href="#tfchain.types.IO.BlockstakeInput.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.json" href="#tfchain.types.IO.BlockstakeInput.json">json</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.parent_output" href="#tfchain.types.IO.BlockstakeInput.parent_output">parent_output</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.parentid" href="#tfchain.types.IO.BlockstakeInput.parentid">parentid</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.rivine_binary_encode" href="#tfchain.types.IO.BlockstakeInput.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.sia_binary_encode" href="#tfchain.types.IO.BlockstakeInput.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeInput.signature_requests_new" href="#tfchain.types.IO.BlockstakeInput.signature_requests_new">signature_requests_new</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.IO.BlockstakeOutput" href="#tfchain.types.IO.BlockstakeOutput">BlockstakeOutput</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.IO.BlockstakeOutput.condition" href="#tfchain.types.IO.BlockstakeOutput.condition">condition</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeOutput.from_json" href="#tfchain.types.IO.BlockstakeOutput.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeOutput.id" href="#tfchain.types.IO.BlockstakeOutput.id">id</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeOutput.json" href="#tfchain.types.IO.BlockstakeOutput.json">json</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeOutput.rivine_binary_encode" href="#tfchain.types.IO.BlockstakeOutput.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeOutput.sia_binary_encode" href="#tfchain.types.IO.BlockstakeOutput.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.IO.BlockstakeOutput.value" href="#tfchain.types.IO.BlockstakeOutput.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.IO.CoinInput" href="#tfchain.types.IO.CoinInput">CoinInput</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.IO.CoinInput.from_coin_output" href="#tfchain.types.IO.CoinInput.from_coin_output">from_coin_output</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.from_json" href="#tfchain.types.IO.CoinInput.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.fulfillment" href="#tfchain.types.IO.CoinInput.fulfillment">fulfillment</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.is_fulfilled" href="#tfchain.types.IO.CoinInput.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.json" href="#tfchain.types.IO.CoinInput.json">json</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.parent_output" href="#tfchain.types.IO.CoinInput.parent_output">parent_output</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.parentid" href="#tfchain.types.IO.CoinInput.parentid">parentid</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.rivine_binary_encode" href="#tfchain.types.IO.CoinInput.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.sia_binary_encode" href="#tfchain.types.IO.CoinInput.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinInput.signature_requests_new" href="#tfchain.types.IO.CoinInput.signature_requests_new">signature_requests_new</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.IO.CoinOutput" href="#tfchain.types.IO.CoinOutput">CoinOutput</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.IO.CoinOutput.condition" href="#tfchain.types.IO.CoinOutput.condition">condition</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinOutput.from_json" href="#tfchain.types.IO.CoinOutput.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinOutput.id" href="#tfchain.types.IO.CoinOutput.id">id</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinOutput.json" href="#tfchain.types.IO.CoinOutput.json">json</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinOutput.rivine_binary_encode" href="#tfchain.types.IO.CoinOutput.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinOutput.sia_binary_encode" href="#tfchain.types.IO.CoinOutput.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.IO.CoinOutput.value" href="#tfchain.types.IO.CoinOutput.value">value</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

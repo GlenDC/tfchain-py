@@ -1,0 +1,2911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.types.ConditionTypes API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.types.ConditionTypes</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import hashlib
+from datetime import datetime, timedelta
+from tfchain.encoders import encoder_rivine_get, encoder_sia_get, sia_encode, rivine_encode
+from tfchain.crypto import MerkleTree
+from tfchain.internal.jsutils import blake2_string
+from tfchain.types.PrimitiveTypes import BinaryData, Hash
+from tfchain.internal.jsutils import duration, jsdatetime, jstime, generateXByteID
+
+_CONDITION_TYPE_NIL = 0
+_CONDITION_TYPE_UNLOCK_HASH = 1
+_CONDITION_TYPE_ATOMIC_SWAP = 2
+_CONDITION_TYPE_LOCKTIME = 3
+_CONDITION_TYPE_MULTI_SIG = 4
+
+def from_json(obj):
+    ct = obj.get(&#39;type&#39;, 0)
+    if ct == _CONDITION_TYPE_NIL:
+        return ConditionNil.from_json(obj)
+    if ct == _CONDITION_TYPE_UNLOCK_HASH:
+        return ConditionUnlockHash.from_json(obj)
+    if ct == _CONDITION_TYPE_ATOMIC_SWAP:
+        return ConditionAtomicSwap.from_json(obj)
+    if ct == _CONDITION_TYPE_LOCKTIME:
+        return ConditionLockTime.from_json(obj)
+    if ct == _CONDITION_TYPE_MULTI_SIG:
+        return ConditionMultiSignature.from_json(obj)
+    raise ValueError(&#34;unsupport condition type {}&#34;.format(ct))
+
+def from_recipient(recipient, lock=None):
+    &#34;&#34;&#34;
+    Create automatically a recipient condition based on any accepted pythonic value (combo).
+    &#34;&#34;&#34;
+
+    # define base condition
+    if isinstance(recipient, ConditionBaseClass):
+        condition = recipient
+    else:
+        condition = None
+        if recipient is None:
+            # free-for-all wallet
+            condition = nil_new()
+        elif isinstance(recipient, (UnlockHash, str)):
+            # single sig wallet
+            condition = unlockhash_new(unlockhash=recipient)
+        elif isinstance(recipient, (bytes, bytearray)):
+            # single sig wallet
+            condition = unlockhash_new(unlockhash=recipient.hex())
+        elif isinstance(recipient, list):
+            # multisig to an all-for-all wallet
+            condition = multi_signature_new(min_nr_sig=len(recipient), unlockhashes=recipient)
+        elif isinstance(recipient, tuple):
+            # multisig wallet with custom x-of-n definition
+            if len(recipient) != 2:
+                raise ValueError(&#34;recipient is expected to be a tupple of 2 values in the form (sigcount,hashes) or (hashes,sigcount), cannot be of length {}&#34;.format(len(recipient)))
+            # allow (sigs,hashes) as well as (hashes,sigs)
+            if isinstance(recipient[0], int):
+                condition = multi_signature_new(min_nr_sig=recipient[0], unlockhashes=recipient[1])
+            else:
+                condition = multi_signature_new(min_nr_sig=recipient[1], unlockhashes=recipient[0])
+        else:
+            raise TypeError(&#34;invalid type for recipient parameter: {}&#34;, type(recipient))
+    
+    # if lock is defined, define it as a locktime value
+    if lock is not None:
+        condition = locktime_new(lock=lock, condition=condition)
+
+    # return condition
+    return condition
+
+
+def nil_new():
+    &#34;&#34;&#34;
+    Create a new Nil Condition, which can be fulfilled by any SingleSig. Fulfillment.
+    &#34;&#34;&#34;
+    return ConditionNil()
+
+def unlockhash_new(unlockhash=None):
+    &#34;&#34;&#34;
+    Create a new UnlockHash Condition, which can be
+    fulfilled by the matching SingleSig. Fulfillment.
+    &#34;&#34;&#34;
+    return ConditionUnlockHash(unlockhash=unlockhash)
+
+def atomic_swap_new(sender=None, receiver=None, hashed_secret=None, lock_time=None):
+    &#34;&#34;&#34;
+    Create a new AtomicSwap Condition, which can be
+    fulfilled by the AtomicSwap Fulfillment.
+    &#34;&#34;&#34;
+    return ConditionAtomicSwap(
+        sender=sender, receiver=receiver,
+        hashed_secret=hashed_secret, lock_time=lock_time)
+
+def locktime_new(lock=None, condition=None):
+    &#34;&#34;&#34;
+    Create a new LockTime Condition, which can be fulfilled by a fulfillment
+    when the relevant timestamp/block has been reached as well as the fulfillment fulfills the internal condition.
+    &#34;&#34;&#34;
+    return ConditionLockTime(lock=lock, condition=condition)
+
+def multi_signature_new(min_nr_sig=0, unlockhashes=None):
+    &#34;&#34;&#34;
+    Create a new MultiSignature Condition, which can be fulfilled by a matching MultiSignature Fulfillment.
+    &#34;&#34;&#34;
+    return ConditionMultiSignature(unlockhashes=unlockhashes, min_nr_sig=min_nr_sig)
+
+def output_lock_new(value):
+    &#34;&#34;&#34;
+    Creates a new output lock.
+    &#34;&#34;&#34;
+    return OutputLock(value=value)
+
+class OutputLock:
+    # as defined by Rivine
+    _MIN_TIMESTAMP_VALUE = 500 * 1000 * 1000
+
+    def __init__(self, value=None, current_timestamp=None):
+        if current_timestamp is None:
+            current_timestamp = int(datetime.now().timestamp())
+        elif not isinstance(current_timestamp, int):
+            raise TypeError(&#34;current timestamp has to be an integer&#34;)
+
+        if value is None:
+            self._value = 0
+        elif isinstance(value, OutputLock):
+            self._value = value.value
+        elif isinstance(value, int):
+            if value &lt; 0:
+                raise ValueError(&#34;output lock value cannot be negative&#34;)
+            self._value = int(value)
+        elif isinstance(value, str):
+            value = value.lstrip()
+            if value[0] == &#34;+&#34;:
+                # interpret string as a duration
+                offset = duration.fromString(value[1:])
+                self._value = current_timestamp + offset
+            else:
+                # interpret string as a datetime
+                self._value = jsdatetime.fromString(value)
+        elif isinstance(value, timedelta):
+            self._value = current_timestamp + int(value.total_seconds())
+        elif isinstance(value, datetime):
+            self._value = int(value.timestamp())
+        else:
+            raise TypeError(&#34;cannot set OutputLock using invalid type {}&#34;.format(type(value)))
+
+    def __int__(self):
+        return self._value
+
+    def __str__(self):
+        if self.is_timestamp:
+            return jstime.epoch2HRDateTime(self._value)
+        return str(self._value)
+    __repr__ = __str__
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The internal lock (integral) value.
+        &#34;&#34;&#34;
+        return self._value
+
+    @property
+    def is_timestamp(self):
+        &#34;&#34;&#34;
+        Returns whether or not this value is a timestamp.
+        &#34;&#34;&#34;
+        return self._value &gt;= OutputLock._MIN_TIMESTAMP_VALUE
+
+    def locked_check(self, height, time):
+        &#34;&#34;&#34;
+        Check if the the output is still locked on the given block height/time.
+        &#34;&#34;&#34;
+        if self.is_timestamp:
+            return time &lt; self._value
+        return height &lt; self._value
+
+
+from abc import abstractmethod
+
+from tfchain.types.BaseDataType import BaseDataTypeClass
+
+class ConditionBaseClass(BaseDataTypeClass):
+    @classmethod
+    def from_json(cls, obj):
+        ff = cls()
+        ct = obj.get(&#39;type&#39;, 0)
+        if ff.type != ct:
+            raise ValueError(&#34;condition is expected to be of type {}, not {}&#34;.format(ff.type, ct))
+        ff.from_json_data_object(obj.get(&#39;data&#39;, {}))
+        return ff
+
+    @property
+    @abstractmethod
+    def type(self):
+        pass
+
+    @property
+    def lock(self):
+        return OutputLock()
+    
+    @property
+    @abstractmethod
+    def unlockhash(self):
+        &#34;&#34;&#34;
+        The unlock hash for this condition.
+        &#34;&#34;&#34;
+        pass
+
+    def unwrap(self):
+        &#34;&#34;&#34;
+        Return the most inner condition, should it apply to this condition,
+        otherwise the condition itself will be returned.
+        &#34;&#34;&#34;
+        return self
+
+    @abstractmethod
+    def from_json_data_object(self, data):
+        pass
+
+    @abstractmethod
+    def json_data_object(self):
+        pass
+
+    def json(self):
+        obj = {&#39;type&#39;: self.type}
+        data = self.json_data_object()
+        if data:
+            obj[&#39;data&#39;] = data
+        return obj
+
+    @abstractmethod
+    def sia_binary_encode_data(self, encoder):
+        pass
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this Condition according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_array(bytearray([int(self.type)]))
+        data_enc = encoder_sia_get()
+        self.sia_binary_encode_data(data_enc)
+        encoder.add_slice(data_enc.data)
+
+    @abstractmethod
+    def rivine_binary_encode_data(self, encoder):
+        pass
+    
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this Condition according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_int8(int(self.type))
+        data_enc = encoder_rivine_get()
+        self.rivine_binary_encode_data(data_enc)
+        encoder.add_slice(data_enc.data)
+
+class UnlockHashType:
+    def __init__(self, value):
+        if isinstance(value, UnlockHashType):
+            value = value.value
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @classmethod
+    def from_json(cls, obj):
+        if type(obj) is str:
+            obj = int(obj)
+        elif not isinstance(obj, int):
+            raise TypeError(&#34;UnlockHashType is expected to be JSON-encoded as an int, not {}&#34;.format(type(obj)))
+        return cls(obj) # int -&gt; enum
+
+    def __eq__(self, other):
+        if isinstance(other, UnlockHashType):
+            return self.value == other.value
+        return self.value == other
+
+    def __int__(self):
+        return self.value
+
+    def json(self):
+        return int(self)
+
+UnlockHashType.NIL = UnlockHashType(0)
+UnlockHashType.PUBLIC_KEY = UnlockHashType(1)
+UnlockHashType.ATOMIC_SWAP = UnlockHashType(2)
+UnlockHashType.MULTI_SIG = UnlockHashType(3)
+
+class UnlockHash(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    An UnlockHash is a specially constructed hash of the UnlockConditions type,
+    with a fixed binary length of 33 and a fixed string length of 78 (string version includes a checksum).
+    &#34;&#34;&#34;
+
+    _TYPE_SIZE_HEX = 2
+    _CHECKSUM_SIZE = 6
+    _CHECKSUM_SIZE_HEX = (_CHECKSUM_SIZE*2)
+    _HASH_SIZE = 32
+    _HASH_SIZE_HEX = (_HASH_SIZE*2)
+    _TOTAL_SIZE_HEX = _TYPE_SIZE_HEX + _CHECKSUM_SIZE_HEX + _HASH_SIZE_HEX
+
+    def __init__(self, type=None, hash=None):
+        self._type = UnlockHashType.NIL
+        self.type = type
+        self._hash = Hash()
+        self.hash = hash
+
+    @classmethod
+    def from_json(cls, obj):
+        if not isinstance(obj, str):
+            raise TypeError(&#34;UnlockHash is expected to be JSON-encoded as an str, not {}&#34;.format(type(obj)))
+        if len(obj) != UnlockHash._TOTAL_SIZE_HEX:
+            raise ValueError(&#34;UnlockHash is expexcted to be of length {} when JSON-encoded, not of length {}&#34;.format(UnlockHash._TOTAL_SIZE_HEX, len(obj)))
+
+        t = UnlockHashType(int(obj[:UnlockHash._TYPE_SIZE_HEX]))
+        h = Hash(value=obj[UnlockHash._TYPE_SIZE_HEX:UnlockHash._TYPE_SIZE_HEX+UnlockHash._HASH_SIZE_HEX])
+        uh = cls(type=t, hash=h)
+        
+        if t == UnlockHashType.NIL:
+            expectedNH = b&#39;\x00&#39;*UnlockHash._HASH_SIZE
+            if h.value != expectedNH:
+                raise ValueError(&#34;unexpected nil hash {}&#34;.format(h.value.hex()))
+        else:
+            expected_checksum = uh._checksum()[:UnlockHash._CHECKSUM_SIZE].hex()
+            checksum = obj[-UnlockHash._CHECKSUM_SIZE_HEX:]
+            if expected_checksum != checksum:
+                raise ValueError(&#34;unexpected checksum {}, expected {}&#34;.format(checksum, expected_checksum))
+
+        return uh
+    
+    @property
+    def type(self):
+        return self._type
+    @type.setter
+    def type(self, value):
+        if value == None:
+            value = UnlockHashType.NIL
+        elif not isinstance(value, UnlockHashType):
+            raise TypeError(&#34;UnlockHash&#39;s type has to be of type UnlockHashType, not {}&#34;.format(type(value)))
+        self._type = value
+
+    @property
+    def hash(self):
+        return self._hash
+    @hash.setter
+    def hash(self, value):
+        self._hash.value = value
+
+    def __str__(self):
+        checksum = self._checksum()[:UnlockHash._CHECKSUM_SIZE].hex()
+        return &#34;{}{}{}&#34;.format(bytearray([int(self._type)]).hex(), str(self._hash), checksum)
+
+    def _checksum(self):
+        if self._type == UnlockHashType.NIL:
+            return b&#39;\x00&#39;*UnlockHash._CHECKSUM_SIZE
+        e = encoder_rivine_get()
+        e.add_int8(int(self._type))
+        e.add(self._hash)
+        return bytearray.fromhex(blake2_string(e.data))
+
+    __repr__ = __str__
+
+    json = __str__
+
+    def __eq__(self, other):
+        other = UnlockHash._op_other_as_unlockhash(other)
+        return self.type == other.type and self.hash == other.hash
+    def __ne__(self, other):
+        other = UnlockHash._op_other_as_unlockhash(other)
+        return self.type != other.type or self.hash != other.hash
+
+    def __hash__(self):
+        return hash(str(self))
+
+    @staticmethod
+    def _op_other_as_unlockhash(other):
+        if isinstance(other, str):
+            other = UnlockHash.from_json(other)
+        elif not isinstance(other, UnlockHash):
+            raise TypeError(&#34;UnlockHash of type {} is not supported&#34;.format(type(other)))
+        return other
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this unlock hash according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_byte(int(self._type))
+        encoder.add(self._hash)
+    
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this unlock hash according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_int8(int(self._type))
+        encoder.add(self._hash)
+
+
+class ConditionNil(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionNil class
+    &#34;&#34;&#34;
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_NIL
+
+    @property
+    def unlockhash(self):
+        return UnlockHash(type=UnlockHashType.NIL)
+
+    def from_json_data_object(self, data):
+        if data not in (None, {}):
+            raise ValueError(&#34;unexpected JSON-encoded nil condition {} (type: {})&#34;.format(data, type(data)))
+
+    def json_data_object(self):
+        return None
+    
+    def sia_binary_encode_data(self, encoder):
+        pass # nothing to do
+
+    def rivine_binary_encode_data(self, encoder):
+        pass # nothing to do
+
+
+class ConditionUnlockHash(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionUnlockHash class
+    &#34;&#34;&#34;
+    def __init__(self, unlockhash=None):
+        self._unlockhash = None
+        self.unlockhash = unlockhash
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_UNLOCK_HASH
+
+    @property
+    def unlockhash(self):
+        if self._unlockhash is None:
+            return UnlockHash()
+        return self._unlockhash
+    @unlockhash.setter
+    def unlockhash(self, value):
+        if value is None:
+            self._unlockhash = None
+            return
+        if isinstance(value, UnlockHash):
+            self._unlockhash = value
+            return
+        self._unlockhash = UnlockHash.from_json(value)
+
+    def from_json_data_object(self, data):
+        self.unlockhash = UnlockHash.from_json(data[&#39;unlockhash&#39;])
+
+    def json_data_object(self):
+        return {
+            &#39;unlockhash&#39;: self.unlockhash.json(),
+        }
+    
+    def sia_binary_encode_data(self, encoder):
+        encoder.add(self.unlockhash)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add(self.unlockhash)
+
+
+class AtomicSwapSecret(BinaryData):
+    SIZE = 32
+
+    &#34;&#34;&#34;
+    Atomic Swap Secret Object, a special type of BinaryData
+    &#34;&#34;&#34;
+    def __init__(self, value=None):
+        super().__init__(value, fixed_size=AtomicSwapSecret.SIZE, strencoding=&#39;hex&#39;)
+
+    @classmethod
+    def from_json(cls, obj):
+        if not isinstance(obj, str):
+            raise TypeError(&#34;secret is expected to be an encoded string when part of a JSON object&#34;)
+        return cls(value=obj)
+
+    @classmethod
+    def random(cls):
+        return cls(value=generateXByteID(AtomicSwapSecret.SIZE))
+
+
+class AtomicSwapSecretHash(BinaryData):
+    SIZE = 32
+
+    &#34;&#34;&#34;
+    Atomic Swap Secret Hash, a special type of BinaryData
+    &#34;&#34;&#34;
+    def __init__(self, value=None):
+        super().__init__(value, fixed_size=AtomicSwapSecretHash.SIZE, strencoding=&#39;hex&#39;)
+
+    @classmethod
+    def from_json(cls, obj):
+        if not isinstance(obj, str):
+            raise TypeError(&#34;secret hash is expected to be an encoded string when part of a JSON object&#34;)
+        return cls(value=obj)
+
+    @classmethod
+    def from_secret(cls, secret):
+        if not isinstance(secret, AtomicSwapSecret):
+            raise TypeError(&#34;secret is expected to be of type AtomicSwapSecret, not to be of type {}&#34;.format(type(secret)))
+        return cls(value=hashlib.sha256(secret.value).digest())
+
+
+class ConditionAtomicSwap(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionAtomicSwap class
+    &#34;&#34;&#34;
+    def __init__(self, sender=None, receiver=None, hashed_secret=None, lock_time=None):
+        self._sender = None
+        self.sender = sender
+        self._receiver = None
+        self.receiver = receiver
+        self._hashed_secret = None
+        self.hashed_secret = hashed_secret
+        self._lock_time = 0
+        self.lock_time = lock_time
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_ATOMIC_SWAP
+
+    @property
+    def unlockhash(self):
+        e = encoder_rivine_get()
+        self.sia_binary_encode_data(e)
+        # need to encode again to add the length
+        data = e.data
+        e = encoder_sia_get()
+        e.add_slice(data)
+        hash = bytearray.fromhex(blake2_string(e.data))
+        return UnlockHash(type=UnlockHashType.ATOMIC_SWAP, hash=hash)
+
+    @property
+    def sender(self):
+        if self._sender is None:
+            return UnlockHash()
+        return self._sender
+    @sender.setter
+    def sender(self, value):
+        if value is None:
+            self._sender = None
+        else:
+            if isinstance(value, str):
+                value = UnlockHash.from_json(value)
+            elif not isinstance(value, UnlockHash):
+                raise TypeError(&#34;Atomic Swap&#39;s sender unlock hash has to be of type UnlockHash, not {}&#34;.format(type(value)))
+            if value.type not in (UnlockHashType.PUBLIC_KEY, UnlockHashType.NIL):
+                raise ValueError(&#34;Atomic Swap&#39;s sender unlock hash type cannot be {} (expected: 0 or 1)&#34;.format(value.type))
+            self._sender = value
+
+    @property
+    def receiver(self):
+        if self._receiver is None:
+            return UnlockHash()
+        return self._receiver
+    @receiver.setter
+    def receiver(self, value):
+        if value is None:
+            self._receiver = None
+        else:
+            if isinstance(value, str):
+                value = UnlockHash.from_json(value)
+            elif not isinstance(value, UnlockHash):
+                raise TypeError(&#34;Atomic Swap&#39;s receiver unlock hash has to be of type UnlockHash, not {}&#34;.format(type(value)))
+            if value.type not in (UnlockHashType.PUBLIC_KEY, UnlockHashType.NIL):
+                raise ValueError(&#34;Atomic Swap&#39;s receiver unlock hash type cannot be {} (expected: 0 or 1)&#34;.format(value.type))
+            self._receiver = value
+    
+    @property
+    def hashed_secret(self):
+        if self._hashed_secret is None:
+            return BinaryData()
+        return self._hashed_secret
+    @hashed_secret.setter
+    def hashed_secret(self, value):
+        if value is None:
+            self._hashed_secret = None
+        else:
+            self._hashed_secret = AtomicSwapSecretHash(value=value)
+
+    @property
+    def lock_time(self):
+        return self._lock_time
+    @lock_time.setter
+    def lock_time(self, value):
+        if value is None:
+            self._lock_time = 0
+        else:
+            lock = OutputLock(value=value)
+            if not lock.is_timestamp:
+                raise TypeError(&#34;ConditionAtomicSwap only accepts timestamps as the lock value, not block heights: {} is invalid&#34;.format(value))
+            self._lock_time = lock.value
+
+    def from_json_data_object(self, data):
+        self.sender = UnlockHash.from_json(data[&#39;sender&#39;])
+        self.receiver = UnlockHash.from_json(data[&#39;receiver&#39;])
+        self.hashed_secret = AtomicSwapSecretHash(value=data[&#39;hashedsecret&#39;])
+        self.lock_time = int(data[&#39;timelock&#39;])
+
+    def json_data_object(self):
+        return {
+            &#39;sender&#39;: self.sender.json(),
+            &#39;receiver&#39;: self.receiver.json(),
+            &#39;hashedsecret&#39;: self.hashed_secret.json(),
+            &#39;timelock&#39;: self.lock_time,
+        }
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add_all(self.sender, self.receiver, self.hashed_secret, self.lock_time)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add_all(self.sender, self.receiver, self.hashed_secret, self.lock_time)
+
+
+class ConditionLockTime(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionLockTime class
+    &#34;&#34;&#34;
+    def __init__(self, condition=None, lock=None):
+        self._condition = None
+        self.condition = condition
+        self._lock = None
+        self.lock = lock
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_LOCKTIME
+
+    @property
+    def unlockhash(self):
+        return self.condition.unlockhash
+
+    @property
+    def lock(self):
+        if self._lock is None:
+            return OutputLock()
+        return self._lock
+    @lock.setter
+    def lock(self, value):
+        self._lock = OutputLock(value=value)
+
+    @property
+    def condition(self):
+        if self._condition is None:
+            return ConditionUnlockHash()
+        return self._condition
+    @condition.setter
+    def condition(self, value):
+        if value is None:
+            self._condition = None
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(&#34;ConditionLockTime&#39;s condition is expected to be a subtype of ConditionBaseClass, not of type {}&#34;.format(type(value)))
+        self._condition = value
+
+    def unwrap(self):
+        return self.condition
+
+    def from_json_data_object(self, data):
+        self.lock = int(data[&#39;locktime&#39;])
+        cond = from_json(obj=data[&#39;condition&#39;])
+        if cond.type not in(_CONDITION_TYPE_UNLOCK_HASH, _CONDITION_TYPE_MULTI_SIG, _CONDITION_TYPE_NIL):
+            raise ValueError(&#34;internal condition of ConditionLockTime cannot be of type {}&#34;.format(cond.type))
+        self.condition = cond
+
+    def json_data_object(self):
+        return {
+            &#39;locktime&#39;: self.lock.value,
+            &#39;condition&#39;: self.condition.json(),
+        }
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add(self.lock.value)
+        encoder.add_array(bytearray([int(self.condition.type)]))
+        self.condition.sia_binary_encode_data(encoder)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add(self.lock.value)
+        encoder.add_int8(int(self.condition.type))
+        self.condition.rivine_binary_encode_data(encoder)
+
+class ConditionMultiSignature(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionMultiSignature class
+    &#34;&#34;&#34;
+    def __init__(self, unlockhashes=None, min_nr_sig=0):
+        self._unlockhashes = []
+        if unlockhashes:
+            for uh in unlockhashes:
+                self.add_unlockhash(uh)
+        self._min_nr_sig = 0
+        self.required_signatures = min_nr_sig
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_MULTI_SIG
+
+    @property
+    def unlockhash(self):
+        uhs = sorted(self.unlockhashes, key=lambda uh: str(uh))
+        tree = MerkleTree(hash_func=lambda o: bytes.fromhex(blake2_string(o)))
+        tree.push(sia_encode(len(uhs)))
+        for uh in uhs:
+            tree.push(sia_encode(uh))
+        tree.push(sia_encode(self.required_signatures))
+        return UnlockHash(type=UnlockHashType.MULTI_SIG, hash=tree.root())
+
+    @property
+    def unlockhashes(self):
+        return self._unlockhashes
+        
+    def add_unlockhash(self, uh):
+        if uh is None:
+            self._unlockhashes.append(UnlockHash())
+        elif isinstance(uh, UnlockHash):
+            self._unlockhashes.append(uh)
+        elif isinstance(uh, str):
+            self._unlockhashes.append(UnlockHash.from_json(uh))
+        else:
+            raise TypeError(&#34;cannot add UnlockHash with invalid type {}&#34;.format(type(uh)))
+
+    @property
+    def required_signatures(self):
+        return self._min_nr_sig
+    @required_signatures.setter
+    def required_signatures(self, value):
+        if value is None:
+            self._min_nr_sig = 0
+            return
+        if not isinstance(value, int):
+            raise TypeError(&#34;ConditionMultiSignature&#39;s required signatures value is expected to be of type int, not {}&#34;.format(type(value)))
+        self._min_nr_sig = int(value)
+
+    def from_json_data_object(self, data):
+        self._min_nr_sig = int(data[&#39;minimumsignaturecount&#39;])
+        self._unlockhashes = []
+        for uh in data[&#39;unlockhashes&#39;]:
+            uh = UnlockHash.from_json(uh)
+            self._unlockhashes.append(uh)
+
+    def json_data_object(self):
+        return {
+            &#39;minimumsignaturecount&#39;: self._min_nr_sig,
+            &#39;unlockhashes&#39;: [uh.json() for uh in self._unlockhashes],
+        }
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add(self._min_nr_sig)
+        encoder.add_slice(self._unlockhashes)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add_int64(self._min_nr_sig)
+        encoder.add_slice(self._unlockhashes)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="tfchain.types.ConditionTypes.atomic_swap_new"><code class="name flex">
+<span>def <span class="ident">atomic_swap_new</span></span>(<span>sender=None, receiver=None, hashed_secret=None, lock_time=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new AtomicSwap Condition, which can be
+fulfilled by the AtomicSwap Fulfillment.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def atomic_swap_new(sender=None, receiver=None, hashed_secret=None, lock_time=None):
+    &#34;&#34;&#34;
+    Create a new AtomicSwap Condition, which can be
+    fulfilled by the AtomicSwap Fulfillment.
+    &#34;&#34;&#34;
+    return ConditionAtomicSwap(
+        sender=sender, receiver=receiver,
+        hashed_secret=hashed_secret, lock_time=lock_time)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json(obj):
+    ct = obj.get(&#39;type&#39;, 0)
+    if ct == _CONDITION_TYPE_NIL:
+        return ConditionNil.from_json(obj)
+    if ct == _CONDITION_TYPE_UNLOCK_HASH:
+        return ConditionUnlockHash.from_json(obj)
+    if ct == _CONDITION_TYPE_ATOMIC_SWAP:
+        return ConditionAtomicSwap.from_json(obj)
+    if ct == _CONDITION_TYPE_LOCKTIME:
+        return ConditionLockTime.from_json(obj)
+    if ct == _CONDITION_TYPE_MULTI_SIG:
+        return ConditionMultiSignature.from_json(obj)
+    raise ValueError(&#34;unsupport condition type {}&#34;.format(ct))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.from_recipient"><code class="name flex">
+<span>def <span class="ident">from_recipient</span></span>(<span>recipient, lock=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create automatically a recipient condition based on any accepted pythonic value (combo).</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_recipient(recipient, lock=None):
+    &#34;&#34;&#34;
+    Create automatically a recipient condition based on any accepted pythonic value (combo).
+    &#34;&#34;&#34;
+
+    # define base condition
+    if isinstance(recipient, ConditionBaseClass):
+        condition = recipient
+    else:
+        condition = None
+        if recipient is None:
+            # free-for-all wallet
+            condition = nil_new()
+        elif isinstance(recipient, (UnlockHash, str)):
+            # single sig wallet
+            condition = unlockhash_new(unlockhash=recipient)
+        elif isinstance(recipient, (bytes, bytearray)):
+            # single sig wallet
+            condition = unlockhash_new(unlockhash=recipient.hex())
+        elif isinstance(recipient, list):
+            # multisig to an all-for-all wallet
+            condition = multi_signature_new(min_nr_sig=len(recipient), unlockhashes=recipient)
+        elif isinstance(recipient, tuple):
+            # multisig wallet with custom x-of-n definition
+            if len(recipient) != 2:
+                raise ValueError(&#34;recipient is expected to be a tupple of 2 values in the form (sigcount,hashes) or (hashes,sigcount), cannot be of length {}&#34;.format(len(recipient)))
+            # allow (sigs,hashes) as well as (hashes,sigs)
+            if isinstance(recipient[0], int):
+                condition = multi_signature_new(min_nr_sig=recipient[0], unlockhashes=recipient[1])
+            else:
+                condition = multi_signature_new(min_nr_sig=recipient[1], unlockhashes=recipient[0])
+        else:
+            raise TypeError(&#34;invalid type for recipient parameter: {}&#34;, type(recipient))
+    
+    # if lock is defined, define it as a locktime value
+    if lock is not None:
+        condition = locktime_new(lock=lock, condition=condition)
+
+    # return condition
+    return condition</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.locktime_new"><code class="name flex">
+<span>def <span class="ident">locktime_new</span></span>(<span>lock=None, condition=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new LockTime Condition, which can be fulfilled by a fulfillment
+when the relevant timestamp/block has been reached as well as the fulfillment fulfills the internal condition.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def locktime_new(lock=None, condition=None):
+    &#34;&#34;&#34;
+    Create a new LockTime Condition, which can be fulfilled by a fulfillment
+    when the relevant timestamp/block has been reached as well as the fulfillment fulfills the internal condition.
+    &#34;&#34;&#34;
+    return ConditionLockTime(lock=lock, condition=condition)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.multi_signature_new"><code class="name flex">
+<span>def <span class="ident">multi_signature_new</span></span>(<span>min_nr_sig=0, unlockhashes=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new MultiSignature Condition, which can be fulfilled by a matching MultiSignature Fulfillment.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def multi_signature_new(min_nr_sig=0, unlockhashes=None):
+    &#34;&#34;&#34;
+    Create a new MultiSignature Condition, which can be fulfilled by a matching MultiSignature Fulfillment.
+    &#34;&#34;&#34;
+    return ConditionMultiSignature(unlockhashes=unlockhashes, min_nr_sig=min_nr_sig)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.nil_new"><code class="name flex">
+<span>def <span class="ident">nil_new</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new Nil Condition, which can be fulfilled by any SingleSig. Fulfillment.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def nil_new():
+    &#34;&#34;&#34;
+    Create a new Nil Condition, which can be fulfilled by any SingleSig. Fulfillment.
+    &#34;&#34;&#34;
+    return ConditionNil()</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.output_lock_new"><code class="name flex">
+<span>def <span class="ident">output_lock_new</span></span>(<span>value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates a new output lock.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def output_lock_new(value):
+    &#34;&#34;&#34;
+    Creates a new output lock.
+    &#34;&#34;&#34;
+    return OutputLock(value=value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.unlockhash_new"><code class="name flex">
+<span>def <span class="ident">unlockhash_new</span></span>(<span>unlockhash=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new UnlockHash Condition, which can be
+fulfilled by the matching SingleSig. Fulfillment.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def unlockhash_new(unlockhash=None):
+    &#34;&#34;&#34;
+    Create a new UnlockHash Condition, which can be
+    fulfilled by the matching SingleSig. Fulfillment.
+    &#34;&#34;&#34;
+    return ConditionUnlockHash(unlockhash=unlockhash)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.types.ConditionTypes.AtomicSwapSecret"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapSecret</span></span>
+<span>(</span><span>value=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>BinaryData is the data type used for any binary data used in tfchain.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapSecret(BinaryData):
+    SIZE = 32
+
+    &#34;&#34;&#34;
+    Atomic Swap Secret Object, a special type of BinaryData
+    &#34;&#34;&#34;
+    def __init__(self, value=None):
+        super().__init__(value, fixed_size=AtomicSwapSecret.SIZE, strencoding=&#39;hex&#39;)
+
+    @classmethod
+    def from_json(cls, obj):
+        if not isinstance(obj, str):
+            raise TypeError(&#34;secret is expected to be an encoded string when part of a JSON object&#34;)
+        return cls(value=obj)
+
+    @classmethod
+    def random(cls):
+        return cls(value=generateXByteID(AtomicSwapSecret.SIZE))</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.PrimitiveTypes.BinaryData" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData">BinaryData</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.AtomicSwapSecret.SIZE"><code class="name">var <span class="ident">SIZE</span></code></dt>
+<dd>
+<section class="desc"><p>Atomic Swap Secret Object, a special type of BinaryData</p></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.AtomicSwapSecret.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if not isinstance(obj, str):
+        raise TypeError(&#34;secret is expected to be an encoded string when part of a JSON object&#34;)
+    return cls(value=obj)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.AtomicSwapSecret.random"><code class="name flex">
+<span>def <span class="ident">random</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def random(cls):
+    return cls(value=generateXByteID(AtomicSwapSecret.SIZE))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.PrimitiveTypes.BinaryData" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData">BinaryData</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode">sia_binary_encode</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.ConditionTypes.AtomicSwapSecretHash"><code class="flex name class">
+<span>class <span class="ident">AtomicSwapSecretHash</span></span>
+<span>(</span><span>value=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>BinaryData is the data type used for any binary data used in tfchain.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AtomicSwapSecretHash(BinaryData):
+    SIZE = 32
+
+    &#34;&#34;&#34;
+    Atomic Swap Secret Hash, a special type of BinaryData
+    &#34;&#34;&#34;
+    def __init__(self, value=None):
+        super().__init__(value, fixed_size=AtomicSwapSecretHash.SIZE, strencoding=&#39;hex&#39;)
+
+    @classmethod
+    def from_json(cls, obj):
+        if not isinstance(obj, str):
+            raise TypeError(&#34;secret hash is expected to be an encoded string when part of a JSON object&#34;)
+        return cls(value=obj)
+
+    @classmethod
+    def from_secret(cls, secret):
+        if not isinstance(secret, AtomicSwapSecret):
+            raise TypeError(&#34;secret is expected to be of type AtomicSwapSecret, not to be of type {}&#34;.format(type(secret)))
+        return cls(value=hashlib.sha256(secret.value).digest())</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.PrimitiveTypes.BinaryData" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData">BinaryData</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.AtomicSwapSecretHash.SIZE"><code class="name">var <span class="ident">SIZE</span></code></dt>
+<dd>
+<section class="desc"><p>Atomic Swap Secret Hash, a special type of BinaryData</p></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.AtomicSwapSecretHash.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if not isinstance(obj, str):
+        raise TypeError(&#34;secret hash is expected to be an encoded string when part of a JSON object&#34;)
+    return cls(value=obj)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.AtomicSwapSecretHash.from_secret"><code class="name flex">
+<span>def <span class="ident">from_secret</span></span>(<span>secret)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_secret(cls, secret):
+    if not isinstance(secret, AtomicSwapSecret):
+        raise TypeError(&#34;secret is expected to be of type AtomicSwapSecret, not to be of type {}&#34;.format(type(secret)))
+    return cls(value=hashlib.sha256(secret.value).digest())</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.PrimitiveTypes.BinaryData" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData">BinaryData</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode" href="PrimitiveTypes.html#tfchain.types.PrimitiveTypes.BinaryData.sia_binary_encode">sia_binary_encode</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap"><code class="flex name class">
+<span>class <span class="ident">ConditionAtomicSwap</span></span>
+<span>(</span><span>sender=None, receiver=None, hashed_secret=None, lock_time=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ConditionAtomicSwap class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ConditionAtomicSwap(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionAtomicSwap class
+    &#34;&#34;&#34;
+    def __init__(self, sender=None, receiver=None, hashed_secret=None, lock_time=None):
+        self._sender = None
+        self.sender = sender
+        self._receiver = None
+        self.receiver = receiver
+        self._hashed_secret = None
+        self.hashed_secret = hashed_secret
+        self._lock_time = 0
+        self.lock_time = lock_time
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_ATOMIC_SWAP
+
+    @property
+    def unlockhash(self):
+        e = encoder_rivine_get()
+        self.sia_binary_encode_data(e)
+        # need to encode again to add the length
+        data = e.data
+        e = encoder_sia_get()
+        e.add_slice(data)
+        hash = bytearray.fromhex(blake2_string(e.data))
+        return UnlockHash(type=UnlockHashType.ATOMIC_SWAP, hash=hash)
+
+    @property
+    def sender(self):
+        if self._sender is None:
+            return UnlockHash()
+        return self._sender
+    @sender.setter
+    def sender(self, value):
+        if value is None:
+            self._sender = None
+        else:
+            if isinstance(value, str):
+                value = UnlockHash.from_json(value)
+            elif not isinstance(value, UnlockHash):
+                raise TypeError(&#34;Atomic Swap&#39;s sender unlock hash has to be of type UnlockHash, not {}&#34;.format(type(value)))
+            if value.type not in (UnlockHashType.PUBLIC_KEY, UnlockHashType.NIL):
+                raise ValueError(&#34;Atomic Swap&#39;s sender unlock hash type cannot be {} (expected: 0 or 1)&#34;.format(value.type))
+            self._sender = value
+
+    @property
+    def receiver(self):
+        if self._receiver is None:
+            return UnlockHash()
+        return self._receiver
+    @receiver.setter
+    def receiver(self, value):
+        if value is None:
+            self._receiver = None
+        else:
+            if isinstance(value, str):
+                value = UnlockHash.from_json(value)
+            elif not isinstance(value, UnlockHash):
+                raise TypeError(&#34;Atomic Swap&#39;s receiver unlock hash has to be of type UnlockHash, not {}&#34;.format(type(value)))
+            if value.type not in (UnlockHashType.PUBLIC_KEY, UnlockHashType.NIL):
+                raise ValueError(&#34;Atomic Swap&#39;s receiver unlock hash type cannot be {} (expected: 0 or 1)&#34;.format(value.type))
+            self._receiver = value
+    
+    @property
+    def hashed_secret(self):
+        if self._hashed_secret is None:
+            return BinaryData()
+        return self._hashed_secret
+    @hashed_secret.setter
+    def hashed_secret(self, value):
+        if value is None:
+            self._hashed_secret = None
+        else:
+            self._hashed_secret = AtomicSwapSecretHash(value=value)
+
+    @property
+    def lock_time(self):
+        return self._lock_time
+    @lock_time.setter
+    def lock_time(self, value):
+        if value is None:
+            self._lock_time = 0
+        else:
+            lock = OutputLock(value=value)
+            if not lock.is_timestamp:
+                raise TypeError(&#34;ConditionAtomicSwap only accepts timestamps as the lock value, not block heights: {} is invalid&#34;.format(value))
+            self._lock_time = lock.value
+
+    def from_json_data_object(self, data):
+        self.sender = UnlockHash.from_json(data[&#39;sender&#39;])
+        self.receiver = UnlockHash.from_json(data[&#39;receiver&#39;])
+        self.hashed_secret = AtomicSwapSecretHash(value=data[&#39;hashedsecret&#39;])
+        self.lock_time = int(data[&#39;timelock&#39;])
+
+    def json_data_object(self):
+        return {
+            &#39;sender&#39;: self.sender.json(),
+            &#39;receiver&#39;: self.receiver.json(),
+            &#39;hashedsecret&#39;: self.hashed_secret.json(),
+            &#39;timelock&#39;: self.lock_time,
+        }
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add_all(self.sender, self.receiver, self.hashed_secret, self.lock_time)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add_all(self.sender, self.receiver, self.hashed_secret, self.lock_time)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.hashed_secret"><code class="name">var <span class="ident">hashed_secret</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def hashed_secret(self):
+    if self._hashed_secret is None:
+        return BinaryData()
+    return self._hashed_secret</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.lock_time"><code class="name">var <span class="ident">lock_time</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def lock_time(self):
+    return self._lock_time</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.receiver"><code class="name">var <span class="ident">receiver</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def receiver(self):
+    if self._receiver is None:
+        return UnlockHash()
+    return self._receiver</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.sender"><code class="name">var <span class="ident">sender</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def sender(self):
+    if self._sender is None:
+        return UnlockHash()
+    return self._sender</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return _CONDITION_TYPE_ATOMIC_SWAP</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json_data_object(self, data):
+    self.sender = UnlockHash.from_json(data[&#39;sender&#39;])
+    self.receiver = UnlockHash.from_json(data[&#39;receiver&#39;])
+    self.hashed_secret = AtomicSwapSecretHash(value=data[&#39;hashedsecret&#39;])
+    self.lock_time = int(data[&#39;timelock&#39;])</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_data_object(self):
+    return {
+        &#39;sender&#39;: self.sender.json(),
+        &#39;receiver&#39;: self.receiver.json(),
+        &#39;hashedsecret&#39;: self.hashed_secret.json(),
+        &#39;timelock&#39;: self.lock_time,
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode_data(self, encoder):
+    encoder.add_all(self.sender, self.receiver, self.hashed_secret, self.lock_time)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionAtomicSwap.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode_data(self, encoder):
+    encoder.add_all(self.sender, self.receiver, self.hashed_secret, self.lock_time)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash">unlockhash</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unwrap" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unwrap">unwrap</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass"><code class="flex name class">
+<span>class <span class="ident">ConditionBaseClass</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Base type defines the type all TFChain data types inheret from.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ConditionBaseClass(BaseDataTypeClass):
+    @classmethod
+    def from_json(cls, obj):
+        ff = cls()
+        ct = obj.get(&#39;type&#39;, 0)
+        if ff.type != ct:
+            raise ValueError(&#34;condition is expected to be of type {}, not {}&#34;.format(ff.type, ct))
+        ff.from_json_data_object(obj.get(&#39;data&#39;, {}))
+        return ff
+
+    @property
+    @abstractmethod
+    def type(self):
+        pass
+
+    @property
+    def lock(self):
+        return OutputLock()
+    
+    @property
+    @abstractmethod
+    def unlockhash(self):
+        &#34;&#34;&#34;
+        The unlock hash for this condition.
+        &#34;&#34;&#34;
+        pass
+
+    def unwrap(self):
+        &#34;&#34;&#34;
+        Return the most inner condition, should it apply to this condition,
+        otherwise the condition itself will be returned.
+        &#34;&#34;&#34;
+        return self
+
+    @abstractmethod
+    def from_json_data_object(self, data):
+        pass
+
+    @abstractmethod
+    def json_data_object(self):
+        pass
+
+    def json(self):
+        obj = {&#39;type&#39;: self.type}
+        data = self.json_data_object()
+        if data:
+            obj[&#39;data&#39;] = data
+        return obj
+
+    @abstractmethod
+    def sia_binary_encode_data(self, encoder):
+        pass
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this Condition according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_array(bytearray([int(self.type)]))
+        data_enc = encoder_sia_get()
+        self.sia_binary_encode_data(data_enc)
+        encoder.add_slice(data_enc.data)
+
+    @abstractmethod
+    def rivine_binary_encode_data(self, encoder):
+        pass
+    
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this Condition according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_int8(int(self.type))
+        data_enc = encoder_rivine_get()
+        self.rivine_binary_encode_data(data_enc)
+        encoder.add_slice(data_enc.data)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.ConditionTypes.ConditionNil" href="#tfchain.types.ConditionTypes.ConditionNil">ConditionNil</a></li>
+<li><a title="tfchain.types.ConditionTypes.ConditionUnlockHash" href="#tfchain.types.ConditionTypes.ConditionUnlockHash">ConditionUnlockHash</a></li>
+<li><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap">ConditionAtomicSwap</a></li>
+<li><a title="tfchain.types.ConditionTypes.ConditionLockTime" href="#tfchain.types.ConditionTypes.ConditionLockTime">ConditionLockTime</a></li>
+<li><a title="tfchain.types.ConditionTypes.ConditionMultiSignature" href="#tfchain.types.ConditionTypes.ConditionMultiSignature">ConditionMultiSignature</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    ff = cls()
+    ct = obj.get(&#39;type&#39;, 0)
+    if ff.type != ct:
+        raise ValueError(&#34;condition is expected to be of type {}, not {}&#34;.format(ff.type, ct))
+    ff.from_json_data_object(obj.get(&#39;data&#39;, {}))
+    return ff</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.lock"><code class="name">var <span class="ident">lock</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def lock(self):
+    return OutputLock()</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+@abstractmethod
+def type(self):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash"><code class="name">var <span class="ident">unlockhash</span></code></dt>
+<dd>
+<section class="desc"><p>The unlock hash for this condition.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+@abstractmethod
+def unlockhash(self):
+    &#34;&#34;&#34;
+    The unlock hash for this condition.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def from_json_data_object(self, data):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    obj = {&#39;type&#39;: self.type}
+    data = self.json_data_object()
+    if data:
+        obj[&#39;data&#39;] = data
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def json_data_object(self):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this Condition according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this Condition according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_int8(int(self.type))
+    data_enc = encoder_rivine_get()
+    self.rivine_binary_encode_data(data_enc)
+    encoder.add_slice(data_enc.data)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def rivine_binary_encode_data(self, encoder):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this Condition according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this Condition according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_array(bytearray([int(self.type)]))
+    data_enc = encoder_sia_get()
+    self.sia_binary_encode_data(data_enc)
+    encoder.add_slice(data_enc.data)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@abstractmethod
+def sia_binary_encode_data(self, encoder):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionBaseClass.unwrap"><code class="name flex">
+<span>def <span class="ident">unwrap</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Return the most inner condition, should it apply to this condition,
+otherwise the condition itself will be returned.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def unwrap(self):
+    &#34;&#34;&#34;
+    Return the most inner condition, should it apply to this condition,
+    otherwise the condition itself will be returned.
+    &#34;&#34;&#34;
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionLockTime"><code class="flex name class">
+<span>class <span class="ident">ConditionLockTime</span></span>
+<span>(</span><span>condition=None, lock=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ConditionLockTime class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ConditionLockTime(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionLockTime class
+    &#34;&#34;&#34;
+    def __init__(self, condition=None, lock=None):
+        self._condition = None
+        self.condition = condition
+        self._lock = None
+        self.lock = lock
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_LOCKTIME
+
+    @property
+    def unlockhash(self):
+        return self.condition.unlockhash
+
+    @property
+    def lock(self):
+        if self._lock is None:
+            return OutputLock()
+        return self._lock
+    @lock.setter
+    def lock(self, value):
+        self._lock = OutputLock(value=value)
+
+    @property
+    def condition(self):
+        if self._condition is None:
+            return ConditionUnlockHash()
+        return self._condition
+    @condition.setter
+    def condition(self, value):
+        if value is None:
+            self._condition = None
+            return
+        if not isinstance(value, ConditionBaseClass):
+            raise TypeError(&#34;ConditionLockTime&#39;s condition is expected to be a subtype of ConditionBaseClass, not of type {}&#34;.format(type(value)))
+        self._condition = value
+
+    def unwrap(self):
+        return self.condition
+
+    def from_json_data_object(self, data):
+        self.lock = int(data[&#39;locktime&#39;])
+        cond = from_json(obj=data[&#39;condition&#39;])
+        if cond.type not in(_CONDITION_TYPE_UNLOCK_HASH, _CONDITION_TYPE_MULTI_SIG, _CONDITION_TYPE_NIL):
+            raise ValueError(&#34;internal condition of ConditionLockTime cannot be of type {}&#34;.format(cond.type))
+        self.condition = cond
+
+    def json_data_object(self):
+        return {
+            &#39;locktime&#39;: self.lock.value,
+            &#39;condition&#39;: self.condition.json(),
+        }
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add(self.lock.value)
+        encoder.add_array(bytearray([int(self.condition.type)]))
+        self.condition.sia_binary_encode_data(encoder)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add(self.lock.value)
+        encoder.add_int8(int(self.condition.type))
+        self.condition.rivine_binary_encode_data(encoder)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionLockTime.condition"><code class="name">var <span class="ident">condition</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def condition(self):
+    if self._condition is None:
+        return ConditionUnlockHash()
+    return self._condition</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionLockTime.lock"><code class="name">var <span class="ident">lock</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def lock(self):
+    if self._lock is None:
+        return OutputLock()
+    return self._lock</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionLockTime.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return _CONDITION_TYPE_LOCKTIME</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionLockTime.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json_data_object(self, data):
+    self.lock = int(data[&#39;locktime&#39;])
+    cond = from_json(obj=data[&#39;condition&#39;])
+    if cond.type not in(_CONDITION_TYPE_UNLOCK_HASH, _CONDITION_TYPE_MULTI_SIG, _CONDITION_TYPE_NIL):
+        raise ValueError(&#34;internal condition of ConditionLockTime cannot be of type {}&#34;.format(cond.type))
+    self.condition = cond</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionLockTime.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_data_object(self):
+    return {
+        &#39;locktime&#39;: self.lock.value,
+        &#39;condition&#39;: self.condition.json(),
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionLockTime.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode_data(self, encoder):
+    encoder.add(self.lock.value)
+    encoder.add_int8(int(self.condition.type))
+    self.condition.rivine_binary_encode_data(encoder)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionLockTime.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode_data(self, encoder):
+    encoder.add(self.lock.value)
+    encoder.add_array(bytearray([int(self.condition.type)]))
+    self.condition.sia_binary_encode_data(encoder)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash">unlockhash</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unwrap" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unwrap">unwrap</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature"><code class="flex name class">
+<span>class <span class="ident">ConditionMultiSignature</span></span>
+<span>(</span><span>unlockhashes=None, min_nr_sig=0)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ConditionMultiSignature class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ConditionMultiSignature(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionMultiSignature class
+    &#34;&#34;&#34;
+    def __init__(self, unlockhashes=None, min_nr_sig=0):
+        self._unlockhashes = []
+        if unlockhashes:
+            for uh in unlockhashes:
+                self.add_unlockhash(uh)
+        self._min_nr_sig = 0
+        self.required_signatures = min_nr_sig
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_MULTI_SIG
+
+    @property
+    def unlockhash(self):
+        uhs = sorted(self.unlockhashes, key=lambda uh: str(uh))
+        tree = MerkleTree(hash_func=lambda o: bytes.fromhex(blake2_string(o)))
+        tree.push(sia_encode(len(uhs)))
+        for uh in uhs:
+            tree.push(sia_encode(uh))
+        tree.push(sia_encode(self.required_signatures))
+        return UnlockHash(type=UnlockHashType.MULTI_SIG, hash=tree.root())
+
+    @property
+    def unlockhashes(self):
+        return self._unlockhashes
+        
+    def add_unlockhash(self, uh):
+        if uh is None:
+            self._unlockhashes.append(UnlockHash())
+        elif isinstance(uh, UnlockHash):
+            self._unlockhashes.append(uh)
+        elif isinstance(uh, str):
+            self._unlockhashes.append(UnlockHash.from_json(uh))
+        else:
+            raise TypeError(&#34;cannot add UnlockHash with invalid type {}&#34;.format(type(uh)))
+
+    @property
+    def required_signatures(self):
+        return self._min_nr_sig
+    @required_signatures.setter
+    def required_signatures(self, value):
+        if value is None:
+            self._min_nr_sig = 0
+            return
+        if not isinstance(value, int):
+            raise TypeError(&#34;ConditionMultiSignature&#39;s required signatures value is expected to be of type int, not {}&#34;.format(type(value)))
+        self._min_nr_sig = int(value)
+
+    def from_json_data_object(self, data):
+        self._min_nr_sig = int(data[&#39;minimumsignaturecount&#39;])
+        self._unlockhashes = []
+        for uh in data[&#39;unlockhashes&#39;]:
+            uh = UnlockHash.from_json(uh)
+            self._unlockhashes.append(uh)
+
+    def json_data_object(self):
+        return {
+            &#39;minimumsignaturecount&#39;: self._min_nr_sig,
+            &#39;unlockhashes&#39;: [uh.json() for uh in self._unlockhashes],
+        }
+
+    def sia_binary_encode_data(self, encoder):
+        encoder.add(self._min_nr_sig)
+        encoder.add_slice(self._unlockhashes)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add_int64(self._min_nr_sig)
+        encoder.add_slice(self._unlockhashes)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature.required_signatures"><code class="name">var <span class="ident">required_signatures</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def required_signatures(self):
+    return self._min_nr_sig</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return _CONDITION_TYPE_MULTI_SIG</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature.unlockhashes"><code class="name">var <span class="ident">unlockhashes</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def unlockhashes(self):
+    return self._unlockhashes</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature.add_unlockhash"><code class="name flex">
+<span>def <span class="ident">add_unlockhash</span></span>(<span>self, uh)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_unlockhash(self, uh):
+    if uh is None:
+        self._unlockhashes.append(UnlockHash())
+    elif isinstance(uh, UnlockHash):
+        self._unlockhashes.append(uh)
+    elif isinstance(uh, str):
+        self._unlockhashes.append(UnlockHash.from_json(uh))
+    else:
+        raise TypeError(&#34;cannot add UnlockHash with invalid type {}&#34;.format(type(uh)))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json_data_object(self, data):
+    self._min_nr_sig = int(data[&#39;minimumsignaturecount&#39;])
+    self._unlockhashes = []
+    for uh in data[&#39;unlockhashes&#39;]:
+        uh = UnlockHash.from_json(uh)
+        self._unlockhashes.append(uh)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_data_object(self):
+    return {
+        &#39;minimumsignaturecount&#39;: self._min_nr_sig,
+        &#39;unlockhashes&#39;: [uh.json() for uh in self._unlockhashes],
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode_data(self, encoder):
+    encoder.add_int64(self._min_nr_sig)
+    encoder.add_slice(self._unlockhashes)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionMultiSignature.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode_data(self, encoder):
+    encoder.add(self._min_nr_sig)
+    encoder.add_slice(self._unlockhashes)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash">unlockhash</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unwrap" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unwrap">unwrap</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionNil"><code class="flex name class">
+<span>class <span class="ident">ConditionNil</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ConditionNil class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ConditionNil(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionNil class
+    &#34;&#34;&#34;
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_NIL
+
+    @property
+    def unlockhash(self):
+        return UnlockHash(type=UnlockHashType.NIL)
+
+    def from_json_data_object(self, data):
+        if data not in (None, {}):
+            raise ValueError(&#34;unexpected JSON-encoded nil condition {} (type: {})&#34;.format(data, type(data)))
+
+    def json_data_object(self):
+        return None
+    
+    def sia_binary_encode_data(self, encoder):
+        pass # nothing to do
+
+    def rivine_binary_encode_data(self, encoder):
+        pass # nothing to do</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionNil.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return _CONDITION_TYPE_NIL</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionNil.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json_data_object(self, data):
+    if data not in (None, {}):
+        raise ValueError(&#34;unexpected JSON-encoded nil condition {} (type: {})&#34;.format(data, type(data)))</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionNil.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_data_object(self):
+    return None</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionNil.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode_data(self, encoder):
+    pass # nothing to do</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionNil.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode_data(self, encoder):
+    pass # nothing to do</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash">unlockhash</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unwrap" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unwrap">unwrap</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionUnlockHash"><code class="flex name class">
+<span>class <span class="ident">ConditionUnlockHash</span></span>
+<span>(</span><span>unlockhash=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ConditionUnlockHash class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ConditionUnlockHash(ConditionBaseClass):
+    &#34;&#34;&#34;
+    ConditionUnlockHash class
+    &#34;&#34;&#34;
+    def __init__(self, unlockhash=None):
+        self._unlockhash = None
+        self.unlockhash = unlockhash
+
+    @property
+    def type(self):
+        return _CONDITION_TYPE_UNLOCK_HASH
+
+    @property
+    def unlockhash(self):
+        if self._unlockhash is None:
+            return UnlockHash()
+        return self._unlockhash
+    @unlockhash.setter
+    def unlockhash(self, value):
+        if value is None:
+            self._unlockhash = None
+            return
+        if isinstance(value, UnlockHash):
+            self._unlockhash = value
+            return
+        self._unlockhash = UnlockHash.from_json(value)
+
+    def from_json_data_object(self, data):
+        self.unlockhash = UnlockHash.from_json(data[&#39;unlockhash&#39;])
+
+    def json_data_object(self):
+        return {
+            &#39;unlockhash&#39;: self.unlockhash.json(),
+        }
+    
+    def sia_binary_encode_data(self, encoder):
+        encoder.add(self.unlockhash)
+
+    def rivine_binary_encode_data(self, encoder):
+        encoder.add(self.unlockhash)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></li>
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionUnlockHash.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return _CONDITION_TYPE_UNLOCK_HASH</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.ConditionUnlockHash.from_json_data_object"><code class="name flex">
+<span>def <span class="ident">from_json_data_object</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def from_json_data_object(self, data):
+    self.unlockhash = UnlockHash.from_json(data[&#39;unlockhash&#39;])</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionUnlockHash.json_data_object"><code class="name flex">
+<span>def <span class="ident">json_data_object</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json_data_object(self):
+    return {
+        &#39;unlockhash&#39;: self.unlockhash.json(),
+    }</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionUnlockHash.rivine_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode_data(self, encoder):
+    encoder.add(self.unlockhash)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.ConditionUnlockHash.sia_binary_encode_data"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode_data</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode_data(self, encoder):
+    encoder.add(self.unlockhash)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash">unlockhash</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unwrap" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unwrap">unwrap</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.ConditionTypes.OutputLock"><code class="flex name class">
+<span>class <span class="ident">OutputLock</span></span>
+<span>(</span><span>value=None, current_timestamp=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class OutputLock:
+    # as defined by Rivine
+    _MIN_TIMESTAMP_VALUE = 500 * 1000 * 1000
+
+    def __init__(self, value=None, current_timestamp=None):
+        if current_timestamp is None:
+            current_timestamp = int(datetime.now().timestamp())
+        elif not isinstance(current_timestamp, int):
+            raise TypeError(&#34;current timestamp has to be an integer&#34;)
+
+        if value is None:
+            self._value = 0
+        elif isinstance(value, OutputLock):
+            self._value = value.value
+        elif isinstance(value, int):
+            if value &lt; 0:
+                raise ValueError(&#34;output lock value cannot be negative&#34;)
+            self._value = int(value)
+        elif isinstance(value, str):
+            value = value.lstrip()
+            if value[0] == &#34;+&#34;:
+                # interpret string as a duration
+                offset = duration.fromString(value[1:])
+                self._value = current_timestamp + offset
+            else:
+                # interpret string as a datetime
+                self._value = jsdatetime.fromString(value)
+        elif isinstance(value, timedelta):
+            self._value = current_timestamp + int(value.total_seconds())
+        elif isinstance(value, datetime):
+            self._value = int(value.timestamp())
+        else:
+            raise TypeError(&#34;cannot set OutputLock using invalid type {}&#34;.format(type(value)))
+
+    def __int__(self):
+        return self._value
+
+    def __str__(self):
+        if self.is_timestamp:
+            return jstime.epoch2HRDateTime(self._value)
+        return str(self._value)
+    __repr__ = __str__
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The internal lock (integral) value.
+        &#34;&#34;&#34;
+        return self._value
+
+    @property
+    def is_timestamp(self):
+        &#34;&#34;&#34;
+        Returns whether or not this value is a timestamp.
+        &#34;&#34;&#34;
+        return self._value &gt;= OutputLock._MIN_TIMESTAMP_VALUE
+
+    def locked_check(self, height, time):
+        &#34;&#34;&#34;
+        Check if the the output is still locked on the given block height/time.
+        &#34;&#34;&#34;
+        if self.is_timestamp:
+            return time &lt; self._value
+        return height &lt; self._value</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.OutputLock.is_timestamp"><code class="name">var <span class="ident">is_timestamp</span></code></dt>
+<dd>
+<section class="desc"><p>Returns whether or not this value is a timestamp.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def is_timestamp(self):
+    &#34;&#34;&#34;
+    Returns whether or not this value is a timestamp.
+    &#34;&#34;&#34;
+    return self._value &gt;= OutputLock._MIN_TIMESTAMP_VALUE</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.OutputLock.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"><p>The internal lock (integral) value.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    &#34;&#34;&#34;
+    The internal lock (integral) value.
+    &#34;&#34;&#34;
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.OutputLock.locked_check"><code class="name flex">
+<span>def <span class="ident">locked_check</span></span>(<span>self, height, time)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Check if the the output is still locked on the given block height/time.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def locked_check(self, height, time):
+    &#34;&#34;&#34;
+    Check if the the output is still locked on the given block height/time.
+    &#34;&#34;&#34;
+    if self.is_timestamp:
+        return time &lt; self._value
+    return height &lt; self._value</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.ConditionTypes.UnlockHash"><code class="flex name class">
+<span>class <span class="ident">UnlockHash</span></span>
+<span>(</span><span>type=None, hash=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>An UnlockHash is a specially constructed hash of the UnlockConditions type,
+with a fixed binary length of 33 and a fixed string length of 78 (string version includes a checksum).</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class UnlockHash(BaseDataTypeClass):
+    &#34;&#34;&#34;
+    An UnlockHash is a specially constructed hash of the UnlockConditions type,
+    with a fixed binary length of 33 and a fixed string length of 78 (string version includes a checksum).
+    &#34;&#34;&#34;
+
+    _TYPE_SIZE_HEX = 2
+    _CHECKSUM_SIZE = 6
+    _CHECKSUM_SIZE_HEX = (_CHECKSUM_SIZE*2)
+    _HASH_SIZE = 32
+    _HASH_SIZE_HEX = (_HASH_SIZE*2)
+    _TOTAL_SIZE_HEX = _TYPE_SIZE_HEX + _CHECKSUM_SIZE_HEX + _HASH_SIZE_HEX
+
+    def __init__(self, type=None, hash=None):
+        self._type = UnlockHashType.NIL
+        self.type = type
+        self._hash = Hash()
+        self.hash = hash
+
+    @classmethod
+    def from_json(cls, obj):
+        if not isinstance(obj, str):
+            raise TypeError(&#34;UnlockHash is expected to be JSON-encoded as an str, not {}&#34;.format(type(obj)))
+        if len(obj) != UnlockHash._TOTAL_SIZE_HEX:
+            raise ValueError(&#34;UnlockHash is expexcted to be of length {} when JSON-encoded, not of length {}&#34;.format(UnlockHash._TOTAL_SIZE_HEX, len(obj)))
+
+        t = UnlockHashType(int(obj[:UnlockHash._TYPE_SIZE_HEX]))
+        h = Hash(value=obj[UnlockHash._TYPE_SIZE_HEX:UnlockHash._TYPE_SIZE_HEX+UnlockHash._HASH_SIZE_HEX])
+        uh = cls(type=t, hash=h)
+        
+        if t == UnlockHashType.NIL:
+            expectedNH = b&#39;\x00&#39;*UnlockHash._HASH_SIZE
+            if h.value != expectedNH:
+                raise ValueError(&#34;unexpected nil hash {}&#34;.format(h.value.hex()))
+        else:
+            expected_checksum = uh._checksum()[:UnlockHash._CHECKSUM_SIZE].hex()
+            checksum = obj[-UnlockHash._CHECKSUM_SIZE_HEX:]
+            if expected_checksum != checksum:
+                raise ValueError(&#34;unexpected checksum {}, expected {}&#34;.format(checksum, expected_checksum))
+
+        return uh
+    
+    @property
+    def type(self):
+        return self._type
+    @type.setter
+    def type(self, value):
+        if value == None:
+            value = UnlockHashType.NIL
+        elif not isinstance(value, UnlockHashType):
+            raise TypeError(&#34;UnlockHash&#39;s type has to be of type UnlockHashType, not {}&#34;.format(type(value)))
+        self._type = value
+
+    @property
+    def hash(self):
+        return self._hash
+    @hash.setter
+    def hash(self, value):
+        self._hash.value = value
+
+    def __str__(self):
+        checksum = self._checksum()[:UnlockHash._CHECKSUM_SIZE].hex()
+        return &#34;{}{}{}&#34;.format(bytearray([int(self._type)]).hex(), str(self._hash), checksum)
+
+    def _checksum(self):
+        if self._type == UnlockHashType.NIL:
+            return b&#39;\x00&#39;*UnlockHash._CHECKSUM_SIZE
+        e = encoder_rivine_get()
+        e.add_int8(int(self._type))
+        e.add(self._hash)
+        return bytearray.fromhex(blake2_string(e.data))
+
+    __repr__ = __str__
+
+    json = __str__
+
+    def __eq__(self, other):
+        other = UnlockHash._op_other_as_unlockhash(other)
+        return self.type == other.type and self.hash == other.hash
+    def __ne__(self, other):
+        other = UnlockHash._op_other_as_unlockhash(other)
+        return self.type != other.type or self.hash != other.hash
+
+    def __hash__(self):
+        return hash(str(self))
+
+    @staticmethod
+    def _op_other_as_unlockhash(other):
+        if isinstance(other, str):
+            other = UnlockHash.from_json(other)
+        elif not isinstance(other, UnlockHash):
+            raise TypeError(&#34;UnlockHash of type {} is not supported&#34;.format(type(other)))
+        return other
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this unlock hash according to the Sia Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_byte(int(self._type))
+        encoder.add(self._hash)
+    
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Encode this unlock hash according to the Rivine Binary Encoding format.
+        &#34;&#34;&#34;
+        encoder.add_int8(int(self._type))
+        encoder.add(self._hash)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.UnlockHash.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if not isinstance(obj, str):
+        raise TypeError(&#34;UnlockHash is expected to be JSON-encoded as an str, not {}&#34;.format(type(obj)))
+    if len(obj) != UnlockHash._TOTAL_SIZE_HEX:
+        raise ValueError(&#34;UnlockHash is expexcted to be of length {} when JSON-encoded, not of length {}&#34;.format(UnlockHash._TOTAL_SIZE_HEX, len(obj)))
+
+    t = UnlockHashType(int(obj[:UnlockHash._TYPE_SIZE_HEX]))
+    h = Hash(value=obj[UnlockHash._TYPE_SIZE_HEX:UnlockHash._TYPE_SIZE_HEX+UnlockHash._HASH_SIZE_HEX])
+    uh = cls(type=t, hash=h)
+    
+    if t == UnlockHashType.NIL:
+        expectedNH = b&#39;\x00&#39;*UnlockHash._HASH_SIZE
+        if h.value != expectedNH:
+            raise ValueError(&#34;unexpected nil hash {}&#34;.format(h.value.hex()))
+    else:
+        expected_checksum = uh._checksum()[:UnlockHash._CHECKSUM_SIZE].hex()
+        checksum = obj[-UnlockHash._CHECKSUM_SIZE_HEX:]
+        if expected_checksum != checksum:
+            raise ValueError(&#34;unexpected checksum {}, expected {}&#34;.format(checksum, expected_checksum))
+
+    return uh</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.UnlockHash.hash"><code class="name">var <span class="ident">hash</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def hash(self):
+    return self._hash</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.UnlockHash.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def type(self):
+    return self._type</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.UnlockHash.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Return str(self).</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def __str__(self):
+    checksum = self._checksum()[:UnlockHash._CHECKSUM_SIZE].hex()
+    return &#34;{}{}{}&#34;.format(bytearray([int(self._type)]).hex(), str(self._hash), checksum)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.UnlockHash.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this unlock hash according to the Rivine Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this unlock hash according to the Rivine Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_int8(int(self._type))
+    encoder.add(self._hash)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ConditionTypes.UnlockHash.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Encode this unlock hash according to the Sia Binary Encoding format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Encode this unlock hash according to the Sia Binary Encoding format.
+    &#34;&#34;&#34;
+    encoder.add_byte(int(self._type))
+    encoder.add(self._hash)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.ConditionTypes.UnlockHashType"><code class="flex name class">
+<span>class <span class="ident">UnlockHashType</span></span>
+<span>(</span><span>value)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class UnlockHashType:
+    def __init__(self, value):
+        if isinstance(value, UnlockHashType):
+            value = value.value
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @classmethod
+    def from_json(cls, obj):
+        if type(obj) is str:
+            obj = int(obj)
+        elif not isinstance(obj, int):
+            raise TypeError(&#34;UnlockHashType is expected to be JSON-encoded as an int, not {}&#34;.format(type(obj)))
+        return cls(obj) # int -&gt; enum
+
+    def __eq__(self, other):
+        if isinstance(other, UnlockHashType):
+            return self.value == other.value
+        return self.value == other
+
+    def __int__(self):
+        return self.value
+
+    def json(self):
+        return int(self)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.UnlockHashType.ATOMIC_SWAP"><code class="name">var <span class="ident">ATOMIC_SWAP</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.ConditionTypes.UnlockHashType.MULTI_SIG"><code class="name">var <span class="ident">MULTI_SIG</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.ConditionTypes.UnlockHashType.NIL"><code class="name">var <span class="ident">NIL</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.ConditionTypes.UnlockHashType.PUBLIC_KEY"><code class="name">var <span class="ident">PUBLIC_KEY</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.UnlockHashType.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if type(obj) is str:
+        obj = int(obj)
+    elif not isinstance(obj, int):
+        raise TypeError(&#34;UnlockHashType is expected to be JSON-encoded as an int, not {}&#34;.format(type(obj)))
+    return cls(obj) # int -&gt; enum</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.UnlockHashType.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ConditionTypes.UnlockHashType.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return int(self)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.types" href="index.html">tfchain.types</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="tfchain.types.ConditionTypes.atomic_swap_new" href="#tfchain.types.ConditionTypes.atomic_swap_new">atomic_swap_new</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.from_json" href="#tfchain.types.ConditionTypes.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.from_recipient" href="#tfchain.types.ConditionTypes.from_recipient">from_recipient</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.locktime_new" href="#tfchain.types.ConditionTypes.locktime_new">locktime_new</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.multi_signature_new" href="#tfchain.types.ConditionTypes.multi_signature_new">multi_signature_new</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.nil_new" href="#tfchain.types.ConditionTypes.nil_new">nil_new</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.output_lock_new" href="#tfchain.types.ConditionTypes.output_lock_new">output_lock_new</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.unlockhash_new" href="#tfchain.types.ConditionTypes.unlockhash_new">unlockhash_new</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.AtomicSwapSecret" href="#tfchain.types.ConditionTypes.AtomicSwapSecret">AtomicSwapSecret</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.AtomicSwapSecret.SIZE" href="#tfchain.types.ConditionTypes.AtomicSwapSecret.SIZE">SIZE</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.AtomicSwapSecret.from_json" href="#tfchain.types.ConditionTypes.AtomicSwapSecret.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.AtomicSwapSecret.random" href="#tfchain.types.ConditionTypes.AtomicSwapSecret.random">random</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.AtomicSwapSecretHash" href="#tfchain.types.ConditionTypes.AtomicSwapSecretHash">AtomicSwapSecretHash</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.AtomicSwapSecretHash.SIZE" href="#tfchain.types.ConditionTypes.AtomicSwapSecretHash.SIZE">SIZE</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.AtomicSwapSecretHash.from_json" href="#tfchain.types.ConditionTypes.AtomicSwapSecretHash.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.AtomicSwapSecretHash.from_secret" href="#tfchain.types.ConditionTypes.AtomicSwapSecretHash.from_secret">from_secret</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap">ConditionAtomicSwap</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.from_json_data_object" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.hashed_secret" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.hashed_secret">hashed_secret</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.json_data_object" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.lock_time" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.lock_time">lock_time</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.receiver" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.receiver">receiver</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.rivine_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.sender" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.sender">sender</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.sia_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionAtomicSwap.type" href="#tfchain.types.ConditionTypes.ConditionAtomicSwap.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass" href="#tfchain.types.ConditionTypes.ConditionBaseClass">ConditionBaseClass</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.from_json" href="#tfchain.types.ConditionTypes.ConditionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.from_json_data_object" href="#tfchain.types.ConditionTypes.ConditionBaseClass.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.json" href="#tfchain.types.ConditionTypes.ConditionBaseClass.json">json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.json_data_object" href="#tfchain.types.ConditionTypes.ConditionBaseClass.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.lock" href="#tfchain.types.ConditionTypes.ConditionBaseClass.lock">lock</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionBaseClass.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode" href="#tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionBaseClass.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.type" href="#tfchain.types.ConditionTypes.ConditionBaseClass.type">type</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unlockhash">unlockhash</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionBaseClass.unwrap" href="#tfchain.types.ConditionTypes.ConditionBaseClass.unwrap">unwrap</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.ConditionLockTime" href="#tfchain.types.ConditionTypes.ConditionLockTime">ConditionLockTime</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionLockTime.condition" href="#tfchain.types.ConditionTypes.ConditionLockTime.condition">condition</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionLockTime.from_json_data_object" href="#tfchain.types.ConditionTypes.ConditionLockTime.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionLockTime.json_data_object" href="#tfchain.types.ConditionTypes.ConditionLockTime.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionLockTime.lock" href="#tfchain.types.ConditionTypes.ConditionLockTime.lock">lock</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionLockTime.rivine_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionLockTime.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionLockTime.sia_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionLockTime.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionLockTime.type" href="#tfchain.types.ConditionTypes.ConditionLockTime.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature" href="#tfchain.types.ConditionTypes.ConditionMultiSignature">ConditionMultiSignature</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature.add_unlockhash" href="#tfchain.types.ConditionTypes.ConditionMultiSignature.add_unlockhash">add_unlockhash</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature.from_json_data_object" href="#tfchain.types.ConditionTypes.ConditionMultiSignature.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature.json_data_object" href="#tfchain.types.ConditionTypes.ConditionMultiSignature.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature.required_signatures" href="#tfchain.types.ConditionTypes.ConditionMultiSignature.required_signatures">required_signatures</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature.rivine_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionMultiSignature.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature.sia_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionMultiSignature.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature.type" href="#tfchain.types.ConditionTypes.ConditionMultiSignature.type">type</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionMultiSignature.unlockhashes" href="#tfchain.types.ConditionTypes.ConditionMultiSignature.unlockhashes">unlockhashes</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.ConditionNil" href="#tfchain.types.ConditionTypes.ConditionNil">ConditionNil</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionNil.from_json_data_object" href="#tfchain.types.ConditionTypes.ConditionNil.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionNil.json_data_object" href="#tfchain.types.ConditionTypes.ConditionNil.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionNil.rivine_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionNil.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionNil.sia_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionNil.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionNil.type" href="#tfchain.types.ConditionTypes.ConditionNil.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.ConditionUnlockHash" href="#tfchain.types.ConditionTypes.ConditionUnlockHash">ConditionUnlockHash</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.ConditionUnlockHash.from_json_data_object" href="#tfchain.types.ConditionTypes.ConditionUnlockHash.from_json_data_object">from_json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionUnlockHash.json_data_object" href="#tfchain.types.ConditionTypes.ConditionUnlockHash.json_data_object">json_data_object</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionUnlockHash.rivine_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionUnlockHash.rivine_binary_encode_data">rivine_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionUnlockHash.sia_binary_encode_data" href="#tfchain.types.ConditionTypes.ConditionUnlockHash.sia_binary_encode_data">sia_binary_encode_data</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.ConditionUnlockHash.type" href="#tfchain.types.ConditionTypes.ConditionUnlockHash.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.OutputLock" href="#tfchain.types.ConditionTypes.OutputLock">OutputLock</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.OutputLock.is_timestamp" href="#tfchain.types.ConditionTypes.OutputLock.is_timestamp">is_timestamp</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.OutputLock.locked_check" href="#tfchain.types.ConditionTypes.OutputLock.locked_check">locked_check</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.OutputLock.value" href="#tfchain.types.ConditionTypes.OutputLock.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.UnlockHash" href="#tfchain.types.ConditionTypes.UnlockHash">UnlockHash</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHash.from_json" href="#tfchain.types.ConditionTypes.UnlockHash.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHash.hash" href="#tfchain.types.ConditionTypes.UnlockHash.hash">hash</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHash.json" href="#tfchain.types.ConditionTypes.UnlockHash.json">json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHash.rivine_binary_encode" href="#tfchain.types.ConditionTypes.UnlockHash.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHash.sia_binary_encode" href="#tfchain.types.ConditionTypes.UnlockHash.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHash.type" href="#tfchain.types.ConditionTypes.UnlockHash.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ConditionTypes.UnlockHashType" href="#tfchain.types.ConditionTypes.UnlockHashType">UnlockHashType</a></code></h4>
+<ul class="two-column">
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHashType.ATOMIC_SWAP" href="#tfchain.types.ConditionTypes.UnlockHashType.ATOMIC_SWAP">ATOMIC_SWAP</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHashType.MULTI_SIG" href="#tfchain.types.ConditionTypes.UnlockHashType.MULTI_SIG">MULTI_SIG</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHashType.NIL" href="#tfchain.types.ConditionTypes.UnlockHashType.NIL">NIL</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHashType.PUBLIC_KEY" href="#tfchain.types.ConditionTypes.UnlockHashType.PUBLIC_KEY">PUBLIC_KEY</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHashType.from_json" href="#tfchain.types.ConditionTypes.UnlockHashType.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHashType.json" href="#tfchain.types.ConditionTypes.UnlockHashType.json">json</a></code></li>
+<li><code><a title="tfchain.types.ConditionTypes.UnlockHashType.value" href="#tfchain.types.ConditionTypes.UnlockHashType.value">value</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

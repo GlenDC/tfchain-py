@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.types.ThreeBot API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.types.ThreeBot</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import re
+import ipaddress
+from tfchain.encoders import encoder_rivine_get
+
+
+class ThreeBotTypesFactory:
+    &#34;&#34;&#34;
+    ThreeBotTypes Factory class
+    &#34;&#34;&#34;
+
+    def network_address_new(self, address=None, network_type=None):
+        &#34;&#34;&#34;
+        Create a new NetworkAddress, either a Hostname, IPv4- or IPv6 address.
+        &#34;&#34;&#34;
+        return NetworkAddress(address=address, network_type=network_type)
+
+    def network_address_from_json(self, obj):
+        &#34;&#34;&#34;
+        JSON-decode a NetworkAddress, either a Hostname, IPv4- or IPv6 address.
+        &#34;&#34;&#34;
+        return NetworkAddress.from_json(obj)
+
+    def bot_name_new(self, value=None):
+        &#34;&#34;&#34;
+        Create a new BotName from a None or string value.
+        &#34;&#34;&#34;
+        return BotName(value=value)
+
+    def bot_name_from_json(self, obj):
+        &#34;&#34;&#34;
+        JSON-decode a BotName.
+        &#34;&#34;&#34;
+        return BotName.from_json(obj)
+
+    def test(self):
+        &#34;&#34;&#34;
+        js_shell &#39;j.clients.tfchain.types.threebot.test()&#39;
+        &#34;&#34;&#34;
+        import pytest
+
+        # 3Bot network addresses...
+        # &gt; nil address
+        str(self.network_address_new()) == &#39;&#39;
+        # &gt; hostname
+        str(self.network_address_new(&#39;hello.threefold.io&#39;)) == &#39;hello.threefold.io&#39;
+        str(self.network_address_new(&#39;hello.threefold.io&#39;,
+                                     network_type=NetworkAddress.Type.HOSTNAME)) == &#39;hello.threefold.io&#39;
+        # &gt; IPv4 address
+        str(self.network_address_new(&#39;83.200.201.201&#39;)) == &#39;83.200.201.201&#39;
+        str(self.network_address_new(&#39;83.200.201.201&#39;,
+                                     network_type=NetworkAddress.Type.IPV4)) == &#39;83.200.201.201&#39;
+        # &gt; IPv6 address
+        str(self.network_address_new(&#39;2001:db8:85a3::8a2e:370:7334&#39;)
+            ) == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+        str(self.network_address_new(&#39;2001:db8:85a3::8a2e:370:7334&#39;,
+                                     network_type=NetworkAddress.Type.IPV6)) == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+        # &gt; JSON (hostname, IPv4, IPv6)
+        self.network_address_from_json(
+            &#39;hello.threefold.io&#39;).json() == &#39;hello.threefold.io&#39;
+        self.network_address_from_json(
+            &#39;83.200.201.201&#39;).json() == &#39;83.200.201.201&#39;
+        self.network_address_from_json(
+            &#39;2001:db8:85a3::8a2e:370:7334&#39;).json() == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+
+        # 3Bot names...
+        for name in [&#34;aaaaa&#34;, &#34;aaaaa.bbbbb&#34;, &#34;aaaaa.aaaaa&#34;, &#34;aaaaa.bbbbb.ccccc.ddddd.eeeee.fffff.ggggg.hhhhhh.jjjjj.kkkkkkkk&#34;, &#34;threefold.token&#34;, &#34;trading.botzone&#34;]:
+            output = str(self.bot_name_new(value=name))
+            if output != name:
+                raise ValueError(&#34;str: {} != {}&#34;.format(output, name))
+            json_output = self.bot_name_from_json(name).json()
+            if json_output != name:
+                raise ValueError(&#34;json: {} != {}&#34;.format(json_output, name))
+
+        # &gt; invalid bot names:
+        for name in [&#34;&#34;, &#34;a&#34;, &#34;a.b&#34;, &#34;aaaaa.b&#34;, &#34;a.bbbbb&#34;, &#34;aaaaa:bbbbb&#34;]:
+            with pytest.raises(ValueError):
+                self.bot_name_new(value=name)
+
+
+from tfchain.types.BaseDataType import BaseDataTypeClass
+
+
+class NetworkAddress(BaseDataTypeClass):
+    class Type:
+        def __init__(self, value):
+            self._value = value
+
+        @property
+        def value(self):
+            return self._value
+
+        def __eq__(self, other):
+            if isinstance(other, NetworkAddress):
+                return self.value == other.value
+            return self.value == other
+
+        def __int__(self):
+            return self.value
+
+    HOSTNAME_REGEXP = re.compile(
+        r&#39;^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$&#39;)
+    HOSTNAME_LENGTH_MAX = 63
+
+    def __init__(self, address=None, network_type=None):
+        &#34;&#34;&#34;
+        Initialize a new NetworkAddress,
+        created using a valid network type and address,
+        &#34;&#34;&#34;
+        self._type = None
+        self._address = None
+        self.value = address
+        # if network type is defined, validate it now
+        if network_type is not None:
+            if not isinstance(network_type, NetworkAddress.Type):
+                raise TypeError(&#34;network type is to be of type NetworkAddress.Type, not {}&#34;.format(
+                    type(network_type)))
+            if self._type != network_type:
+                raise ValueError(&#34;network type is expected to equal {}, not {}&#34;.format(
+                    network_type, self._type))
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;network address is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(address=obj)
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The NetworkAddress as a string value.
+        &#34;&#34;&#34;
+        if self._type == NetworkAddress.Type.HOSTNAME:
+            return self._address.decode(&#39;utf-8&#39;)
+        return str(ipaddress.ip_address(self._address))
+
+    @value.setter
+    def value(self, value):
+        &#34;&#34;&#34;
+        Set the NetworkAddress either from another NetworkAddress or
+        more likely a string value (representing a Hostname, IPv4- or IPv6 address).
+        &#34;&#34;&#34;
+        if value is None:
+            self._type = NetworkAddress.Type.HOSTNAME
+            self._address = bytearray()
+        elif isinstance(value, str) and NetworkAddress.HOSTNAME_REGEXP.match(value):
+            addr = bytearray()
+            if len(value) &gt; NetworkAddress.HOSTNAME_LENGTH_MAX:
+                raise ValueError(&#34;the length of a hostname can maximum be {} bytes long&#34;.format(
+                    NetworkAddress.HOSTNAME_LENGTH_MAX))
+            addr.extend(value.encode(&#39;utf-8&#39;))
+            self._type = NetworkAddress.Type.HOSTNAME
+            self._address = addr
+        elif isinstance(value, (str, int)):
+            # or a network address is a valid (std) IPv4/IPv6 address
+            na = ipaddress.ip_address(value)
+            if isinstance(na, ipaddress.IPv4Address):
+                self._type = NetworkAddress.Type.IPV4
+                self._address = na.packed
+            elif isinstance(na, ipaddress.IPv6Address):
+                # IPv6 prefix for IPv4 addresses
+                if na.packed[:12] == b&#39;\0\0\0\0\0\0\0\0\0\0\xff\xff&#39;:
+                    self._type = NetworkAddress.Type.IPV4
+                    self._address = na.packed[12:]
+                else:
+                    self._type = NetworkAddress.Type.IPV6
+                    self._address = na.packed
+            else:
+                # anything else is considered an invalid network address
+                raise ValueError(
+                    &#34;invalid network address &#39;{}&#39; (type: {})&#34;.format(value, type(value)))
+        elif isinstance(value, NetworkAddress):
+            self._address = value._address.copy()
+            self._type = value._type
+        else:
+            raise TypeError(
+                &#34;network address cannot be assigned a value of type {}&#34;.format(type(value)))
+
+    def __str__(self):
+        return self.value
+
+    def __repr__(self):
+        return self.value
+
+    def json(self):
+        return self.value
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Sia binary encoding uses the Rivine Encoder for binary-encoding
+        a network address, as it is only supported for backwards compatibility.
+        &#34;&#34;&#34;
+        enc = encoder_rivine_get()
+        self.rivine_binary_encode(enc)
+        encoder.add_array(enc.data)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Rivine binary encoding binary-encodes the network address in an efficient way,
+        where the type of the network address is encoded with a single byte prefix,
+        of which in the two least significant bits are used for the type and the other 6 used for the length &#39;n&#39;.
+        The next &#39;n&#39; bytes are used for the actual address data in raw binary format.
+        &#34;&#34;&#34;
+        encoder.add_int8(int(self._type) | (len(self._address) &lt;&lt; 2))
+        encoder.add_array(self._address)
+
+NetworkAddress.Type.HOSTNAME = NetworkAddress.Type(0)
+NetworkAddress.Type.IPV4 = NetworkAddress.Type(1)
+NetworkAddress.Type.IPV6 = NetworkAddress.Type(2)
+
+class BotName(BaseDataTypeClass):
+    REGEXP = re.compile(
+        r&#39;^[A-Za-z]{1}[A-Za-z\-0-9]{3,61}[A-Za-z0-9]{1}(\.[A-Za-z]{1}[A-Za-z\-0-9]{3,55}[A-Za-z0-9]{1})*$&#39;)
+    LENGTH_MAX = 63
+
+    def __init__(self, value=None):
+        &#34;&#34;&#34;
+        Initialize a new BotName.
+        &#34;&#34;&#34;
+        self._value = None
+        self.value = value
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;bot name is expected to be an encoded string when part of a JSON object&#34;)
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj)
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The internal bot name value (a string).
+        &#34;&#34;&#34;
+        if self._value is None:
+            return &#39;&#39;
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        &#34;&#34;&#34;
+        Set the internal bot name value (as None or as a string).
+        &#34;&#34;&#34;
+        if value is None:
+            self._value = None
+        elif isinstance(value, str):
+            if len(value) &gt; BotName.LENGTH_MAX:
+                raise ValueError(&#34;the length of a botname can maximum be {} characters long&#34;.format(
+                    BotName.LENGTH_MAX))
+            if BotName.REGEXP.match(value) is None:
+                raise ValueError(&#34;bot name &#39;{}&#39; is not valid&#34;.format(value))
+            self._value = value
+        elif isinstance(value, BotName):
+            self._value = value._value.copy()
+        else:
+            raise TypeError(
+                &#34;bot name cannot be assigned a value of type {}&#34;.format(type(value)))
+
+    def __str__(self):
+        return self.value
+
+    def __repr__(self):
+        return self.value
+
+    def json(self):
+        return self.value
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Sia binary encodes a botname as a slice.
+        &#34;&#34;&#34;
+        encoder.add_slice(self.value)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Rivine binary encodes a botname as a slice.
+        &#34;&#34;&#34;
+        encoder.add_slice(self.value)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.types.ThreeBot.BotName"><code class="flex name class">
+<span>class <span class="ident">BotName</span></span>
+<span>(</span><span>value=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Base type defines the type all TFChain data types inheret from.</p>
+<p>Initialize a new BotName.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class BotName(BaseDataTypeClass):
+    REGEXP = re.compile(
+        r&#39;^[A-Za-z]{1}[A-Za-z\-0-9]{3,61}[A-Za-z0-9]{1}(\.[A-Za-z]{1}[A-Za-z\-0-9]{3,55}[A-Za-z0-9]{1})*$&#39;)
+    LENGTH_MAX = 63
+
+    def __init__(self, value=None):
+        &#34;&#34;&#34;
+        Initialize a new BotName.
+        &#34;&#34;&#34;
+        self._value = None
+        self.value = value
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;bot name is expected to be an encoded string when part of a JSON object&#34;)
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(value=obj)
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The internal bot name value (a string).
+        &#34;&#34;&#34;
+        if self._value is None:
+            return &#39;&#39;
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        &#34;&#34;&#34;
+        Set the internal bot name value (as None or as a string).
+        &#34;&#34;&#34;
+        if value is None:
+            self._value = None
+        elif isinstance(value, str):
+            if len(value) &gt; BotName.LENGTH_MAX:
+                raise ValueError(&#34;the length of a botname can maximum be {} characters long&#34;.format(
+                    BotName.LENGTH_MAX))
+            if BotName.REGEXP.match(value) is None:
+                raise ValueError(&#34;bot name &#39;{}&#39; is not valid&#34;.format(value))
+            self._value = value
+        elif isinstance(value, BotName):
+            self._value = value._value.copy()
+        else:
+            raise TypeError(
+                &#34;bot name cannot be assigned a value of type {}&#34;.format(type(value)))
+
+    def __str__(self):
+        return self.value
+
+    def __repr__(self):
+        return self.value
+
+    def json(self):
+        return self.value
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Sia binary encodes a botname as a slice.
+        &#34;&#34;&#34;
+        encoder.add_slice(self.value)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Rivine binary encodes a botname as a slice.
+        &#34;&#34;&#34;
+        encoder.add_slice(self.value)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.BotName.LENGTH_MAX"><code class="name">var <span class="ident">LENGTH_MAX</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.ThreeBot.BotName.REGEXP"><code class="name">var <span class="ident">REGEXP</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.BotName.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if obj is not None and not isinstance(obj, str):
+        raise TypeError(
+            &#34;bot name is expected to be an encoded string when part of a JSON object&#34;)
+    if obj == &#39;&#39;:
+        obj = None
+    return cls(value=obj)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.BotName.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"><p>The internal bot name value (a string).</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    &#34;&#34;&#34;
+    The internal bot name value (a string).
+    &#34;&#34;&#34;
+    if self._value is None:
+        return &#39;&#39;
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.BotName.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return self.value</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ThreeBot.BotName.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Rivine binary encodes a botname as a slice.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Rivine binary encodes a botname as a slice.
+    &#34;&#34;&#34;
+    encoder.add_slice(self.value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ThreeBot.BotName.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sia binary encodes a botname as a slice.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Sia binary encodes a botname as a slice.
+    &#34;&#34;&#34;
+    encoder.add_slice(self.value)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.ThreeBot.NetworkAddress"><code class="flex name class">
+<span>class <span class="ident">NetworkAddress</span></span>
+<span>(</span><span>address=None, network_type=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Base type defines the type all TFChain data types inheret from.</p>
+<p>Initialize a new NetworkAddress,
+created using a valid network type and address,</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class NetworkAddress(BaseDataTypeClass):
+    class Type:
+        def __init__(self, value):
+            self._value = value
+
+        @property
+        def value(self):
+            return self._value
+
+        def __eq__(self, other):
+            if isinstance(other, NetworkAddress):
+                return self.value == other.value
+            return self.value == other
+
+        def __int__(self):
+            return self.value
+
+    HOSTNAME_REGEXP = re.compile(
+        r&#39;^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$&#39;)
+    HOSTNAME_LENGTH_MAX = 63
+
+    def __init__(self, address=None, network_type=None):
+        &#34;&#34;&#34;
+        Initialize a new NetworkAddress,
+        created using a valid network type and address,
+        &#34;&#34;&#34;
+        self._type = None
+        self._address = None
+        self.value = address
+        # if network type is defined, validate it now
+        if network_type is not None:
+            if not isinstance(network_type, NetworkAddress.Type):
+                raise TypeError(&#34;network type is to be of type NetworkAddress.Type, not {}&#34;.format(
+                    type(network_type)))
+            if self._type != network_type:
+                raise ValueError(&#34;network type is expected to equal {}, not {}&#34;.format(
+                    network_type, self._type))
+
+    @classmethod
+    def from_json(cls, obj):
+        if obj is not None and not isinstance(obj, str):
+            raise TypeError(
+                &#34;network address is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+        if obj == &#39;&#39;:
+            obj = None
+        return cls(address=obj)
+
+    @property
+    def value(self):
+        &#34;&#34;&#34;
+        The NetworkAddress as a string value.
+        &#34;&#34;&#34;
+        if self._type == NetworkAddress.Type.HOSTNAME:
+            return self._address.decode(&#39;utf-8&#39;)
+        return str(ipaddress.ip_address(self._address))
+
+    @value.setter
+    def value(self, value):
+        &#34;&#34;&#34;
+        Set the NetworkAddress either from another NetworkAddress or
+        more likely a string value (representing a Hostname, IPv4- or IPv6 address).
+        &#34;&#34;&#34;
+        if value is None:
+            self._type = NetworkAddress.Type.HOSTNAME
+            self._address = bytearray()
+        elif isinstance(value, str) and NetworkAddress.HOSTNAME_REGEXP.match(value):
+            addr = bytearray()
+            if len(value) &gt; NetworkAddress.HOSTNAME_LENGTH_MAX:
+                raise ValueError(&#34;the length of a hostname can maximum be {} bytes long&#34;.format(
+                    NetworkAddress.HOSTNAME_LENGTH_MAX))
+            addr.extend(value.encode(&#39;utf-8&#39;))
+            self._type = NetworkAddress.Type.HOSTNAME
+            self._address = addr
+        elif isinstance(value, (str, int)):
+            # or a network address is a valid (std) IPv4/IPv6 address
+            na = ipaddress.ip_address(value)
+            if isinstance(na, ipaddress.IPv4Address):
+                self._type = NetworkAddress.Type.IPV4
+                self._address = na.packed
+            elif isinstance(na, ipaddress.IPv6Address):
+                # IPv6 prefix for IPv4 addresses
+                if na.packed[:12] == b&#39;\0\0\0\0\0\0\0\0\0\0\xff\xff&#39;:
+                    self._type = NetworkAddress.Type.IPV4
+                    self._address = na.packed[12:]
+                else:
+                    self._type = NetworkAddress.Type.IPV6
+                    self._address = na.packed
+            else:
+                # anything else is considered an invalid network address
+                raise ValueError(
+                    &#34;invalid network address &#39;{}&#39; (type: {})&#34;.format(value, type(value)))
+        elif isinstance(value, NetworkAddress):
+            self._address = value._address.copy()
+            self._type = value._type
+        else:
+            raise TypeError(
+                &#34;network address cannot be assigned a value of type {}&#34;.format(type(value)))
+
+    def __str__(self):
+        return self.value
+
+    def __repr__(self):
+        return self.value
+
+    def json(self):
+        return self.value
+
+    def sia_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Sia binary encoding uses the Rivine Encoder for binary-encoding
+        a network address, as it is only supported for backwards compatibility.
+        &#34;&#34;&#34;
+        enc = encoder_rivine_get()
+        self.rivine_binary_encode(enc)
+        encoder.add_array(enc.data)
+
+    def rivine_binary_encode(self, encoder):
+        &#34;&#34;&#34;
+        Rivine binary encoding binary-encodes the network address in an efficient way,
+        where the type of the network address is encoded with a single byte prefix,
+        of which in the two least significant bits are used for the type and the other 6 used for the length &#39;n&#39;.
+        The next &#39;n&#39; bytes are used for the actual address data in raw binary format.
+        &#34;&#34;&#34;
+        encoder.add_int8(int(self._type) | (len(self._address) &lt;&lt; 2))
+        encoder.add_array(self._address)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.BaseDataType.BaseDataTypeClass" href="BaseDataType.html#tfchain.types.BaseDataType.BaseDataTypeClass">BaseDataTypeClass</a></li>
+<li><a title="tfchain.encoders.sia.SiaBinaryObjectEncoderBase" href="../encoders/sia.html#tfchain.encoders.sia.SiaBinaryObjectEncoderBase">SiaBinaryObjectEncoderBase</a></li>
+<li><a title="tfchain.encoders.rivine.RivineBinaryObjectEncoderBase" href="../encoders/rivine.html#tfchain.encoders.rivine.RivineBinaryObjectEncoderBase">RivineBinaryObjectEncoderBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.NetworkAddress.HOSTNAME_LENGTH_MAX"><code class="name">var <span class="ident">HOSTNAME_LENGTH_MAX</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.ThreeBot.NetworkAddress.HOSTNAME_REGEXP"><code class="name">var <span class="ident">HOSTNAME_REGEXP</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.ThreeBot.NetworkAddress.Type"><code class="name">var <span class="ident">Type</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.NetworkAddress.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_json(cls, obj):
+    if obj is not None and not isinstance(obj, str):
+        raise TypeError(
+            &#34;network address is expected to be an encoded string when part of a JSON object, not {}&#34;.format(type(obj)))
+    if obj == &#39;&#39;:
+        obj = None
+    return cls(address=obj)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.NetworkAddress.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"><p>The NetworkAddress as a string value.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    &#34;&#34;&#34;
+    The NetworkAddress as a string value.
+    &#34;&#34;&#34;
+    if self._type == NetworkAddress.Type.HOSTNAME:
+        return self._address.decode(&#39;utf-8&#39;)
+    return str(ipaddress.ip_address(self._address))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.NetworkAddress.json"><code class="name flex">
+<span>def <span class="ident">json</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def json(self):
+    return self.value</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ThreeBot.NetworkAddress.rivine_binary_encode"><code class="name flex">
+<span>def <span class="ident">rivine_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Rivine binary encoding binary-encodes the network address in an efficient way,
+where the type of the network address is encoded with a single byte prefix,
+of which in the two least significant bits are used for the type and the other 6 used for the length 'n'.
+The next 'n' bytes are used for the actual address data in raw binary format.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def rivine_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Rivine binary encoding binary-encodes the network address in an efficient way,
+    where the type of the network address is encoded with a single byte prefix,
+    of which in the two least significant bits are used for the type and the other 6 used for the length &#39;n&#39;.
+    The next &#39;n&#39; bytes are used for the actual address data in raw binary format.
+    &#34;&#34;&#34;
+    encoder.add_int8(int(self._type) | (len(self._address) &lt;&lt; 2))
+    encoder.add_array(self._address)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ThreeBot.NetworkAddress.sia_binary_encode"><code class="name flex">
+<span>def <span class="ident">sia_binary_encode</span></span>(<span>self, encoder)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sia binary encoding uses the Rivine Encoder for binary-encoding
+a network address, as it is only supported for backwards compatibility.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sia_binary_encode(self, encoder):
+    &#34;&#34;&#34;
+    Sia binary encoding uses the Rivine Encoder for binary-encoding
+    a network address, as it is only supported for backwards compatibility.
+    &#34;&#34;&#34;
+    enc = encoder_rivine_get()
+    self.rivine_binary_encode(enc)
+    encoder.add_array(enc.data)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="tfchain.types.ThreeBot.ThreeBotTypesFactory"><code class="flex name class">
+<span>class <span class="ident">ThreeBotTypesFactory</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>ThreeBotTypes Factory class</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ThreeBotTypesFactory:
+    &#34;&#34;&#34;
+    ThreeBotTypes Factory class
+    &#34;&#34;&#34;
+
+    def network_address_new(self, address=None, network_type=None):
+        &#34;&#34;&#34;
+        Create a new NetworkAddress, either a Hostname, IPv4- or IPv6 address.
+        &#34;&#34;&#34;
+        return NetworkAddress(address=address, network_type=network_type)
+
+    def network_address_from_json(self, obj):
+        &#34;&#34;&#34;
+        JSON-decode a NetworkAddress, either a Hostname, IPv4- or IPv6 address.
+        &#34;&#34;&#34;
+        return NetworkAddress.from_json(obj)
+
+    def bot_name_new(self, value=None):
+        &#34;&#34;&#34;
+        Create a new BotName from a None or string value.
+        &#34;&#34;&#34;
+        return BotName(value=value)
+
+    def bot_name_from_json(self, obj):
+        &#34;&#34;&#34;
+        JSON-decode a BotName.
+        &#34;&#34;&#34;
+        return BotName.from_json(obj)
+
+    def test(self):
+        &#34;&#34;&#34;
+        js_shell &#39;j.clients.tfchain.types.threebot.test()&#39;
+        &#34;&#34;&#34;
+        import pytest
+
+        # 3Bot network addresses...
+        # &gt; nil address
+        str(self.network_address_new()) == &#39;&#39;
+        # &gt; hostname
+        str(self.network_address_new(&#39;hello.threefold.io&#39;)) == &#39;hello.threefold.io&#39;
+        str(self.network_address_new(&#39;hello.threefold.io&#39;,
+                                     network_type=NetworkAddress.Type.HOSTNAME)) == &#39;hello.threefold.io&#39;
+        # &gt; IPv4 address
+        str(self.network_address_new(&#39;83.200.201.201&#39;)) == &#39;83.200.201.201&#39;
+        str(self.network_address_new(&#39;83.200.201.201&#39;,
+                                     network_type=NetworkAddress.Type.IPV4)) == &#39;83.200.201.201&#39;
+        # &gt; IPv6 address
+        str(self.network_address_new(&#39;2001:db8:85a3::8a2e:370:7334&#39;)
+            ) == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+        str(self.network_address_new(&#39;2001:db8:85a3::8a2e:370:7334&#39;,
+                                     network_type=NetworkAddress.Type.IPV6)) == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+        # &gt; JSON (hostname, IPv4, IPv6)
+        self.network_address_from_json(
+            &#39;hello.threefold.io&#39;).json() == &#39;hello.threefold.io&#39;
+        self.network_address_from_json(
+            &#39;83.200.201.201&#39;).json() == &#39;83.200.201.201&#39;
+        self.network_address_from_json(
+            &#39;2001:db8:85a3::8a2e:370:7334&#39;).json() == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+
+        # 3Bot names...
+        for name in [&#34;aaaaa&#34;, &#34;aaaaa.bbbbb&#34;, &#34;aaaaa.aaaaa&#34;, &#34;aaaaa.bbbbb.ccccc.ddddd.eeeee.fffff.ggggg.hhhhhh.jjjjj.kkkkkkkk&#34;, &#34;threefold.token&#34;, &#34;trading.botzone&#34;]:
+            output = str(self.bot_name_new(value=name))
+            if output != name:
+                raise ValueError(&#34;str: {} != {}&#34;.format(output, name))
+            json_output = self.bot_name_from_json(name).json()
+            if json_output != name:
+                raise ValueError(&#34;json: {} != {}&#34;.format(json_output, name))
+
+        # &gt; invalid bot names:
+        for name in [&#34;&#34;, &#34;a&#34;, &#34;a.b&#34;, &#34;aaaaa.b&#34;, &#34;a.bbbbb&#34;, &#34;aaaaa:bbbbb&#34;]:
+            with pytest.raises(ValueError):
+                self.bot_name_new(value=name)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.ThreeBot.ThreeBotTypesFactory.bot_name_from_json"><code class="name flex">
+<span>def <span class="ident">bot_name_from_json</span></span>(<span>self, obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>JSON-decode a BotName.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def bot_name_from_json(self, obj):
+    &#34;&#34;&#34;
+    JSON-decode a BotName.
+    &#34;&#34;&#34;
+    return BotName.from_json(obj)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ThreeBot.ThreeBotTypesFactory.bot_name_new"><code class="name flex">
+<span>def <span class="ident">bot_name_new</span></span>(<span>self, value=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new BotName from a None or string value.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def bot_name_new(self, value=None):
+    &#34;&#34;&#34;
+    Create a new BotName from a None or string value.
+    &#34;&#34;&#34;
+    return BotName(value=value)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ThreeBot.ThreeBotTypesFactory.network_address_from_json"><code class="name flex">
+<span>def <span class="ident">network_address_from_json</span></span>(<span>self, obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>JSON-decode a NetworkAddress, either a Hostname, IPv4- or IPv6 address.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def network_address_from_json(self, obj):
+    &#34;&#34;&#34;
+    JSON-decode a NetworkAddress, either a Hostname, IPv4- or IPv6 address.
+    &#34;&#34;&#34;
+    return NetworkAddress.from_json(obj)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ThreeBot.ThreeBotTypesFactory.network_address_new"><code class="name flex">
+<span>def <span class="ident">network_address_new</span></span>(<span>self, address=None, network_type=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new NetworkAddress, either a Hostname, IPv4- or IPv6 address.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def network_address_new(self, address=None, network_type=None):
+    &#34;&#34;&#34;
+    Create a new NetworkAddress, either a Hostname, IPv4- or IPv6 address.
+    &#34;&#34;&#34;
+    return NetworkAddress(address=address, network_type=network_type)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.ThreeBot.ThreeBotTypesFactory.test"><code class="name flex">
+<span>def <span class="ident">test</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>js_shell 'j.clients.tfchain.types.threebot.test()'</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def test(self):
+    &#34;&#34;&#34;
+    js_shell &#39;j.clients.tfchain.types.threebot.test()&#39;
+    &#34;&#34;&#34;
+    import pytest
+
+    # 3Bot network addresses...
+    # &gt; nil address
+    str(self.network_address_new()) == &#39;&#39;
+    # &gt; hostname
+    str(self.network_address_new(&#39;hello.threefold.io&#39;)) == &#39;hello.threefold.io&#39;
+    str(self.network_address_new(&#39;hello.threefold.io&#39;,
+                                 network_type=NetworkAddress.Type.HOSTNAME)) == &#39;hello.threefold.io&#39;
+    # &gt; IPv4 address
+    str(self.network_address_new(&#39;83.200.201.201&#39;)) == &#39;83.200.201.201&#39;
+    str(self.network_address_new(&#39;83.200.201.201&#39;,
+                                 network_type=NetworkAddress.Type.IPV4)) == &#39;83.200.201.201&#39;
+    # &gt; IPv6 address
+    str(self.network_address_new(&#39;2001:db8:85a3::8a2e:370:7334&#39;)
+        ) == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+    str(self.network_address_new(&#39;2001:db8:85a3::8a2e:370:7334&#39;,
+                                 network_type=NetworkAddress.Type.IPV6)) == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+    # &gt; JSON (hostname, IPv4, IPv6)
+    self.network_address_from_json(
+        &#39;hello.threefold.io&#39;).json() == &#39;hello.threefold.io&#39;
+    self.network_address_from_json(
+        &#39;83.200.201.201&#39;).json() == &#39;83.200.201.201&#39;
+    self.network_address_from_json(
+        &#39;2001:db8:85a3::8a2e:370:7334&#39;).json() == &#39;2001:db8:85a3::8a2e:370:7334&#39;
+
+    # 3Bot names...
+    for name in [&#34;aaaaa&#34;, &#34;aaaaa.bbbbb&#34;, &#34;aaaaa.aaaaa&#34;, &#34;aaaaa.bbbbb.ccccc.ddddd.eeeee.fffff.ggggg.hhhhhh.jjjjj.kkkkkkkk&#34;, &#34;threefold.token&#34;, &#34;trading.botzone&#34;]:
+        output = str(self.bot_name_new(value=name))
+        if output != name:
+            raise ValueError(&#34;str: {} != {}&#34;.format(output, name))
+        json_output = self.bot_name_from_json(name).json()
+        if json_output != name:
+            raise ValueError(&#34;json: {} != {}&#34;.format(json_output, name))
+
+    # &gt; invalid bot names:
+    for name in [&#34;&#34;, &#34;a&#34;, &#34;a.b&#34;, &#34;aaaaa.b&#34;, &#34;a.bbbbb&#34;, &#34;aaaaa:bbbbb&#34;]:
+        with pytest.raises(ValueError):
+            self.bot_name_new(value=name)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.types" href="index.html">tfchain.types</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.types.ThreeBot.BotName" href="#tfchain.types.ThreeBot.BotName">BotName</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ThreeBot.BotName.LENGTH_MAX" href="#tfchain.types.ThreeBot.BotName.LENGTH_MAX">LENGTH_MAX</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.BotName.REGEXP" href="#tfchain.types.ThreeBot.BotName.REGEXP">REGEXP</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.BotName.from_json" href="#tfchain.types.ThreeBot.BotName.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.BotName.json" href="#tfchain.types.ThreeBot.BotName.json">json</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.BotName.rivine_binary_encode" href="#tfchain.types.ThreeBot.BotName.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.BotName.sia_binary_encode" href="#tfchain.types.ThreeBot.BotName.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.BotName.value" href="#tfchain.types.ThreeBot.BotName.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ThreeBot.NetworkAddress" href="#tfchain.types.ThreeBot.NetworkAddress">NetworkAddress</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ThreeBot.NetworkAddress.HOSTNAME_LENGTH_MAX" href="#tfchain.types.ThreeBot.NetworkAddress.HOSTNAME_LENGTH_MAX">HOSTNAME_LENGTH_MAX</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.NetworkAddress.HOSTNAME_REGEXP" href="#tfchain.types.ThreeBot.NetworkAddress.HOSTNAME_REGEXP">HOSTNAME_REGEXP</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.NetworkAddress.Type" href="#tfchain.types.ThreeBot.NetworkAddress.Type">Type</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.NetworkAddress.from_json" href="#tfchain.types.ThreeBot.NetworkAddress.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.NetworkAddress.json" href="#tfchain.types.ThreeBot.NetworkAddress.json">json</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.NetworkAddress.rivine_binary_encode" href="#tfchain.types.ThreeBot.NetworkAddress.rivine_binary_encode">rivine_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.NetworkAddress.sia_binary_encode" href="#tfchain.types.ThreeBot.NetworkAddress.sia_binary_encode">sia_binary_encode</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.NetworkAddress.value" href="#tfchain.types.ThreeBot.NetworkAddress.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.ThreeBot.ThreeBotTypesFactory" href="#tfchain.types.ThreeBot.ThreeBotTypesFactory">ThreeBotTypesFactory</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.ThreeBot.ThreeBotTypesFactory.bot_name_from_json" href="#tfchain.types.ThreeBot.ThreeBotTypesFactory.bot_name_from_json">bot_name_from_json</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.ThreeBotTypesFactory.bot_name_new" href="#tfchain.types.ThreeBot.ThreeBotTypesFactory.bot_name_new">bot_name_new</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.ThreeBotTypesFactory.network_address_from_json" href="#tfchain.types.ThreeBot.ThreeBotTypesFactory.network_address_from_json">network_address_from_json</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.ThreeBotTypesFactory.network_address_new" href="#tfchain.types.ThreeBot.ThreeBotTypesFactory.network_address_new">network_address_new</a></code></li>
+<li><code><a title="tfchain.types.ThreeBot.ThreeBotTypesFactory.test" href="#tfchain.types.ThreeBot.ThreeBotTypesFactory.test">test</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

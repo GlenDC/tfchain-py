@@ -1,0 +1,1874 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>tfchain.types.transactions.ERC20 API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tfchain.types.transactions.ERC20</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">from tfchain.types.transactions.Base import TransactionBaseClass, TransactionVersion, InputSignatureHashFactory
+
+from tfchain.types.FulfillmentTypes import ED25519Signature, SignatureCallbackBase, SignatureRequest
+from tfchain.types.ConditionTypes import UnlockHash, ConditionUnlockHash
+from tfchain.types.PrimitiveTypes import BinaryData, Currency
+from tfchain.types.ERC20 import ERC20Address, ERC20Hash
+from tfchain.types.IO import CoinInput, CoinOutput
+from tfchain.types.CryptoTypes import PublicKey
+from tfchain.encoders import encoder_sia_get, encoder_rivine_get
+
+
+class TransactionV208(TransactionBaseClass):
+    _SPECIFIER = b&#39;erc20 convert tx&#39;
+
+    def __init__(self):
+        self._address = None
+        self._value = None
+        self._transaction_fee = None
+        self._coin_inputs = []
+        self._refund_coin_output = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.ERC20_CONVERT
+
+    @property
+    def address(self):
+        if self._address is None:
+            return ERC20Address()
+        return self._address
+
+    @address.setter
+    def address(self, value):
+        if value is None:
+            self._address = None
+        else:
+            self._address = ERC20Address(value=value)
+
+    @property
+    def value(self):
+        if self._value is None:
+            return Currency()
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is None:
+            self._value = None
+        else:
+            self._value = Currency(value=value)
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment,
+                                parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(
+                    &#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(
+                value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(
+                &#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV208._SPECIFIER)
+
+        # encode the address and value
+        e.add_all(self.address, self.value)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode transaction fee
+        e.add(self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV208._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+        # encode all easy properties
+        e.add_all(
+            self.address,
+            self.value,
+            self.transaction_fee,
+            self.coin_inputs
+        )
+        # encode the only &#34;pointer&#34; property
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        # decode address
+        if &#39;address&#39; in data:
+            self._address = ERC20Address.from_json(data[&#39;address&#39;])
+        else:
+            self._address = None
+        # decode value
+        if &#39;value&#39; in data:
+            self._value = Currency.from_json(data[&#39;value&#39;])
+        else:
+            self._value = None
+        # decode transaction fee
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        # decode coin inputs
+        self._coin_inputs = [CoinInput.from_json(
+            ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        # decode refund coin output (if it exists)
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(
+                data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+
+    def _json_data_object(self):
+        output = {
+            &#39;address&#39;: self.address.json(),
+            &#39;value&#39;: self.value.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs],
+            &#39;txfee&#39;: self.transaction_fee.json(),
+        }
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+
+class TransactionV209(TransactionBaseClass):
+    _SPECIFIER = b&#39;erc20 coingen tx&#39;
+
+    def __init__(self):
+        self._address = None
+        self._value = None
+        self._transaction_fee = None
+        self._blockid = None
+        self._transactionid = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.ERC20_COIN_CREATION
+
+    @property
+    def address(self):
+        if self._address is None:
+            return UnlockHash()
+        return self._address
+
+    @address.setter
+    def address(self, value):
+        if value is None:
+            self._address = None
+            return
+        if isinstance(value, UnlockHash):
+            self._address = value
+            return
+        self._address = UnlockHash.from_json(value)
+
+    @property
+    def value(self):
+        if self._value is None:
+            return Currency()
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is None:
+            self._value = None
+        else:
+            self._value = Currency(value=value)
+
+    @property
+    def blockid(self):
+        if self._blockid is None:
+            return ERC20Hash()
+        return self._blockid
+
+    @blockid.setter
+    def blockid(self, value):
+        if value is None:
+            self._blockid = None
+        else:
+            self._blockid = ERC20Hash(value=value)
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    @property
+    def transactionid(self):
+        if self._transactionid is None:
+            return ERC20Hash()
+        return self._transactionid
+
+    @transactionid.setter
+    def transactionid(self, value):
+        if value is None:
+            self._transactionid = None
+        else:
+            self._transactionid = ERC20Hash(value=value)
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        A singleton, containing the ERC20-converted TFT coins.
+        &#34;&#34;&#34;
+        condition = ConditionUnlockHash(unlockhash=self.address)
+        return [CoinOutput(value=self.value, condition=condition, id=None)]
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_sia_get()
+
+        # encode the transaction version
+        e.add_array(bytearray([int(self.version)]))
+
+        # encode the specifier
+        e.add_array(TransactionV209._SPECIFIER)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode the address and value
+        e.add_all(self.address, self.value)
+
+        # encode transaction fee
+        e.add_all(self.transaction_fee)
+
+        # encode the block- and transaction identifier
+        e.add_all(self.blockid, self.transactionid)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV209._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+        # encode all properties
+        e.add_all(
+            self.address,
+            self.value,
+            self.transaction_fee,
+            self.blockid,
+            self.transactionid,
+        )
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        # decode address
+        if &#39;address&#39; in data:
+            self._address = UnlockHash.from_json(data[&#39;address&#39;])
+        else:
+            self._address = None
+        # decode value
+        if &#39;value&#39; in data:
+            self._value = Currency.from_json(data[&#39;value&#39;])
+        else:
+            self._value = None
+        # decode transaction fee
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        # decode blockid
+        if &#39;blockid&#39; in data:
+            self._blockid = ERC20Hash.from_json(data[&#39;blockid&#39;])
+        else:
+            self._blockid = None
+        # decode transactionid
+        if &#39;txid&#39; in data:
+            self._transactionid = ERC20Hash.from_json(data[&#39;txid&#39;])
+        else:
+            self._transactionid = None
+
+    def _json_data_object(self):
+        return {
+            &#39;address&#39;: self.address.json(),
+            &#39;value&#39;: self.value.json(),
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;blockid&#39;: self.blockid.json(),
+            &#39;txid&#39;: self.transactionid.json(),
+        }
+
+
+class TransactionV210(TransactionBaseClass, SignatureCallbackBase):
+    _SPECIFIER = b&#39;erc20 addrreg tx&#39;
+
+    HARDCODED_REGISTRATION_FEE = &#39;10 TFT&#39;
+    SPECIFIER_REGISTRATION_SIGNATURE = BinaryData(
+        value=b&#39;registration&#39;, fixed_size=0)
+
+    def __init__(self):
+        self._public_key = None
+        self._signature = None
+        self._registration_fee = Currency(
+            value=TransactionV210.HARDCODED_REGISTRATION_FEE)
+        self._transaction_fee = None
+        self._coin_inputs = None
+        self._refund_coin_output = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.ERC20_ADDRESS_REGISTRATION
+
+    @property
+    def public_key(self):
+        if self._public_key is None:
+            return PublicKey()
+        return self._public_key
+
+    @public_key.setter
+    def public_key(self, value):
+        if value is None:
+            self._public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(
+                &#34;cannot assign value of type {} as BotRegistration&#39;s public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._public_key = PublicKey(
+            specifier=value.specifier, hash=value.hash)
+
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature(as_array=True)
+        return self._signature
+
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+            return
+        self._signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment,
+                                parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(
+                    &#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(
+                value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(
+                &#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+
+    @property
+    def registration_fee(self):
+        return self._registration_fee
+
+    @registration_fee.setter
+    def registration_fee(self, txfee):
+        if txfee is not None:
+            fee = Currency(value=txfee)
+            if fee != self._registration_fee:
+                raise ValueError(&#34;registration fee is hardcoded at {}, cannot be set to {}&#34;.format(
+                    fee.str(with_unit=True), self._registration_fee.str(with_unit=True)))
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        if self._public_key.unlockhash != public_key.unlockhash:
+            raise ValueError(&#34;given public key ({}) does not equal public key ({})&#34;.format(
+                str(self._public_key.unlockhash), str(public_key.unlockhash)))
+        self.signature = signature
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV210._SPECIFIER)
+
+        # encode the public key
+        e.add_all(self.public_key)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode registration and transaction fee
+        e.add_all(self.registration_fee, self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV210._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+        # encode all easy properties
+        e.add_all(
+            self.public_key,
+            self.signature,
+            self.registration_fee,
+            self.transaction_fee,
+            self.coin_inputs
+        )
+        # encode the only &#34;pointer&#34; property
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        # decode public key
+        if &#39;pubkey&#39; in data:
+            self._public_key = PublicKey.from_json(data[&#39;pubkey&#39;])
+        else:
+            self._public_key = None
+        # decode signature
+        if &#39;signature&#39; in data:
+            self._signature = ED25519Signature.from_json(data[&#39;signature&#39;])
+        else:
+            self._signature = None
+        # decode registration fee
+        if &#39;regfee&#39; in data:
+            self.registration_fee = Currency.from_json(data[&#39;regfee&#39;])
+        else:
+            self.registration_fee = None
+        # decode transaction fee
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        # decode coin inputs
+        self._coin_inputs = [CoinInput.from_json(
+            ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        # decode refund coin output (if it exists)
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(
+                data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+
+    def _json_data_object(self):
+        tftaddress = self.public_key.unlockhash
+        erc20address = ERC20Address.from_unlockhash(tftaddress)
+        output = {
+            &#39;pubkey&#39;: self.public_key.json(),
+            &#39;tftaddress&#39;: tftaddress.json(),
+            &#39;erc20address&#39;: erc20address.json(),
+            &#39;signature&#39;: self.signature.json(),
+            &#39;regfee&#39;: self.registration_fee.json(),
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs],
+        }
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+    def _extra_signature_requests_new(self):
+        if self._public_key is None:
+            # if no parent public key is defined, cannot do anything
+            return []
+        if self._signature is not None:
+            return []  # nothing to do
+        # generate the input hash func
+        input_hash_func = InputSignatureHashFactory(
+            self, TransactionV210.SPECIFIER_REGISTRATION_SIGNATURE).signature_hash_new
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        unlockhash = self._public_key.unlockhash
+
+        def input_hash_gen(public_key):
+            return input_hash_func()
+        # create the only signature request
+        return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]
+
+    def _extra_is_fulfilled(self):
+        return self._signature is not None</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tfchain.types.transactions.ERC20.TransactionV208"><code class="flex name class">
+<span>class <span class="ident">TransactionV208</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TransactionV208(TransactionBaseClass):
+    _SPECIFIER = b&#39;erc20 convert tx&#39;
+
+    def __init__(self):
+        self._address = None
+        self._value = None
+        self._transaction_fee = None
+        self._coin_inputs = []
+        self._refund_coin_output = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.ERC20_CONVERT
+
+    @property
+    def address(self):
+        if self._address is None:
+            return ERC20Address()
+        return self._address
+
+    @address.setter
+    def address(self, value):
+        if value is None:
+            self._address = None
+        else:
+            self._address = ERC20Address(value=value)
+
+    @property
+    def value(self):
+        if self._value is None:
+            return Currency()
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is None:
+            self._value = None
+        else:
+            self._value = Currency(value=value)
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment,
+                                parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(
+                    &#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(
+                value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(
+                &#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV208._SPECIFIER)
+
+        # encode the address and value
+        e.add_all(self.address, self.value)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode transaction fee
+        e.add(self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV208._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+        # encode all easy properties
+        e.add_all(
+            self.address,
+            self.value,
+            self.transaction_fee,
+            self.coin_inputs
+        )
+        # encode the only &#34;pointer&#34; property
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        # decode address
+        if &#39;address&#39; in data:
+            self._address = ERC20Address.from_json(data[&#39;address&#39;])
+        else:
+            self._address = None
+        # decode value
+        if &#39;value&#39; in data:
+            self._value = Currency.from_json(data[&#39;value&#39;])
+        else:
+            self._value = None
+        # decode transaction fee
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        # decode coin inputs
+        self._coin_inputs = [CoinInput.from_json(
+            ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        # decode refund coin output (if it exists)
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(
+                data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+
+    def _json_data_object(self):
+        output = {
+            &#39;address&#39;: self.address.json(),
+            &#39;value&#39;: self.value.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs],
+            &#39;txfee&#39;: self.transaction_fee.json(),
+        }
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ERC20.TransactionV208.address"><code class="name">var <span class="ident">address</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def address(self):
+    if self._address is None:
+        return ERC20Address()
+    return self._address</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV208.coin_outputs"><code class="name">var <span class="ident">coin_outputs</span></code></dt>
+<dd>
+<section class="desc"><p>Empty list, or a singleton with the refund coin output if that one exists.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def coin_outputs(self):
+    &#34;&#34;&#34;
+    Empty list, or a singleton with the refund coin output if that one exists.
+    &#34;&#34;&#34;
+    if self._refund_coin_output is None:
+        return []
+    return [self._refund_coin_output]</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV208.refund_coin_output"><code class="name">var <span class="ident">refund_coin_output</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def refund_coin_output(self):
+    if self._refund_coin_output is None:
+        return CoinOutput()
+    return self._refund_coin_output</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV208.transaction_fee"><code class="name">var <span class="ident">transaction_fee</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def transaction_fee(self):
+    if self._transaction_fee is None:
+        return Currency()
+    return self._transaction_fee</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV208.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    if self._value is None:
+        return Currency()
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.ERC20.TransactionV208.coin_input_add"><code class="name flex">
+<span>def <span class="ident">coin_input_add</span></span>(<span>self, parentid, fulfillment, parent_output=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def coin_input_add(self, parentid, fulfillment, parent_output=None):
+    ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+    ci.parent_output = parent_output
+    self._coin_inputs.append(ci)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV208.refund_coin_output_set"><code class="name flex">
+<span>def <span class="ident">refund_coin_output_set</span></span>(<span>self, value, condition, id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def refund_coin_output_set(self, value, condition, id=None):
+    co = CoinOutput(value=value, condition=condition)
+    co.id = id
+    self._refund_coin_output = co</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV209"><code class="flex name class">
+<span>class <span class="ident">TransactionV209</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TransactionV209(TransactionBaseClass):
+    _SPECIFIER = b&#39;erc20 coingen tx&#39;
+
+    def __init__(self):
+        self._address = None
+        self._value = None
+        self._transaction_fee = None
+        self._blockid = None
+        self._transactionid = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.ERC20_COIN_CREATION
+
+    @property
+    def address(self):
+        if self._address is None:
+            return UnlockHash()
+        return self._address
+
+    @address.setter
+    def address(self, value):
+        if value is None:
+            self._address = None
+            return
+        if isinstance(value, UnlockHash):
+            self._address = value
+            return
+        self._address = UnlockHash.from_json(value)
+
+    @property
+    def value(self):
+        if self._value is None:
+            return Currency()
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is None:
+            self._value = None
+        else:
+            self._value = Currency(value=value)
+
+    @property
+    def blockid(self):
+        if self._blockid is None:
+            return ERC20Hash()
+        return self._blockid
+
+    @blockid.setter
+    def blockid(self, value):
+        if value is None:
+            self._blockid = None
+        else:
+            self._blockid = ERC20Hash(value=value)
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    @property
+    def transactionid(self):
+        if self._transactionid is None:
+            return ERC20Hash()
+        return self._transactionid
+
+    @transactionid.setter
+    def transactionid(self, value):
+        if value is None:
+            self._transactionid = None
+        else:
+            self._transactionid = ERC20Hash(value=value)
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        A singleton, containing the ERC20-converted TFT coins.
+        &#34;&#34;&#34;
+        condition = ConditionUnlockHash(unlockhash=self.address)
+        return [CoinOutput(value=self.value, condition=condition, id=None)]
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_sia_get()
+
+        # encode the transaction version
+        e.add_array(bytearray([int(self.version)]))
+
+        # encode the specifier
+        e.add_array(TransactionV209._SPECIFIER)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode the address and value
+        e.add_all(self.address, self.value)
+
+        # encode transaction fee
+        e.add_all(self.transaction_fee)
+
+        # encode the block- and transaction identifier
+        e.add_all(self.blockid, self.transactionid)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV209._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+        # encode all properties
+        e.add_all(
+            self.address,
+            self.value,
+            self.transaction_fee,
+            self.blockid,
+            self.transactionid,
+        )
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        # decode address
+        if &#39;address&#39; in data:
+            self._address = UnlockHash.from_json(data[&#39;address&#39;])
+        else:
+            self._address = None
+        # decode value
+        if &#39;value&#39; in data:
+            self._value = Currency.from_json(data[&#39;value&#39;])
+        else:
+            self._value = None
+        # decode transaction fee
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        # decode blockid
+        if &#39;blockid&#39; in data:
+            self._blockid = ERC20Hash.from_json(data[&#39;blockid&#39;])
+        else:
+            self._blockid = None
+        # decode transactionid
+        if &#39;txid&#39; in data:
+            self._transactionid = ERC20Hash.from_json(data[&#39;txid&#39;])
+        else:
+            self._transactionid = None
+
+    def _json_data_object(self):
+        return {
+            &#39;address&#39;: self.address.json(),
+            &#39;value&#39;: self.value.json(),
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;blockid&#39;: self.blockid.json(),
+            &#39;txid&#39;: self.transactionid.json(),
+        }</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ERC20.TransactionV209.address"><code class="name">var <span class="ident">address</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def address(self):
+    if self._address is None:
+        return UnlockHash()
+    return self._address</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV209.blockid"><code class="name">var <span class="ident">blockid</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def blockid(self):
+    if self._blockid is None:
+        return ERC20Hash()
+    return self._blockid</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV209.coin_outputs"><code class="name">var <span class="ident">coin_outputs</span></code></dt>
+<dd>
+<section class="desc"><p>A singleton, containing the ERC20-converted TFT coins.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def coin_outputs(self):
+    &#34;&#34;&#34;
+    A singleton, containing the ERC20-converted TFT coins.
+    &#34;&#34;&#34;
+    condition = ConditionUnlockHash(unlockhash=self.address)
+    return [CoinOutput(value=self.value, condition=condition, id=None)]</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV209.transaction_fee"><code class="name">var <span class="ident">transaction_fee</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def transaction_fee(self):
+    if self._transaction_fee is None:
+        return Currency()
+    return self._transaction_fee</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV209.transactionid"><code class="name">var <span class="ident">transactionid</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def transactionid(self):
+    if self._transactionid is None:
+        return ERC20Hash()
+    return self._transactionid</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV209.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def value(self):
+    if self._value is None:
+        return Currency()
+    return self._value</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210"><code class="flex name class">
+<span>class <span class="ident">TransactionV210</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TransactionV210(TransactionBaseClass, SignatureCallbackBase):
+    _SPECIFIER = b&#39;erc20 addrreg tx&#39;
+
+    HARDCODED_REGISTRATION_FEE = &#39;10 TFT&#39;
+    SPECIFIER_REGISTRATION_SIGNATURE = BinaryData(
+        value=b&#39;registration&#39;, fixed_size=0)
+
+    def __init__(self):
+        self._public_key = None
+        self._signature = None
+        self._registration_fee = Currency(
+            value=TransactionV210.HARDCODED_REGISTRATION_FEE)
+        self._transaction_fee = None
+        self._coin_inputs = None
+        self._refund_coin_output = None
+
+        super().__init__()
+
+    @property
+    def version(self):
+        return TransactionVersion.ERC20_ADDRESS_REGISTRATION
+
+    @property
+    def public_key(self):
+        if self._public_key is None:
+            return PublicKey()
+        return self._public_key
+
+    @public_key.setter
+    def public_key(self, value):
+        if value is None:
+            self._public_key = None
+            return
+        if not isinstance(value, PublicKey):
+            raise TypeError(
+                &#34;cannot assign value of type {} as BotRegistration&#39;s public key (expected type: PublicKey)&#34;.format(type(value)))
+        self._public_key = PublicKey(
+            specifier=value.specifier, hash=value.hash)
+
+    @property
+    def signature(self):
+        if self._signature is None:
+            return ED25519Signature(as_array=True)
+        return self._signature
+
+    @signature.setter
+    def signature(self, value):
+        if value is None:
+            self._signature = None
+            return
+        self._signature = ED25519Signature(value=value, as_array=True)
+
+    @property
+    def coin_inputs(self):
+        &#34;&#34;&#34;
+        Coin inputs of this Transaction,
+        used as funding for coin outputs, fees and any other kind of coin output.
+        &#34;&#34;&#34;
+        return self._coin_inputs
+
+    @coin_inputs.setter
+    def coin_inputs(self, value):
+        self._coin_inputs = []
+        if not value:
+            return
+        for ci in value:
+            self.coin_input_add(ci.parentid, ci.fulfillment,
+                                parent_output=ci.parent_output)
+
+    @property
+    def refund_coin_output(self):
+        if self._refund_coin_output is None:
+            return CoinOutput()
+        return self._refund_coin_output
+
+    @property
+    def coin_outputs(self):
+        &#34;&#34;&#34;
+        Empty list, or a singleton with the refund coin output if that one exists.
+        &#34;&#34;&#34;
+        if self._refund_coin_output is None:
+            return []
+        return [self._refund_coin_output]
+
+    @coin_outputs.setter
+    def coin_outputs(self, value):
+        if isinstance(value, list):
+            lvalue = len(value)
+            if lvalue == 0:
+                value = None
+            elif lvalue == 1:
+                value = value[0]
+            else:
+                raise ValueError(
+                    &#34;ThreeBot only can have one coin output, a refund coin output&#34;)
+        if value is None:
+            self._refund_coin_output = None
+        elif isinstance(value, CoinOutput):
+            self._refund_coin_output = CoinOutput(
+                value=value.value, condition=value.condition)
+            self._refund_coin_output.id = value.id
+        else:
+            raise TypeError(
+                &#34;cannot assign a value of type {} to coin outputs&#34;.format(type(value)))
+
+    def coin_input_add(self, parentid, fulfillment, parent_output=None):
+        ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+        ci.parent_output = parent_output
+        self._coin_inputs.append(ci)
+
+    def refund_coin_output_set(self, value, condition, id=None):
+        co = CoinOutput(value=value, condition=condition)
+        co.id = id
+        self._refund_coin_output = co
+
+    @property
+    def registration_fee(self):
+        return self._registration_fee
+
+    @registration_fee.setter
+    def registration_fee(self, txfee):
+        if txfee is not None:
+            fee = Currency(value=txfee)
+            if fee != self._registration_fee:
+                raise ValueError(&#34;registration fee is hardcoded at {}, cannot be set to {}&#34;.format(
+                    fee.str(with_unit=True), self._registration_fee.str(with_unit=True)))
+
+    @property
+    def transaction_fee(self):
+        if self._transaction_fee is None:
+            return Currency()
+        return self._transaction_fee
+
+    @transaction_fee.setter
+    def transaction_fee(self, txfee):
+        if txfee is None:
+            self._transaction_fee = None
+        else:
+            self._transaction_fee = Currency(value=txfee)
+
+    @property
+    def miner_fees(self):
+        if self._transaction_fee is None:
+            return []
+        return [self._transaction_fee]
+
+    def signature_add(self, public_key, signature):
+        &#34;&#34;&#34;
+        Implements SignatureCallbackBase.
+        &#34;&#34;&#34;
+        if self._public_key.unlockhash != public_key.unlockhash:
+            raise ValueError(&#34;given public key ({}) does not equal public key ({})&#34;.format(
+                str(self._public_key.unlockhash), str(public_key.unlockhash)))
+        self.signature = signature
+
+    def _signature_hash_input_get(self, *extra_objects):
+        e = encoder_rivine_get()
+
+        # encode the transaction version
+        e.add_int8(self.version)
+
+        # encode the specifier
+        e.add_array(TransactionV210._SPECIFIER)
+
+        # encode the public key
+        e.add_all(self.public_key)
+
+        # extra objects if any
+        if extra_objects:
+            e.add_all(*extra_objects)
+
+        # encode coin inputs
+        e.add(len(self.coin_inputs))
+        for ci in self.coin_inputs:
+            e.add(ci.parentid)
+
+        # encode registration and transaction fee
+        e.add_all(self.registration_fee, self.transaction_fee)
+
+        # encode refund coin output
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return data
+        return e.data
+
+    def _id_input_compute(self):
+        return bytearray(TransactionV210._SPECIFIER) + self._binary_encode_data()
+
+    def _binary_encode_data(self):
+        e = encoder_rivine_get()
+        # encode all easy properties
+        e.add_all(
+            self.public_key,
+            self.signature,
+            self.registration_fee,
+            self.transaction_fee,
+            self.coin_inputs
+        )
+        # encode the only &#34;pointer&#34; property
+        if self._refund_coin_output is None:
+            e.add_int8(0)
+        else:
+            e.add_int8(1)
+            e.add(self._refund_coin_output)
+
+        # return encoded data
+        return e.data
+
+    def _from_json_data_object(self, data):
+        # decode public key
+        if &#39;pubkey&#39; in data:
+            self._public_key = PublicKey.from_json(data[&#39;pubkey&#39;])
+        else:
+            self._public_key = None
+        # decode signature
+        if &#39;signature&#39; in data:
+            self._signature = ED25519Signature.from_json(data[&#39;signature&#39;])
+        else:
+            self._signature = None
+        # decode registration fee
+        if &#39;regfee&#39; in data:
+            self.registration_fee = Currency.from_json(data[&#39;regfee&#39;])
+        else:
+            self.registration_fee = None
+        # decode transaction fee
+        if &#39;txfee&#39; in data:
+            self._transaction_fee = Currency.from_json(data[&#39;txfee&#39;])
+        else:
+            self._transaction_fee = None
+        # decode coin inputs
+        self._coin_inputs = [CoinInput.from_json(
+            ci) for ci in data.get(&#39;coininputs&#39;, []) or []]
+        # decode refund coin output (if it exists)
+        if &#39;refundcoinoutput&#39; in data:
+            self._refund_coin_output = CoinOutput.from_json(
+                data[&#39;refundcoinoutput&#39;])
+        else:
+            self._refund_coin_output = None
+
+    def _json_data_object(self):
+        tftaddress = self.public_key.unlockhash
+        erc20address = ERC20Address.from_unlockhash(tftaddress)
+        output = {
+            &#39;pubkey&#39;: self.public_key.json(),
+            &#39;tftaddress&#39;: tftaddress.json(),
+            &#39;erc20address&#39;: erc20address.json(),
+            &#39;signature&#39;: self.signature.json(),
+            &#39;regfee&#39;: self.registration_fee.json(),
+            &#39;txfee&#39;: self.transaction_fee.json(),
+            &#39;coininputs&#39;: [ci.json() for ci in self.coin_inputs],
+        }
+        if self._refund_coin_output is not None:
+            output[&#39;refundcoinoutput&#39;] = self._refund_coin_output.json()
+        return output
+
+    def _extra_signature_requests_new(self):
+        if self._public_key is None:
+            # if no parent public key is defined, cannot do anything
+            return []
+        if self._signature is not None:
+            return []  # nothing to do
+        # generate the input hash func
+        input_hash_func = InputSignatureHashFactory(
+            self, TransactionV210.SPECIFIER_REGISTRATION_SIGNATURE).signature_hash_new
+        # define the input_hash_new generator function,
+        # used to create the input hash for creating the signature
+        unlockhash = self._public_key.unlockhash
+
+        def input_hash_gen(public_key):
+            return input_hash_func()
+        # create the only signature request
+        return [SignatureRequest(unlockhash=unlockhash, input_hash_gen=input_hash_gen, callback=self)]
+
+    def _extra_is_fulfilled(self):
+        return self._signature is not None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></li>
+<li><a title="tfchain.types.FulfillmentTypes.SignatureCallbackBase" href="../FulfillmentTypes.html#tfchain.types.FulfillmentTypes.SignatureCallbackBase">SignatureCallbackBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.HARDCODED_REGISTRATION_FEE"><code class="name">var <span class="ident">HARDCODED_REGISTRATION_FEE</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.SPECIFIER_REGISTRATION_SIGNATURE"><code class="name">var <span class="ident">SPECIFIER_REGISTRATION_SIGNATURE</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.coin_outputs"><code class="name">var <span class="ident">coin_outputs</span></code></dt>
+<dd>
+<section class="desc"><p>Empty list, or a singleton with the refund coin output if that one exists.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def coin_outputs(self):
+    &#34;&#34;&#34;
+    Empty list, or a singleton with the refund coin output if that one exists.
+    &#34;&#34;&#34;
+    if self._refund_coin_output is None:
+        return []
+    return [self._refund_coin_output]</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.public_key"><code class="name">var <span class="ident">public_key</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def public_key(self):
+    if self._public_key is None:
+        return PublicKey()
+    return self._public_key</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.refund_coin_output"><code class="name">var <span class="ident">refund_coin_output</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def refund_coin_output(self):
+    if self._refund_coin_output is None:
+        return CoinOutput()
+    return self._refund_coin_output</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.registration_fee"><code class="name">var <span class="ident">registration_fee</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def registration_fee(self):
+    return self._registration_fee</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.signature"><code class="name">var <span class="ident">signature</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def signature(self):
+    if self._signature is None:
+        return ED25519Signature(as_array=True)
+    return self._signature</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.transaction_fee"><code class="name">var <span class="ident">transaction_fee</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def transaction_fee(self):
+    if self._transaction_fee is None:
+        return Currency()
+    return self._transaction_fee</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.coin_input_add"><code class="name flex">
+<span>def <span class="ident">coin_input_add</span></span>(<span>self, parentid, fulfillment, parent_output=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def coin_input_add(self, parentid, fulfillment, parent_output=None):
+    ci = CoinInput(parentid=parentid, fulfillment=fulfillment)
+    ci.parent_output = parent_output
+    self._coin_inputs.append(ci)</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.refund_coin_output_set"><code class="name flex">
+<span>def <span class="ident">refund_coin_output_set</span></span>(<span>self, value, condition, id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def refund_coin_output_set(self, value, condition, id=None):
+    co = CoinOutput(value=value, condition=condition)
+    co.id = id
+    self._refund_coin_output = co</code></pre>
+</details>
+</dd>
+<dt id="tfchain.types.transactions.ERC20.TransactionV210.signature_add"><code class="name flex">
+<span>def <span class="ident">signature_add</span></span>(<span>self, public_key, signature)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Implements SignatureCallbackBase.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def signature_add(self, public_key, signature):
+    &#34;&#34;&#34;
+    Implements SignatureCallbackBase.
+    &#34;&#34;&#34;
+    if self._public_key.unlockhash != public_key.unlockhash:
+        raise ValueError(&#34;given public key ({}) does not equal public key ({})&#34;.format(
+            str(self._public_key.unlockhash), str(public_key.unlockhash)))
+    self.signature = signature</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="tfchain.types.transactions.Base.TransactionBaseClass" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass">TransactionBaseClass</a></b></code>:
+<ul class="hlist">
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.binary_encode" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.binary_encode">binary_encode</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_inputs">blockstake_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputid_new">blockstake_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.blockstake_outputs">blockstake_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_inputs">coin_inputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.coin_outputid_new">coin_outputid_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.data" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.data">data</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.from_json" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.from_json">from_json</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.height" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.height">height</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.id" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.id">id</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.is_fulfilled">is_fulfilled</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.miner_fees" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.miner_fees">miner_fees</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_hash_get">signature_hash_get</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.signature_requests_new">signature_requests_new</a></code></li>
+<li><code><a title="tfchain.types.transactions.Base.TransactionBaseClass.version" href="Base.html#tfchain.types.transactions.Base.TransactionBaseClass.version">version</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tfchain.types.transactions" href="index.html">tfchain.types.transactions</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tfchain.types.transactions.ERC20.TransactionV208" href="#tfchain.types.transactions.ERC20.TransactionV208">TransactionV208</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV208.address" href="#tfchain.types.transactions.ERC20.TransactionV208.address">address</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV208.coin_input_add" href="#tfchain.types.transactions.ERC20.TransactionV208.coin_input_add">coin_input_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV208.coin_outputs" href="#tfchain.types.transactions.ERC20.TransactionV208.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV208.refund_coin_output" href="#tfchain.types.transactions.ERC20.TransactionV208.refund_coin_output">refund_coin_output</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV208.refund_coin_output_set" href="#tfchain.types.transactions.ERC20.TransactionV208.refund_coin_output_set">refund_coin_output_set</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV208.transaction_fee" href="#tfchain.types.transactions.ERC20.TransactionV208.transaction_fee">transaction_fee</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV208.value" href="#tfchain.types.transactions.ERC20.TransactionV208.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.transactions.ERC20.TransactionV209" href="#tfchain.types.transactions.ERC20.TransactionV209">TransactionV209</a></code></h4>
+<ul class="two-column">
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV209.address" href="#tfchain.types.transactions.ERC20.TransactionV209.address">address</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV209.blockid" href="#tfchain.types.transactions.ERC20.TransactionV209.blockid">blockid</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV209.coin_outputs" href="#tfchain.types.transactions.ERC20.TransactionV209.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV209.transaction_fee" href="#tfchain.types.transactions.ERC20.TransactionV209.transaction_fee">transaction_fee</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV209.transactionid" href="#tfchain.types.transactions.ERC20.TransactionV209.transactionid">transactionid</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV209.value" href="#tfchain.types.transactions.ERC20.TransactionV209.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="tfchain.types.transactions.ERC20.TransactionV210" href="#tfchain.types.transactions.ERC20.TransactionV210">TransactionV210</a></code></h4>
+<ul class="">
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.HARDCODED_REGISTRATION_FEE" href="#tfchain.types.transactions.ERC20.TransactionV210.HARDCODED_REGISTRATION_FEE">HARDCODED_REGISTRATION_FEE</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.SPECIFIER_REGISTRATION_SIGNATURE" href="#tfchain.types.transactions.ERC20.TransactionV210.SPECIFIER_REGISTRATION_SIGNATURE">SPECIFIER_REGISTRATION_SIGNATURE</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.coin_input_add" href="#tfchain.types.transactions.ERC20.TransactionV210.coin_input_add">coin_input_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.coin_outputs" href="#tfchain.types.transactions.ERC20.TransactionV210.coin_outputs">coin_outputs</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.public_key" href="#tfchain.types.transactions.ERC20.TransactionV210.public_key">public_key</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.refund_coin_output" href="#tfchain.types.transactions.ERC20.TransactionV210.refund_coin_output">refund_coin_output</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.refund_coin_output_set" href="#tfchain.types.transactions.ERC20.TransactionV210.refund_coin_output_set">refund_coin_output_set</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.registration_fee" href="#tfchain.types.transactions.ERC20.TransactionV210.registration_fee">registration_fee</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.signature" href="#tfchain.types.transactions.ERC20.TransactionV210.signature">signature</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.signature_add" href="#tfchain.types.transactions.ERC20.TransactionV210.signature_add">signature_add</a></code></li>
+<li><code><a title="tfchain.types.transactions.ERC20.TransactionV210.transaction_fee" href="#tfchain.types.transactions.ERC20.TransactionV210.transaction_fee">transaction_fee</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
