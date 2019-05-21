@@ -1,6 +1,7 @@
 # tfchain-py
 
 [![Build Status](https://travis-ci.com/GlenDC/tfchain-py.svg?branch=master)](https://travis-ci.com/GlenDC/tfchain-py)
+[![Docs](https://img.shields.io/badge/Docs-master-green.svg)](GlenDC.github.io/ttfchain-py/api/tfchain/)
 
 A TFChain client implementation in python.
 
@@ -32,3 +33,18 @@ pipenv shell
 ## Generating documentation
 
 use `make gendocs` to generate documentation
+
+## Publishing flow
+
+- Make sure credentials in ~/.pypirc
+
+```
+[distutils]
+index-servers =
+    pypi
+
+[pypi]
+username: PYPI_USERNAME
+password: PYPI_PASSWORD
+```
+use `upload` task in Makefile `make upload`
